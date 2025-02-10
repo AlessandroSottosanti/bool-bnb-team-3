@@ -14,8 +14,11 @@ function HomePage() {
         axios.get(`${apiUrl}/immobili`)
             .then((resp) => {
                 setImmobili(resp.data.results);
+                return console.log("Response get immobili:", { success: true, data: resp.data.results });
+            })
+            .catch((resp) => {
+                return console.log("Response get immobili:", { success: false, data: resp });
             });
-
     }
 
     return (

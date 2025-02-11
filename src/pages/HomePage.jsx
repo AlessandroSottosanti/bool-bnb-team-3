@@ -16,18 +16,20 @@ function HomePage() {
       .get(`${apiUrl}/immobili`)
       .then((resp) => {
         setImmobili(resp.data.results);
-        return console.log("Response get immobili:", {
+        console.log("Response get immobili:", {
           success: true,
           data: resp.data.results,
         });
       })
-      .catch((resp) => {
-        return console.log("Response get immobili:", {
+      .catch((error) => {
+        console.error("Error in get immobili:", {
           success: false,
-          data: resp,
+          message: error.message,
+          data: error.response ? error.response.data : error,
         });
       });
   };
+  
 
   //default image
   const defaultImage = "../images/placeholder.webp";

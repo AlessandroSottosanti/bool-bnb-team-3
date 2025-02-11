@@ -1,55 +1,70 @@
 import { NavLink } from "react-router-dom";
 
 function AppHeader() {
-    const navLinks = [
-        {
-            path: "/",
-            title: "HomePage"
-        },
+  const navLinks = [
+    {
+      path: "/",
+      title: "HomePage",
+    },
 
-        {
-            path: "/create",
-            title: "Aggiungi Immobile"
-        },
-    ]
+    {
+      path: "/create",
+      title: "Aggiungi Immobile",
+    },
 
-return (
+    {
+      path: "/search",
+      title: "Ricerca Avanzata",
+    },
+  ];
+
+  return (
     <>
-    <header>
-      <nav className="navbar navbar-expand-lg bg-secondary">
-        <div className="container-fluid">
-          {/* <a className="navbar-brand" href="#">
-            <strong>BoolB&B</strong>
-          </a> */}
-          <img src="../images/logo.png" style={{width: "70px", height: "70px"}}></img>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+      <header>
+        <nav className="navbar navbar-expand-lg bg-secondary">
+          <div className="container-fluid">
+              <NavLink className="navbar-brand" to="/">
+                <img
+                  src="../images/logo.png"
+                  style={{ width: "70px", height: "70px" }}
+                />
+              </NavLink>
+            <button
+              className="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div
+              className="collapse navbar-collapse"
+              id="navbarSupportedContent"
+            >
+              <ul className="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-center">
                 {navLinks.map((curItem, index) => {
-                    return (
+                  return (
                     <li className="nav-item" key={index}>
-                        <NavLink className="nav-link" aria-current="page"
-                        to={curItem.path}>{curItem.title}</NavLink>
+                      <NavLink
+                        className="nav-link"
+                        aria-current="page"
+                        to={curItem.path}
+                      >
+                        {curItem.title}
+                      </NavLink>
                     </li>
-                    )
+                  );
                 })}
-            </ul>
+              </ul>
+            </div>
           </div>
-        </div>
-      </nav>
-    </header>
+        </nav>
+      </header>
     </>
-)
+  );
 }
 
 export default AppHeader;

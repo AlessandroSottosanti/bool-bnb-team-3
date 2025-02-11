@@ -2,4 +2,11 @@
   list-style: none;
 }
 
+.navbar .container-fluid a {
+  color: white;
+}
 
+.navbar .container-fluid .nav-item a.nav-link.nav-link.active{
+  font-weight: 500;
+  color: rgb(197, 197, 197);
+}

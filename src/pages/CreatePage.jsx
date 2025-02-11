@@ -95,7 +95,7 @@ function CreatePage() {
                         <label htmlFor="descrizione">Descrizione</label>
                         <textarea className="form-control" id="descrizione" name="descrizione" onChange={handleChange} />
                     </div>
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <button type="submit" className="btn btn-primary">Invia</button>
                 </form>
             </section>
         </>

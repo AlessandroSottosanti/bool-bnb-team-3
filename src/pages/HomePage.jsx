@@ -29,6 +29,9 @@ function HomePage() {
       });
   };
 
+  //default image
+  const defaultImage = "../images/placeholder.webp";
+
   return (
     <>
       <h1 className="text-center my-3">Immobili</h1>
@@ -47,17 +50,34 @@ function HomePage() {
               return (
                 <div className="col" key={immobile.id}>
                   <div className="card h-100 d-flex flex-column">
+                    {/* Immagine segnaposto */}
+                    <img
+                      src={
+                        immobile.image
+                          ? immobile.image
+                          : `${defaultImage}`
+                      }
+                      alt={immobile.titolo_descrittivo}
+                      className=""
+                    />
                     <div
                       className="card-header text-center d-flex align-items-center justify-content-center"
-                      style={{ minHeight: "80px" }}>
+                      style={{ minHeight: "80px" }}
+                    >
                       <h5 className="m-0">{immobile.titolo_descrittivo}</h5>
                     </div>
-                    <div className="card-body d-flex flex-column flex-grow-1">
+                    <div className="card-body d-flex flex-column flex-grow-1 text-center">
                       <p className="flex-grow-1">{immobile.descrizione}</p>
+                      <Link
+                        to={`/${immobile.id}`}
+                        className="btn btn-secondary"
+                      >
+                        Dettagli
+                      </Link>
                     </div>
                   </div>
                 </div>
-              )
+              );
             })}
         </div>
       </div>

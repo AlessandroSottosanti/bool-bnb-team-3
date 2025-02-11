@@ -25,7 +25,7 @@ function CreatePage() {
             [name]: value
         }))
     }
-
+    // Voglio impostare tipo_alloggio tramite un select nel form, serve una get nel backend che restituisca i tipi alloggio
     const handleSubmit = () => {
         axios.post(`${import.meta.env.VITE_API_URL}/immobili`, {
             "immobile": {
@@ -51,13 +51,14 @@ function CreatePage() {
 
     return (
         <>
-    
+            <h1 className="text-center pt-3 pb-5">Inserisci i dettagli del tuo immobile</h1>
             <section className='d-flex justify-content-center align-items-center'>
-            {alertMessage && (
-                <div className={`alert alert-${alertType}`} role='alert'>
-                    {alertMessage}
-                </div>
-            )}
+
+                {alertMessage && (
+                    <div className={`alert alert-${alertType}`} role='alert'>
+                        {alertMessage}
+                    </div>
+                )}
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="email">Indirizzo email</label>
@@ -95,7 +96,7 @@ function CreatePage() {
                         <label htmlFor="descrizione">Descrizione</label>
                         <textarea className="form-control" id="descrizione" name="descrizione" onChange={handleChange} />
                     </div>
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <button type="submit" className="btn btn-primary mt-2">Invia</button>
                 </form>
             </section>
         </>

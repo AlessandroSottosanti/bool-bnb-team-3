@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import axios from 'axios'
 
 function CreatePage() {
@@ -11,8 +11,64 @@ function CreatePage() {
         mq: 0,
         bagni: 0,
         locali: 0,
-        posti_letto: 0
+        posti_letto: 0,
+        immagini: []
     })
+    const [tipiAlloggio, setTipiAlloggio] = useState([]);
+    const [tipiAlloggioSelezionati, setTipiAlloggioSelezionati] = useState([])
+    const [selectedTipologia, setSelectedTipologia] = useState('')
+    const [debug, setDebug] = useState({
+        "immobile": {
+            "email_proprietario": '',
+            "username_proprietario": '',
+            "titolo_descrittivo": '',
+            "indirizzo_completo": '',
+            "descrizione": '',
+            "mq": 0,
+            "bagni": 0,
+            "locali": 0,
+            "posti_letto": 0,
+        },
+        "tipi_alloggio": tipiAlloggioSelezionati,
+
+        "immagini": newImmobile.immagini
+    })
+
+    useEffect(() => {
+        axios.get(`${import.meta.env.VITE_API_URL}/tipi-alloggi`).then((resp) => {
+            const { results } = resp.data
+            setTipiAlloggio(results)
+        }).catch((error) => {
+            console.error('Errore nel recupero dei tipi di alloggi', error)
+        })
+    }, [])
+
+    const handleSelectChange = (event) => {
+        setSelectedTipologia(event.target.value)
+    }
+
+    const handleAddTipologia = () => {
+        if (selectedTipologia) {
+            const tipologiaDaAggiungere = tipiAlloggio.find(
+                (tipologia) => tipologia.id === parseInt(selectedTipologia)
+            )
+
+            if (
+                tipologiaDaAggiungere &&
+                !tipiAlloggioSelezionati.some((item) => item.id === tipologiaDaAggiungere.id)
+            ) {
+                setTipiAlloggioSelezionati((prev) => [...prev, tipologiaDaAggiungere]);
+            }
+
+            setSelectedTipologia('')
+        }
+    }
+
+    const removeTipologia = (id) => {
+        setTipiAlloggioSelezionati((prev) =>
+            prev.filter((tipologia) => tipologia.id !== id)
+        )
+    }
 
     const [alertMessage, setAlertMessage] = useState(null)
     const [alertType, setAlertType] = useState(null)
@@ -25,9 +81,10 @@ function CreatePage() {
             [name]: value
         }))
     }
-    // Voglio impostare tipo_alloggio tramite un select nel form, serve una get nel backend che restituisca i tipi alloggio
-    const handleSubmit = () => {
-        axios.post(`${import.meta.env.VITE_API_URL}/immobili`, {
+
+    const handleSubmit = () => {+
+        event.preventDefault()
+        const oggetto = {
             "immobile": {
                 "email_proprietario": newImmobile.email_proprietario,
                 "username_proprietario": newImmobile.username_proprietario,
@@ -38,17 +95,24 @@ function CreatePage() {
                 "bagni": newImmobile.bagni,
                 "locali": newImmobile.locali,
                 "posti_letto": newImmobile.posti_letto,
-                "data_eliminazione": null
-            }
-        }).then((resp) => {
+            },
+            "tipi_alloggio": tipiAlloggioSelezionati,
+
+            "immagini": newImmobile.immagini
+        }
+        axios.post(`${import.meta.env.VITE_API_URL}/immobili`, oggetto
+        ).then((resp) => {
+            setDebug(oggetto)
             setAlertMessage('Immobile inserito con successo!')
             setAlertType('success')
         }).catch((error) => {
             setAlertMessage('Si è verificato un problema.')
             setAlertType('danger')
         })
+
     }
 
+    console.log(debug)
     return (
         <>
             <h1 className="text-center pt-3 pb-5">Inserisci i dettagli del tuo immobile</h1>
@@ -95,6 +159,41 @@ function CreatePage() {
                     <div className="form-group">
                         <label htmlFor="descrizione">Descrizione</label>
                         <textarea className="form-control" id="descrizione" name="descrizione" onChange={handleChange} />
+                    </div>
+
+                    <div>
+                        <label htmlFor="tipi_alloggio">
+                            Tipo di Alloggio:
+                        </label>
+                        <select
+                            id="tipi_alloggio"
+                            value={selectedTipologia}
+                            onChange={handleSelectChange}
+                        >
+                            <option value="">Seleziona un tipo di alloggio</option>
+                            {tipiAlloggio.map((tipologia) => (
+                                <option key={tipologia.id} value={tipologia.id}>
+                                    {tipologia.nome_tipo_alloggio}
+                                </option>
+                            ))}
+                        </select>
+                        <button type="button" onClick={handleAddTipologia}>
+                            Aggiungi
+                        </button>
+                    </div>
+
+                    <div>
+                        {tipiAlloggioSelezionati.map((tipologia) => (
+                            <div key={tipologia.id}>
+                                <span>{tipologia.nome_tipo_alloggio}</span>
+                                <button
+                                    type="button"
+                                    onClick={() => removeTipologia(tipologia.id)}
+                                >
+                                    x
+                                </button>
+                            </div>
+                        ))}
                     </div>
                     <button type="submit" className="btn btn-primary mt-2">Invia</button>
                 </form>

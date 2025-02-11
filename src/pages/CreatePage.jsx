@@ -1,4 +1,5 @@
 import { useState } from "react"
+import axios from 'axios'
 
 function CreatePage() {
     const [newImmobile, setNewImmobile] = useState({
@@ -57,7 +58,7 @@ function CreatePage() {
                     {alertMessage}
                 </div>
             )}
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="email">Indirizzo email</label>
                         <input type="email" className="form-control" id="email" name="email_proprietario" onChange={handleChange} />

@@ -22,7 +22,8 @@ function PaginaDettaglio() {
         axios.get(`${apiUrl}/immobili/${slug}`)
             .then(response => {
                 // Salva i dati ricevuti nello stato
-                setImmobile(response.data.results);
+                
+                setImmobile(response.data.immobile);
             })
             .catch(() => {
                 // Se c'è un errore, lo gestiamo
@@ -91,7 +92,7 @@ function PaginaDettaglio() {
                         </div>
                     </div>
                 </div>
-                <button type="button" className="btn btn-primary "><Link to="/">Porcoddioo</Link></button>
+                <button type="button" className="btn btn-primary "><Link to="/">Torna alla home</Link></button>
             </section >
         </>
     );

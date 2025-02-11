@@ -69,7 +69,7 @@ function HomePage() {
                     <div className="card-body d-flex flex-column flex-grow-1 text-center">
                       <p className="flex-grow-1">{immobile.descrizione}</p>
                       <Link
-                        to={`/${immobile.id}`}
+                        to={`/${immobile.slug}`}
                         className="btn btn-secondary"
                       >
                         Dettagli

@@ -2,7 +2,8 @@ import { useEffect, useState } from "react"
 import axios from 'axios'
 
 function CreatePage() {
-    const [newImmobile, setNewImmobile] = useState({
+
+    const initImmobile = {
         email_proprietario: '',
         username_proprietario: '',
         titolo_descrittivo: '',
@@ -13,39 +14,42 @@ function CreatePage() {
         locali: 0,
         posti_letto: 0,
         immagini: []
-    })
+    };
+
+    
+    const [newImmobile, setNewImmobile] = useState(initImmobile)
     const [tipiAlloggio, setTipiAlloggio] = useState([]);
     const [tipiAlloggioSelezionati, setTipiAlloggioSelezionati] = useState([])
     const [selectedTipologia, setSelectedTipologia] = useState('')
-    const [debug, setDebug] = useState({
-        "immobile": {
-            "email_proprietario": '',
-            "username_proprietario": '',
-            "titolo_descrittivo": '',
-            "indirizzo_completo": '',
-            "descrizione": '',
-            "mq": 0,
-            "bagni": 0,
-            "locali": 0,
-            "posti_letto": 0,
-        },
+
+
+    const initForm = {
+        "immobile": initImmobile,
         "tipi_alloggio": tipiAlloggioSelezionati,
 
         "immagini": newImmobile.immagini
-    })
+    };
+
+    const [debug, setDebug] = useState(initForm);
+
 
     useEffect(() => {
+        getTipiAlloggi();
+    }, [])
+
+
+    const getTipiAlloggi = () => {
         axios.get(`${import.meta.env.VITE_API_URL}/tipi-alloggi`).then((resp) => {
             const { results } = resp.data
             setTipiAlloggio(results)
         }).catch((error) => {
             console.error('Errore nel recupero dei tipi di alloggi', error)
         })
-    }, [])
+    }
 
     const handleSelectChange = (event) => {
         setSelectedTipologia(event.target.value)
-    }
+    };
 
     const handleAddTipologia = () => {
         if (selectedTipologia) {
@@ -82,7 +86,7 @@ function CreatePage() {
         }))
     }
 
-    const handleSubmit = () => {+
+    const handleSubmit = () => {
         event.preventDefault()
         const oggetto = {
             "immobile": {
@@ -96,23 +100,28 @@ function CreatePage() {
                 "locali": newImmobile.locali,
                 "posti_letto": newImmobile.posti_letto,
             },
-            "tipi_alloggio": tipiAlloggioSelezionati,
+            "tipi_alloggio": tipiAlloggioSelezionati.map((alloggio) => alloggio.id),
 
             "immagini": newImmobile.immagini
         }
+        
+        setDebug(oggetto);
+
         axios.post(`${import.meta.env.VITE_API_URL}/immobili`, oggetto
         ).then((resp) => {
-            setDebug(oggetto)
-            setAlertMessage('Immobile inserito con successo!')
-            setAlertType('success')
+            setAlertMessage('Immobile inserito con successo!');
+            setAlertType('success');
         }).catch((error) => {
-            setAlertMessage('Si è verificato un problema.')
-            setAlertType('danger')
+            setAlertMessage('Si è verificato un problema.');
+            setAlertType('danger');
         })
 
     }
 
-    console.log(debug)
+    console.log("debug",debug);
+    console.log("newImmobile", newImmobile);    
+    console.log("tipiAlloggioSelezionati", tipiAlloggioSelezionati);  
+    console.log("selectedTipologia", selectedTipologia);      
     return (
         <>
             <h1 className="text-center pt-3 pb-5">Inserisci i dettagli del tuo immobile</h1>

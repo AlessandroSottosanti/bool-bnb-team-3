@@ -1,4 +1,3 @@
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -7,10 +6,11 @@ import "./detailPageCss.css"
 const apiUrl = import.meta.env.VITE_API_URL;
 
 function PaginaDettaglio() {
-    const { id } = useParams();
+    const { slug } = useParams();
     const [immobile, setImmobile] = useState(null);
     const [caricamento, setCaricamento] = useState(true);
     const [errore, setErrore] = useState(null);
+    console.log(slug)
 
     const containerStyle = {
         width: '100%',
@@ -19,7 +19,7 @@ function PaginaDettaglio() {
 
     useEffect(() => {
         // Effettua la richiesta all'API
-        axios.get(`${apiUrl}/immobili/${id}`)
+        axios.get(`${apiUrl}/immobili/${slug}`)
             .then(response => {
                 // Salva i dati ricevuti nello stato
                 setImmobile(response.data.results);
@@ -32,7 +32,7 @@ function PaginaDettaglio() {
                 // Indichiamo che il caricamento è terminato
                 setCaricamento(false);
             });
-    }, [id]); // Effettua la richiesta quando cambia l'ID
+    }, [slug]); // Effettua la richiesta quando cambia lo slug
 
     if (caricamento) return <p>Caricamento...</p>;
     if (!immobile) return <p>Elemento non trovato</p>;
@@ -90,26 +90,6 @@ function PaginaDettaglio() {
 
                         </div>
                     </div>
-                </div>
-                <div id="map">
-                    <LoadScript googleMapsApiKey="AIzaSyC2ti5F0giuf6rGXMRyDdjGlmcdWUnLsMY">
-                        <GoogleMap
-                            mapContainerStyle={containerStyle}
-                            center={{
-                                lat: 41.9028,
-                                lng: 12.4964,
-                            }}
-                            zoom={13}
-                        >
-                            <Marker
-                                position={{
-                                    lat: 41.9028,
-                                    lng: 12.4964,
-                                }}
-                                title="Posizione immobile"
-                            />
-                        </GoogleMap>
-                    </LoadScript>
                 </div>
                 <button type="button" className="btn btn-primary "><Link to="/">Porcoddioo</Link></button>
             </section >

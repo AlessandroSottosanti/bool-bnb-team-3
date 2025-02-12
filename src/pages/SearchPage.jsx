@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 function SearchPage() {
     const [search, setSearch] = useState("");
@@ -11,6 +14,20 @@ function SearchPage() {
     const [tipologia, setTipologia] = useState("");
 
     const backEndUrl = import.meta.env.VITE_API_URL;
+
+    //Implemento le stelle per il rating dell'immobile
+    const renderStars = (voto) => {
+        const fullStars = Math.ceil(vote / 2);
+        const emptyStars = 5 - fullStars;
+        const stars = [];
+        for (let i = 0; i < fullStars; i++) {
+            stars.push(<FontAwesomeIcon key={`full-${i}`} icon={faStar} style={{ color: '#ffc107' }} />);
+        }
+        for (let i = 0; i < emptyStars; i++) {
+            stars.push(<FontAwesomeIcon key={`empty-${i}`} icon={faStar} style={{ color: '#e4e5e9' }} />);
+        }
+        return stars;
+    };
 
     const getImmobili = () => {
         axios
@@ -120,6 +137,7 @@ function SearchPage() {
                                         style={{ minHeight: "80px" }}
                                     >
                                         <h5 className="m-0">{immobile.titolo_descrittivo}</h5>
+                                        {/* <span><p><strong>Voto:</strong> {renderStars(result.vote)}</p></span> */}
                                     </div>
                                     <div className="card-body d-flex flex-column flex-grow-1 text-center">
                                         <p className="flex-grow-1">{immobile.descrizione}</p>
@@ -131,6 +149,12 @@ function SearchPage() {
                                             <strong>Numero di stanze: </strong>
                                             {immobile.locali}
                                         </p>
+
+                                        <p className="flex-grow-1">
+                                            <strong>Numero di posti letto: </strong>
+                                            {immobile.posti_letto}
+                                        </p>
+
                                         <p className="flex-grow-1">
                                             <strong>Numero di bagni: </strong>
                                             {immobile.bagni}

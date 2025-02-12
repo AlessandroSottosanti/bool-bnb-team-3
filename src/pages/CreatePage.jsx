@@ -17,7 +17,7 @@ function CreatePage() {
         immagini: []
     };
 
-    
+
     const [newImmobile, setNewImmobile] = useState(initImmobile)
     const [tipiAlloggio, setTipiAlloggio] = useState([]);
     const [tipiAlloggioSelezionati, setTipiAlloggioSelezionati] = useState([])
@@ -83,7 +83,7 @@ function CreatePage() {
 
         const { name, value } = event.target;
 
-        if(event.target.type === "number"){
+        if (event.target.type === "number") {
             parseInt(value);
         }
 
@@ -111,7 +111,7 @@ function CreatePage() {
 
             "immagini": newImmobile.immagini
         }
-        
+
         setDebug(oggetto);
 
         axios.post(`${apiUrl}/immobili`, oggetto
@@ -127,18 +127,26 @@ function CreatePage() {
 
     }
 
-    console.log("debug",debug);
-    console.log("newImmobile", newImmobile);    
-    console.log("tipiAlloggioSelezionati", tipiAlloggioSelezionati);  
-    console.log("selectedTipologia", selectedTipologia);      
+    console.log("debug", debug);
+    console.log("newImmobile", newImmobile);
+    console.log("tipiAlloggioSelezionati", tipiAlloggioSelezionati);
+    console.log("selectedTipologia", selectedTipologia);
     return (
         <>
             <h1 className="text-center pt-3 pb-5">Inserisci i dettagli del tuo immobile</h1>
             <section className='d-flex justify-content-center align-items-center flex-column'>
 
                 {alertMessage && (
-                    <div className={`alert alert-${alertType}`} role='alert'>
+                    <div
+                        className={`alert alert-${alertType} alert-dismissible fade show`}
+                        role="alert"
+                    >
                         {alertMessage}
+                        <button
+                            type="button"
+                            className="btn-close"
+                            data-bs-dismiss="alert"
+                        ></button>
                     </div>
                 )}
                 <form onSubmit={handleSubmit}>

@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react"
-import axios from 'axios'
+import { useEffect, useState } from "react";
+import axios from 'axios';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 function CreatePage() {
 
@@ -78,7 +79,13 @@ function CreatePage() {
     const [alertType, setAlertType] = useState(null)
 
     const handleChange = (event) => {
-        const { name, value } = event.target
+        console.log("event.target.type", event.target.type);
+
+        const { name, value } = event.target;
+
+        if(event.target.type === "number"){
+            parseInt(value);
+        }
 
         setNewImmobile((prev) => ({
             ...prev,
@@ -107,7 +114,7 @@ function CreatePage() {
         
         setDebug(oggetto);
 
-        axios.post(`${import.meta.env.VITE_API_URL}/immobili`, oggetto
+        axios.post(`${apiUrl}/immobili`, oggetto
         ).then((resp) => {
             setAlertMessage('Immobile inserito con successo!');
             setAlertType('success');
@@ -125,7 +132,7 @@ function CreatePage() {
     return (
         <>
             <h1 className="text-center pt-3 pb-5">Inserisci i dettagli del tuo immobile</h1>
-            <section className='d-flex justify-content-center align-items-center'>
+            <section className='d-flex justify-content-center align-items-center flex-column'>
 
                 {alertMessage && (
                     <div className={`alert alert-${alertType}`} role='alert'>

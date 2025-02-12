@@ -12,11 +12,10 @@ function SearchPage() {
     const getImmobili = () => {
         axios.get(`${backEndUrl}/immobili`)
             .then((resp) => {
-                const risultatiFiltrati = resp.data.results.filter((immobile) =>
-                    immobile.citta.toLowerCase().includes(search.toLowerCase()) ||
-                    immobile.indirizzo.toLowerCase().includes(search.toLowerCase())
-                );
-
+                const risultatiFiltrati = resp.data.results.filter((immobile) => {
+                    const indirizzo = immobile.indirizzo_completo ? immobile.indirizzo_completo.toLowerCase() : "";
+                    return indirizzo.includes(search.toLowerCase());
+                });
                 setImmobili(risultatiFiltrati);
                 setHasSearched(true); // Mostra i risultati dopo la ricerca
             })

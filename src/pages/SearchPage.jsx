@@ -1,20 +1,30 @@
 import axios from "axios";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function SearchPage() {
     const [search, setSearch] = useState("");
     const [immobili, setImmobili] = useState([]);
     const [warning, setWarning] = useState("");
     const [hasSearched, setHasSearched] = useState(false); // Stato per mostrare i risultati solo dopo la ricerca
+    const [postiLetto, setPostiLetto] = useState(0);
+    const [tipologia, setTipologia] = useState("");
 
     const backEndUrl = import.meta.env.VITE_API_URL;
 
     const getImmobili = () => {
-        axios.get(`${backEndUrl}/immobili?order_by_voto=desc`)
+        axios
+            .get(`${backEndUrl}/immobili?order_by_voto=desc`)
             .then((resp) => {
                 const risultatiFiltrati = resp.data.immobili.filter((immobile) => {
-                    const indirizzo = immobile.indirizzo_completo ? immobile.indirizzo_completo.toLowerCase() : "";
-                    return indirizzo.includes(search.toLowerCase());
+                    const indirizzo = immobile.indirizzo_completo
+                        ? immobile.indirizzo_completo.toLowerCase()
+                        : "";
+                    return (
+                        indirizzo.includes(search.toLowerCase()) &&
+                        immobile.posti_letto >= postiLetto &&
+                        (tipologia === "" || immobile.tipo_alloggio.toLowerCase() === tipologia.toLowerCase())
+                    );
                 });
                 setImmobili(risultatiFiltrati);
                 setHasSearched(true); // Mostra i risultati dopo la ricerca
@@ -41,10 +51,13 @@ function SearchPage() {
         }
     };
 
+    //default image
+    const defaultImage = "../images/placeholder.webp";
+
     return (
         <>
             <div className="text-center">
-                <h1>Ricerca Avanzata</h1>
+                <h1 className="mt-3">Ricerca Avanzata</h1>
             </div>
 
             <label htmlFor="ricerca" className="mx-5">
@@ -59,6 +72,31 @@ function SearchPage() {
                 onKeyUp={handleKeyPress}
             />
 
+            <label htmlFor="postiLetto" className="mx-5 mt-3">
+                <strong>Numero minimo di posti letto</strong>
+            </label>
+            <input
+                className="form-control w-25 mx-5"
+                id="postiLetto"
+                type="number"
+                value={postiLetto}
+                onChange={(event) => setPostiLetto(event.target.value)}
+                onKeyUp={handleKeyPress}
+            />
+
+            <label htmlFor="tipologia" className="mx-5 mt-3">
+                <strong>Tipologia di immobile</strong>
+            </label>
+            <input
+                className="form-control w-25 mx-5"
+                id="tipologia"
+                type="text"
+                value={tipologia}
+                onChange={(event) => setTipologia(event.target.value)}
+                onKeyUp={handleKeyPress}
+            />
+
+
             <button className="btn btn-secondary mx-5 mt-2" onClick={handleSearch}>
                 Cerca
             </button>
@@ -71,10 +109,11 @@ function SearchPage() {
                         {immobili.map((immobile) => (
                             <div className="col" key={immobile.id}>
                                 <div className="card h-100 d-flex flex-column">
+                                    {/* Immagine segnaposto */}
                                     <img
-                                        src={immobile.image}
+                                        src={immobile.image ? immobile.image : `${defaultImage}`}
                                         alt={immobile.titolo_descrittivo}
-                                        className="card-img-top"
+                                        className=""
                                     />
                                     <div
                                         className="card-header text-center d-flex align-items-center justify-content-center"
@@ -84,6 +123,28 @@ function SearchPage() {
                                     </div>
                                     <div className="card-body d-flex flex-column flex-grow-1 text-center">
                                         <p className="flex-grow-1">{immobile.descrizione}</p>
+                                        <p className="flex-grow-1">
+                                            <strong>Indirizzo: </strong>
+                                            {immobile.indirizzo_completo}
+                                        </p>
+                                        <p className="flex-grow-1">
+                                            <strong>Numero di stanze: </strong>
+                                            {immobile.locali}
+                                        </p>
+                                        <p className="flex-grow-1">
+                                            <strong>Numero di bagni: </strong>
+                                            {immobile.bagni}
+                                        </p>
+                                        <p className="flex-grow-1">
+                                            <strong>Mq: </strong>
+                                            {immobile.mq}
+                                        </p>
+                                        <Link
+                                            to={`/${immobile.slug}`}
+                                            className="btn btn-secondary"
+                                        >
+                                            Dettagli
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
@@ -98,5 +159,3 @@ function SearchPage() {
 }
 
 export default SearchPage;
-
-

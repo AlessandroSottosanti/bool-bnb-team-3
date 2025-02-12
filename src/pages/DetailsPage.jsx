@@ -10,20 +10,14 @@ function PaginaDettaglio() {
     const [immobile, setImmobile] = useState(null);
     const [caricamento, setCaricamento] = useState(true);
     const [errore, setErrore] = useState(null);
-    console.log(slug)
 
-    const containerStyle = {
-        width: '100%',
-        height: '300px',
-    };
 
     useEffect(() => {
         // Effettua la richiesta all'API
         axios.get(`${apiUrl}/immobili/${slug}`)
             .then(response => {
                 // Salva i dati ricevuti nello stato
-                
-                setImmobile(response.data.immobile);
+                setImmobile(response.data.results);
             })
             .catch(() => {
                 // Se c'è un errore, lo gestiamo
@@ -35,64 +29,83 @@ function PaginaDettaglio() {
             });
     }, [slug]); // Effettua la richiesta quando cambia lo slug
 
+
     if (caricamento) return <p>Caricamento...</p>;
     if (!immobile) return <p>Elemento non trovato</p>;
 
     return (
         <>
             <section className="container my-3">
-                <div className="card">
-                    <div id="carouselExampleIndicators" className="carousel slide">
-                        <div className="carousel-indicators">
-                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
-                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <div id="immobile">
+                        <div id="title" className="d-flex">
+                            <h2>
+                                <a href="#map"><i className="fa-solid fa-location-dot me-1"></i></a>
+                                {immobile.immobile.titolo_descrittivo}
+                            </h2>
                         </div>
-                        <div className="carousel-inner">
-                            <div className="carousel-item active">
-                                <img src="https://placeholder.pics/svg/300x200" alt="Immagine di esempio" />
-                            </div>
-                            <div className="carousel-item">
-                                <img src="https://placeholder.pics/svg/300x200" alt="Immagine di esempio" />
-                            </div>
-                            <div className="carousel-item">
-                                <img src="https://placeholder.pics/svg/300x200" alt="Immagine di esempio" />
-                            </div>
-                        </div>
-                        <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span className="visually-hidden">Previous</span>
-                        </button>
-                        <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                            <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span className="visually-hidden">Next</span>
-                        </button>
-                    </div>
-                    <div className="container">
-                        <div id="info">
-                            <div id="title" className="d-flex">
-                                <h2>
-                                    <a href="#map"><i className="fa-solid fa-location-dot me-1"></i></a>
-                                    {immobile.titolo_descrittivo}
-                                </h2>
-                                <span className="fs-3">{immobile.prezzo_affitto}€ Al mese</span>
-                            </div>
-                            <div id="descrizione">
-                                <h4>Descrizione</h4>
-                                <p>{immobile.descrizione}</p>
-                                <span>- {immobile.indirizzo} - </span>
-                                <span>{immobile.citta}</span>
-                            </div>
-                            <div id="info">
-                                <p>PER INFO E CONTATTI</p>
-                                <span>Email: EMAILDASOSTIUIRE@RICORDATELO.COM</span>
-                                <span>Telefono:3334455698</span>
+                        <div id="carouselExampleIndicators" className="carousel slide">
+                            {/* Indicatori dinamici */}
+                            <div className="carousel-indicators">
+                                {immobile.immagini.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        type="button"
+                                        data-bs-target="#carouselExampleIndicators"
+                                        data-bs-slide-to={index}
+                                        className={index === 0 ? "active" : ""}
+                                        aria-current={index === 0 ? "true" : undefined}
+                                        aria-label={`Slide ${index + 1}`}
+                                    ></button>
+                                ))}
                             </div>
 
+                            {/* Immagini dinamiche */}
+                            <div className="carousel-inner">
+                                {immobile.immagini.map((curImage, index) => (
+                                    <div key={curImage.nome_immagine} className={`carousel-item ${index === 0 ? "active" : ""}`}>
+                                        <img src={`/images/${curImage.nome_immagine}`} alt={`Slide ${index + 1}`} />
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Pulsanti di controllo */}
+                            <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span className="visually-hidden">Previous</span>
+                            </button>
+                            <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span className="visually-hidden">Next</span>
+                            </button>
                         </div>
-                    </div>
+                        <div className="container">
+                            <div id="info">
+                                <div id="descrizione">
+                                    <h4>Descrizione</h4>
+                                    <p>{immobile.descrizione}</p>
+                                    <span>- {immobile.immobile.indirizzo_completo} - </span>
+                                </div>
+                                <div id="info">
+                                    <p>PER INFO E CONTATTI</p>
+                                    <span>Email: {immobile.immobile.email_proprietario}</span>
+                                </div>
+
+                            </div>
+                        </div>
                 </div>
                 <button type="button" className="btn btn-primary "><Link to="/">Torna alla home</Link></button>
+                <div id="recensioni">
+                    <div className="card">
+                        {immobile.immobile.recensioni.map((curRecensione, i) => (
+                            <div key={i} className="recensione">
+                                <h3>{curRecensione.username}</h3>
+                                <p>{curRecensione.recensione}</p>
+                                <span>Voto: {curRecensione.voto}</span>
+                                <p>Recensione del: {new Date(curRecensione.data).toLocaleDateString()}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </section >
         </>
     );

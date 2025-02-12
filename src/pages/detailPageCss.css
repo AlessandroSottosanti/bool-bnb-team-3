@@ -1,3 +1,13 @@
-#title {
-    justify-content: space-between;
-}
+#carouselExampleIndicators {
+    display: grid; /* Abilita il grid layout */
+    place-items: center; /* Centra l'immagine sia orizzontalmente che verticalmente */
+    width: 100%; /* Imposta la larghezza del contenitore */
+    height: 600px; /* Imposta l'altezza del contenitore */
+    overflow: hidden; /* Nasconde la parte in eccesso dell'immagine */
+    
+   }
+
+#carouselExampleIndicators img {
+    max-width: 100%; /* Limita la larghezza dell'immagine */
+    max-height: 100%; /* Limita l'altezza dell'immagine */
+  }

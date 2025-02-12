@@ -118,9 +118,11 @@ function CreatePage() {
         ).then((resp) => {
             setAlertMessage('Immobile inserito con successo!');
             setAlertType('success');
-        }).catch((error) => {
+            return console.log("success", resp);
+        }).catch((err) => {
             setAlertMessage('Si è verificato un problema.');
             setAlertType('danger');
+            return console.error("error", err);
         })
 
     }

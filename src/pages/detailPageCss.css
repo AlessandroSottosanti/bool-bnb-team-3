@@ -1,13 +1,18 @@
+button a {
+    text-decoration: none;
+    color: white;
+}
+
 #carouselExampleIndicators {
-    display: grid; /* Abilita il grid layout */
-    place-items: center; /* Centra l'immagine sia orizzontalmente che verticalmente */
+    display: flex; /* Abilita il flexbox */
+    justify-content: center; /* Centra l'immagine orizzontalmente */
+    align-items: center; /* Centra l'immagine verticalmente */
     width: 100%; /* Imposta la larghezza del contenitore */
-    height: 600px; /* Imposta l'altezza del contenitore */
+    height: 500px; /* Imposta l'altezza del contenitore */
     overflow: hidden; /* Nasconde la parte in eccesso dell'immagine */
-    
-   }
+  }
 
 #carouselExampleIndicators img {
-    max-width: 100%; /* Limita la larghezza dell'immagine */
-    max-height: 100%; /* Limita l'altezza dell'immagine */
+    max-width: 100%; /* Limita la larghezza dell'immagine al 100% */
+    max-height: 100%; /* Limita l'altezza dell'immagine al 100% */
   }

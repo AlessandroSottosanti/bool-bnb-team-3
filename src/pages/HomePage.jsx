@@ -15,7 +15,8 @@ function HomePage() {
     axios
       .get(`${apiUrl}/immobili`)
       .then((resp) => {
-        setImmobili(resp.data.results);
+        console.log(resp);
+        setImmobili(resp.data.immobili);
         console.log("Response get immobili:", {
           success: true,
           data: resp.data.results,

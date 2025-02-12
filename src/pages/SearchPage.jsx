@@ -10,9 +10,9 @@ function SearchPage() {
     const backEndUrl = import.meta.env.VITE_API_URL;
 
     const getImmobili = () => {
-        axios.get(`${backEndUrl}/immobili`)
+        axios.get(`${backEndUrl}/immobili?order_by_voto=desc`)
             .then((resp) => {
-                const risultatiFiltrati = resp.data.results.filter((immobile) => {
+                const risultatiFiltrati = resp.data.immobili.filter((immobile) => {
                     const indirizzo = immobile.indirizzo_completo ? immobile.indirizzo_completo.toLowerCase() : "";
                     return indirizzo.includes(search.toLowerCase());
                 });
@@ -34,6 +34,13 @@ function SearchPage() {
         getImmobili();
     };
 
+    const handleKeyPress = (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            handleSearch();
+        }
+    };
+
     return (
         <>
             <div className="text-center">
@@ -49,6 +56,7 @@ function SearchPage() {
                 type="search"
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
+                onKeyUp={handleKeyPress}
             />
 
             <button className="btn btn-secondary mx-5 mt-2" onClick={handleSearch}>

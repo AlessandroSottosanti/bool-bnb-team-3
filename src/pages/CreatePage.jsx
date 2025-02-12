@@ -118,9 +118,11 @@ function CreatePage() {
         ).then((resp) => {
             setAlertMessage('Immobile inserito con successo!');
             setAlertType('success');
-        }).catch((error) => {
+            return console.log("success", resp);
+        }).catch((err) => {
             setAlertMessage('Si è verificato un problema.');
             setAlertType('danger');
+            return console.error("error", err);
         })
 
     }
@@ -158,19 +160,19 @@ function CreatePage() {
                     </div>
                     <div className="form-group">
                         <label htmlFor="metriQuadri">Metri quadri</label>
-                        <input type="number" className="form-control" id="metriQuadri" name="mq" onChange={handleChange} />
+                        <input type="number" className="form-control" id="metriQuadri" name="mq" min="0" step="1" onChange={handleChange} />
                     </div>
                     <div className="form-group">
                         <label htmlFor="numLocali">Numero locali</label>
-                        <input type="number" className="form-control" id="numLocali" name="locali" onChange={handleChange} />
+                        <input type="number" className="form-control" id="numLocali" name="locali" min="0" step="1" onChange={handleChange} />
                     </div>
                     <div className="form-group">
                         <label htmlFor="numLetti">Numero posti letto</label>
-                        <input type="number" className="form-control" id="numLetti" name="posti_letto" onChange={handleChange} />
+                        <input type="number" className="form-control" id="numLetti" name="posti_letto" min="0" step="1" onChange={handleChange} />
                     </div>
                     <div className="form-group">
                         <label htmlFor="numBagni">Numero bagni</label>
-                        <input type="number" className="form-control" id="numBagni" name="bagni" onChange={handleChange} />
+                        <input type="number" className="form-control" id="numBagni" name="bagni" min="0" step="1" onChange={handleChange} />
                     </div>
                     <div className="form-group">
                         <label htmlFor="descrizione">Descrizione</label>

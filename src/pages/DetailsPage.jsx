@@ -94,32 +94,32 @@ function PaginaDettaglio() {
                         <div id="descrizione">
                             <h5 className="pb-2">DESCRIZIONE</h5>
                             <p>{immobile.immobile.descrizione}</p>
-                            <span><i class="fa-solid fa-map-pin"></i> - {immobile.immobile.indirizzo_completo}</span>
+                            <span><i className="fa-solid fa-map-pin"></i> - {immobile.immobile.indirizzo_completo}</span>
                         </div>
                         <hr />
-                        <div className="dettagli row" classN>
+                        <div className="dettagli row">
                             <h5 className="pb-2">Dettagli della struttura</h5>
                             <div className="col-6">
                                 <p>
-                                    <i class="fa-solid fa-up-right-and-down-left-from-center"></i> MQ: {immobile.immobile.mq}
+                                    <i className="fa-solid fa-up-right-and-down-left-from-center"></i> MQ: {immobile.immobile.mq}
                                 </p>
                                 <p>
-                                    <i class="fa-solid fa-bath"></i> Bagni: {immobile.immobile.bagni}
+                                    <i className="fa-solid fa-bath"></i> Bagni: {immobile.immobile.bagni}
                                 </p>
                             </div>
                             <div className="col-6">
                                 <p>
-                                    <i class="fa-solid fa-door-open"></i> Locali: {immobile.immobile.locali}
+                                    <i className="fa-solid fa-door-open"></i> Locali: {immobile.immobile.locali}
                                 </p>
                                 <p>
-                                    <i class="fa-solid fa-bed"></i> Posti letto: {immobile.immobile.posti_letto}
+                                    <i className="fa-solid fa-bed"></i> Posti letto: {immobile.immobile.posti_letto}
                                 </p>
                             </div>
                         </div>
                         <hr />
                         <div id="info" className="py-2">
                             <h5>INFO E CONTATTI</h5>
-                            <span><i class="fa-solid fa-envelope"></i> Email: {immobile.immobile.email_proprietario}</span>
+                            <span><i className="fa-solid fa-envelope"></i> Email: {immobile.immobile.email_proprietario}</span>
                         </div>
                         <hr />
                     </div>

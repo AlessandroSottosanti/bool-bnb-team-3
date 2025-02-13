@@ -2,8 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./detailPageCss.css"
-import { faStar } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -45,10 +44,10 @@ function PaginaDettaglio() {
         const emptyStars = 5 - fullStars;
         const stars = [];
         for (let i = 0; i < fullStars; i++) {
-            stars.push(<FontAwesomeIcon key={`full-${i}`} icon={faStar} style={{ color: '#ffc107' }} />);
+            stars.push(<i class="fa-solid fa-star"></i>);
         }
         for (let i = 0; i < emptyStars; i++) {
-            stars.push(<FontAwesomeIcon key={`empty-${i}`} icon={faStar} style={{ color: '#e4e5e9' }} />);
+            stars.push(<i class="fa-regular fa-star"></i>);
         }
         return stars;
     };

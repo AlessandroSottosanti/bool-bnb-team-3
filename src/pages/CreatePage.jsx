@@ -114,8 +114,11 @@ function CreatePage() {
 
         setDebug(oggetto);
 
-        axios.post(`${apiUrl}/immobili`, oggetto
-        ).then((resp) => {
+        axios.post(`${apiUrl}/immobili`, oggetto, {
+            headers: {
+                "Content-type": "multipart/form-data",
+            },
+        }).then((resp) => {
             setAlertMessage('Immobile inserito con successo!');
             setAlertType('success');
             return console.log("success", resp);
@@ -187,11 +190,13 @@ function CreatePage() {
                         <textarea className="form-control" id="descrizione" name="descrizione" onChange={handleChange} />
                     </div>
 
-                    <div className="mt-3">
-                        <label htmlFor="tipi_alloggio">
-                            Tipo di Alloggio:
+                    <label className="mt-3" htmlFor="tipi_alloggio">
+                            Tipo di Alloggio
                         </label>
+                    <div className="mt-3 d-flex gap-2">
+                        
                         <select
+                        className="form-select"
                             id="tipi_alloggio"
                             value={selectedTipologia}
                             onChange={handleSelectChange}
@@ -203,9 +208,23 @@ function CreatePage() {
                                 </option>
                             ))}
                         </select>
-                        <button type="button" onClick={handleAddTipologia}>
+                        <button className="btn btn-primary" type="button" onClick={handleAddTipologia}>
                             Aggiungi
                         </button>
+                    </div>
+
+                    <div className="container mt-4 d-flex flex-column">
+                        <h2>Carica immagini dell'immobile</h2>
+                        <p>La prima immagine inserita sarà utilizzata come copertina del post.</p>
+
+                        <label for="fileInput" className="form-label">Scegli un file</label>
+                        <div className="mb-3 d-flex justify-content-center align-items-center gap-2 row">
+                            
+                            <input type="file" className="form-control" id="fileInput" multiple />
+                            <button className="btn btn-primary" onclick="submitForm()">Aggiungi Immagine</button>
+                        </div>
+                        <div id="fileHelp" className="form-text mb-5">Puoi caricare uno o più file.</div>
+
                     </div>
 
                     <div>
@@ -221,7 +240,7 @@ function CreatePage() {
                             </div>
                         ))}
                     </div>
-                    <button type="submit" className="btn secondary mt-2">Invia</button>
+                    <button type="submit" className="btn btn-success mt-2">Crea nuovo immobile</button>
                 </form>
             </section>
         </main>

@@ -50,37 +50,40 @@ function HomePage() {
         <div className="row g-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-6">
           {immobili &&
             immobili.map((immobile) => {
-              return (
-                <div className="col" key={immobile.id}>
-                  <div className="card h-100 d-flex flex-column">
-                    {/* Immagine segnaposto */}
-                    <img
-                      src={
-                        immobile.image
-                          ? immobile.image
-                          : `${defaultImage}`
-                      }
-                      alt={immobile.titolo_descrittivo}
-                      className=""
-                    />
-                    <div
-                      className="card-header text-center d-flex align-items-center justify-content-center"
-                      style={{ minHeight: "80px" }}
-                    >
-                      <h5 className="m-0">{immobile.titolo_descrittivo}</h5>
-                    </div>
-                    <div className="card-body d-flex flex-column flex-grow-1 text-center">
-                      <p className="flex-grow-1">{immobile.descrizione}</p>
-                      <Link
-                        to={`/${immobile.slug}`}
-                        className="btn btn-secondary"
+              if(immobile){
+                return (
+                  <div className="col" key={immobile.id}>
+                    <div className="card h-100 d-flex flex-column">
+                      {/* Immagine segnaposto */}
+                      <img
+                        src={
+                          immobile.image
+                            ? immobile.image
+                            : `${defaultImage}`
+                        }
+                        alt={immobile.titolo_descrittivo}
+                        className=""
+                      />
+                      <div
+                        className="card-header text-center d-flex align-items-center justify-content-center"
+                        style={{ minHeight: "80px" }}
                       >
-                        Dettagli
-                      </Link>
+                        <h5 className="m-0">{immobile.titolo_descrittivo}</h5>
+                      </div>
+                      <div className="card-body d-flex flex-column flex-grow-1 text-center">
+                        <p className="flex-grow-1">{immobile.descrizione}</p>
+                        <Link
+                          to={`/${immobile.slug}`}
+                          className="btn btn-secondary"
+                        >
+                          Dettagli
+                        </Link>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
+                );
+              }
+              
             })}
         </div>
       </div>

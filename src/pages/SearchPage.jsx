@@ -1,8 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { faStar } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 
 function SearchPage() {
@@ -63,10 +62,10 @@ function SearchPage() {
         const emptyStars = 5 - fullStars;
         const stars = [];
         for (let i = 0; i < fullStars; i++) {
-            stars.push(<FontAwesomeIcon key={`full-${i}`} icon={faStar} style={{ color: '#ffc107' }} />);
+            stars.push(<i class="fa-solid fa-heart"></i>);
         }
         for (let i = 0; i < emptyStars; i++) {
-            stars.push(<FontAwesomeIcon key={`empty-${i}`} icon={faStar} style={{ color: '#e4e5e9' }} />);
+            stars.push(<i class="fa-regular fa-heart"></i>);
         }
         return stars;
     };

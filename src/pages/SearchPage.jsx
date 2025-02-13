@@ -8,9 +8,11 @@ function SearchPage() {
     const [search, setSearch] = useState("");
     const [immobili, setImmobili] = useState([]);
     const [warning, setWarning] = useState("");
-    const [hasSearched, setHasSearched] = useState(false); // Stato per mostrare i risultati solo dopo la ricerca
+    const [hasSearched, setHasSearched] = useState(false);
     const [postiLetto, setPostiLetto] = useState(0);
     const [tipologia, setTipologia] = useState("");
+    const [tipiAlloggio, setTipiAlloggio] = useState("");
+
 
     const backEndUrl = import.meta.env.VITE_API_URL;
 
@@ -20,24 +22,34 @@ function SearchPage() {
         axios
             .get(`${backEndUrl}/immobili?order_by_voto=desc`)
             .then((resp) => {
-                const risultatiFiltrati = resp.data.immobili.filter((immobile) => {
+                console.log("Risposta immobili:", resp.data);
+                const immobili = resp.data.immobili;
+
+                const risultatiFiltrati = immobili.filter((immobile) => {
                     const indirizzo = immobile.indirizzo_completo
                         ? immobile.indirizzo_completo.toLowerCase()
                         : "";
+                    const tipiAlloggioIds = immobile.tipi_alloggio.map(tipo => tipo.id);
                     return (
                         indirizzo.includes(search.toLowerCase()) &&
                         immobile.posti_letto >= postiLetto &&
                         (tipologia === "" || immobile.tipo_alloggio.toLowerCase() === tipologia.toLowerCase())
+                        &&
+                        (tipiAlloggio.trim() === "" || tipiAlloggioIds.includes(parseInt(tipiAlloggio)))
                     );
                 });
+
                 setImmobili(risultatiFiltrati);
-                setHasSearched(true); // Mostra i risultati dopo la ricerca
+                setHasSearched(true);
             })
             .catch((err) => {
                 console.error("Errore nel recupero degli immobili:", err);
                 setWarning("Errore nel recupero degli immobili. Riprova più tardi.");
             });
     };
+
+
+
 
     const handleSearch = () => {
         if (search.trim() === "") {
@@ -48,24 +60,24 @@ function SearchPage() {
         getImmobili();
     };
 
-    const handleKeyPress = () => {
+    const handleKeyPress = (event) => {
         if (event.key === "Enter") {
             event.preventDefault();
             handleSearch();
         }
     };
 
-    //Implemento le stelle per il rating dell'immobile
+    //Implemento i cuoricini per il rating dell'immobile
 
     const renderStars = (voto) => {
         const fullStars = Math.ceil(voto);
         const emptyStars = 5 - fullStars;
         const stars = [];
         for (let i = 0; i < fullStars; i++) {
-            stars.push(<i class="fa-solid fa-heart"></i>);
+            stars.push(<i key={`full-${i}`} className="fa-solid fa-star"></i>); // Aggiungi un `key` univoco
         }
         for (let i = 0; i < emptyStars; i++) {
-            stars.push(<i class="fa-regular fa-heart"></i>);
+            stars.push(<i key={`empty-${i}`} className="fa-regular fa-star"></i>); // Aggiungi un `key` univoco
         }
         return stars;
     };
@@ -105,14 +117,14 @@ function SearchPage() {
             />
 
             <label htmlFor="tipologia" className="mx-5 mt-3">
-                <strong>Tipologia di immobile</strong>
+                <strong>Tipi di immobile</strong>
             </label>
             <input
                 className="form-control w-25 mx-5"
-                id="tipologia"
+                id="tipiAlloggio"
                 type="text"
-                value={tipologia}
-                onChange={(event) => setTipologia(event.target.value)}
+                value={tipiAlloggio}
+                onChange={(event) => setTipiAlloggio(event.target.value)}
                 onKeyUp={handleKeyPress}
             />
 
@@ -143,10 +155,10 @@ function SearchPage() {
 
                                     </div>
                                     <div className="card-body d-flex flex-column flex-grow-1 text-center">
-                                        
+
                                         <p className="flex-grow-1">
                                             <strong>Descrizione:</strong>
-                                            <p>{immobile.descrizione}</p>
+                                            {immobile.descrizione}
                                         </p>
 
                                         <p className="flex-grow-1">
@@ -174,9 +186,14 @@ function SearchPage() {
                                         </p>
 
                                         <span className="d-flex align-items-center justify-content-center gap-1 mb-3">
-                                                <strong>Voto:</strong>
-                                                {renderStars(immobile.voto_medio)}
+                                            <strong>Voto:</strong>
+                                            {renderStars(immobile.voto_medio)}
                                         </span>
+
+                                        <p className="flex-grow-1">
+                                            <strong>Numero di recensioni: </strong>
+                                            {immobile.tot_recensioni}
+                                        </p>
 
                                         <Link
                                             to={`/${immobile.slug}`}

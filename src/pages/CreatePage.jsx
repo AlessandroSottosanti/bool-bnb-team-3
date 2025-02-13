@@ -149,45 +149,45 @@ function CreatePage() {
                         ></button>
                     </div>
                 )}
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
+                <form onSubmit={handleSubmit} className="text-center">
+                    <div className="form-group mt-2">
                         <label htmlFor="email">Indirizzo email</label>
                         <input type="email" className="form-control" id="email" name="email_proprietario" onChange={handleChange} />
                     </div>
-                    <div className="form-group">
+                    <div className="form-group mt-2">
                         <label htmlFor="username">Username</label>
                         <input type="text" className="form-control" id="username" name="username_proprietario" onChange={handleChange} />
                     </div>
-                    <div className="form-group">
+                    <div className="form-group mt-2">
                         <label htmlFor="titolo">Titolo descrittivo</label>
                         <input type="text" className="form-control" id="titolo" name="titolo_descrittivo" onChange={handleChange} />
                     </div>
-                    <div className="form-group">
+                    <div className="form-group mt-2">
                         <label htmlFor="indirizzo">Indirizzo</label>
                         <input type="text" className="form-control" id="indirizzo" name="indirizzo_completo" onChange={handleChange} />
                     </div>
-                    <div className="form-group">
+                    <div className="form-group mt-2">
                         <label htmlFor="metriQuadri">Metri quadri</label>
                         <input type="number" className="form-control" id="metriQuadri" name="mq" min="0" step="1" onChange={handleChange} />
                     </div>
-                    <div className="form-group">
+                    <div className="form-group mt-2">
                         <label htmlFor="numLocali">Numero locali</label>
                         <input type="number" className="form-control" id="numLocali" name="locali" min="0" step="1" onChange={handleChange} />
                     </div>
-                    <div className="form-group">
+                    <div className="form-group mt-2">
                         <label htmlFor="numLetti">Numero posti letto</label>
                         <input type="number" className="form-control" id="numLetti" name="posti_letto" min="0" step="1" onChange={handleChange} />
                     </div>
-                    <div className="form-group">
+                    <div className="form-group mt-2">
                         <label htmlFor="numBagni">Numero bagni</label>
                         <input type="number" className="form-control" id="numBagni" name="bagni" min="0" step="1" onChange={handleChange} />
                     </div>
-                    <div className="form-group">
+                    <div className="form-group mt-2">
                         <label htmlFor="descrizione">Descrizione</label>
                         <textarea className="form-control" id="descrizione" name="descrizione" onChange={handleChange} />
                     </div>
 
-                    <div>
+                    <div className="mt-3">
                         <label htmlFor="tipi_alloggio">
                             Tipo di Alloggio:
                         </label>

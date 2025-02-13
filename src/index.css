@@ -11,6 +11,11 @@
   color: rgb(197, 197, 197);
 }
 
-.fa-star{
-  color: #ffc107;
+.fa-heart{
+  color: red;
 }
+
+main{
+  min-height: 100vh;
+}
+

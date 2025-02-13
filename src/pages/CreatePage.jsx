@@ -132,7 +132,7 @@ function CreatePage() {
     console.log("tipiAlloggioSelezionati", tipiAlloggioSelezionati);
     console.log("selectedTipologia", selectedTipologia);
     return (
-        <>
+        <main>
             <h1 className="text-center pt-3 pb-4">Inserisci i dettagli del tuo immobile</h1>
             <section className='d-flex justify-content-center align-items-center flex-column'>
 
@@ -224,7 +224,7 @@ function CreatePage() {
                     <button type="submit" className="btn secondary mt-2">Invia</button>
                 </form>
             </section>
-        </>
+        </main>
     )
 }
 

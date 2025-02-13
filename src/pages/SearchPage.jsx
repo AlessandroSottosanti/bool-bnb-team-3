@@ -62,10 +62,10 @@ function SearchPage() {
         const emptyStars = 5 - fullStars;
         const stars = [];
         for (let i = 0; i < fullStars; i++) {
-            stars.push(<i class="fa-solid fa-star"></i>);
+            stars.push(<i class="fa-solid fa-heart"></i>);
         }
         for (let i = 0; i < emptyStars; i++) {
-            stars.push(<i class="fa-regular fa-star"></i>);
+            stars.push(<i class="fa-regular fa-heart"></i>);
         }
         return stars;
     };
@@ -75,7 +75,7 @@ function SearchPage() {
     const defaultImage = "../images/placeholder.webp";
 
     return (
-        <>
+        <main>
             <div className="text-center">
                 <h1 className="mt-3">Ricerca Avanzata</h1>
             </div>
@@ -193,7 +193,7 @@ function SearchPage() {
             ) : hasSearched && immobili.length === 0 ? (
                 <p className="text-center mt-4">Nessun risultato trovato</p>
             ) : null}
-        </>
+        </main>
     );
 }
 

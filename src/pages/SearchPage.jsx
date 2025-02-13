@@ -62,10 +62,10 @@ function SearchPage() {
         const emptyStars = 5 - fullStars;
         const stars = [];
         for (let i = 0; i < fullStars; i++) {
-            stars.push(<i class="fa-solid fa-heart"></i>);
+            stars.push(<i class="fa-solid fa-star"></i>);
         }
         for (let i = 0; i < emptyStars; i++) {
-            stars.push(<i class="fa-regular fa-heart"></i>);
+            stars.push(<i class="fa-regular fa-star"></i>);
         }
         return stars;
     };

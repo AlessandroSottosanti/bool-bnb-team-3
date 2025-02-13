@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from 'axios';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 function CreatePage() {
+
+    const [immagini, setImmagini] = useState([]);
 
     const initImmobile = {
         email_proprietario: '',
@@ -22,6 +24,9 @@ function CreatePage() {
     const [tipiAlloggio, setTipiAlloggio] = useState([]);
     const [tipiAlloggioSelezionati, setTipiAlloggioSelezionati] = useState([])
     const [selectedTipologia, setSelectedTipologia] = useState('')
+    const [preview, setPreview] = useState([]);
+    const [previews, setPreviews] = useState([]);
+    const fileInputRef = useRef(null); // Ref per l'input file
 
 
     const initForm = {
@@ -80,21 +85,61 @@ function CreatePage() {
 
     const handleChange = (event) => {
         console.log("event.target.type", event.target.type);
-
-        const { name, value } = event.target;
-
-        if (event.target.type === "number") {
-            parseInt(value);
+    
+        const { name, value, type, files } = event.target;
+    
+        if (type === "file") {
+            // Converte i file selezionati in un array
+            const newFiles = Array.from(files);
+    
+            // Aggiungi i nuovi file all'array esistente delle immagini
+            setImmagini((prevImmagini) => [...prevImmagini, ...newFiles]);
+    
+            // Crea un nuovo array di anteprime per tutte le immagini selezionate
+            const newPreviews = newFiles.map((file) => URL.createObjectURL(file));
+    
+            // Imposta lo stato delle anteprime
+            setPreview((prevPreviews) => [...prevPreviews, ...newPreviews]);
+    
+            // Aggiorna anche l'array immagini nel nuovo immobile
+            setNewImmobile((prev) => ({
+                ...prev,
+                immagini: [...prev.immagini, ...newFiles] // Aggiungi le nuove immagini al campo 'immagini'
+            }));
         }
-
+    
+        if (type === "number") {
+            value = parseInt(value);
+        }
+    
         setNewImmobile((prev) => ({
             ...prev,
             [name]: value
-        }))
-    }
+        }));
+    
+        // Resetta l'input file
+        if (fileInputRef.current) {
+            console.log('fileInputRef', fileInputRef);
+            fileInputRef.current.value = "";
+        }
+    };
+    
+        
 
-    const handleSubmit = () => {
-        event.preventDefault()
+    // Funzione per rimuovere una immagine dalla lista
+    const removeImage = (index) => {
+        if (preview) {
+            URL.revokeObjectURL(preview);
+        }
+        setImmagini((prevImmagini) => prevImmagini.filter((_, i) => i !== index));
+        setPreview((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
+       
+    };
+
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+    
         const oggetto = {
             "immobile": {
                 "email_proprietario": newImmobile.email_proprietario,
@@ -108,12 +153,13 @@ function CreatePage() {
                 "posti_letto": newImmobile.posti_letto,
             },
             "tipi_alloggio": tipiAlloggioSelezionati.map((alloggio) => alloggio.id),
-
-            "immagini": newImmobile.immagini
-        }
-
+    
+            "immagini": newImmobile.immagini // Aggiungi le immagini al corpo della richiesta
+        };
+    
         setDebug(oggetto);
-
+    
+        // Invia i dati con le immagini al server
         axios.post(`${apiUrl}/immobili`, oggetto, {
             headers: {
                 "Content-type": "multipart/form-data",
@@ -121,19 +167,20 @@ function CreatePage() {
         }).then((resp) => {
             setAlertMessage('Immobile inserito con successo!');
             setAlertType('success');
-            return console.log("success", resp);
+            console.log("success", resp);
         }).catch((err) => {
             setAlertMessage('Si è verificato un problema.');
             setAlertType('danger');
-            return console.error("error", err);
-        })
+            console.error("error", err);
+        });
+    };
 
-    }
 
     console.log("debug", debug);
     console.log("newImmobile", newImmobile);
     console.log("tipiAlloggioSelezionati", tipiAlloggioSelezionati);
     console.log("selectedTipologia", selectedTipologia);
+    console.log("immagini", newImmobile.immagini, debug.immagini);
     return (
         <main>
             <h1 className="text-center pt-3 pb-4">Inserisci i dettagli del tuo immobile</h1>
@@ -191,12 +238,12 @@ function CreatePage() {
                     </div>
 
                     <label className="mt-3" htmlFor="tipi_alloggio">
-                            Tipo di Alloggio
-                        </label>
+                        Tipo di Alloggio
+                    </label>
                     <div className="mt-3 d-flex gap-2">
-                        
+
                         <select
-                        className="form-select"
+                            className="form-select"
                             id="tipi_alloggio"
                             value={selectedTipologia}
                             onChange={handleSelectChange}
@@ -212,27 +259,13 @@ function CreatePage() {
                             Aggiungi
                         </button>
                     </div>
-
-                    <div className="container mt-4 d-flex flex-column">
-                        <h2>Carica immagini dell'immobile</h2>
-                        <p>La prima immagine inserita sarà utilizzata come copertina del post.</p>
-
-                        <label for="fileInput" className="form-label">Scegli un file</label>
-                        <div className="mb-3 d-flex justify-content-center align-items-center gap-2 row">
-                            
-                            <input type="file" className="form-control" id="fileInput" multiple />
-                            <button className="btn btn-primary" onclick="submitForm()">Aggiungi Immagine</button>
-                        </div>
-                        <div id="fileHelp" className="form-text mb-5">Puoi caricare uno o più file.</div>
-
-                    </div>
-
-                    <div>
+                    <div className="d-flex gap-3  my-2">
                         {tipiAlloggioSelezionati.map((tipologia) => (
-                            <div key={tipologia.id}>
+                            <div className=" d-flex align-items-center flex-row gap-2" key={tipologia.id}>
                                 <span>{tipologia.nome_tipo_alloggio}</span>
                                 <button
                                     type="button"
+                                    className="btn btn-danger"
                                     onClick={() => removeTipologia(tipologia.id)}
                                 >
                                     x
@@ -240,7 +273,45 @@ function CreatePage() {
                             </div>
                         ))}
                     </div>
-                    <button type="submit" className="btn btn-success mt-2">Crea nuovo immobile</button>
+
+
+                    <div className="container mt-4 d-flex flex-column mb-5">
+                        <h2>Carica immagini dell'immobile</h2>
+                        <p>La prima immagine inserita sarà utilizzata come copertina del post.</p>
+
+                        <label htmlFor="fileInput" className="form-label">Scegli un file</label>
+                        <div className="mb-3 d-flex justify-content-center align-items-center gap-2 row">
+                            <input
+                                type="file"
+                                className="form-control"
+                                id="fileInput"
+                                multiple
+                                onChange={handleChange}  // Gestisci l'evento quando il file viene selezionato
+                            />
+                        </div>
+                        <div id="fileHelp" className="form-text mb-5">Puoi caricare uno o più file.</div>
+
+                        {/* Contenitore per le anteprime delle immagini */}
+                        <div className="d-flex flex-wrap gap-3">
+                            { preview && preview.map((image, index) => (
+                                <div key={index} className="position-relative" style={{ width: "150px", height: "150px" }}>
+                                    <img src={image} alt={`Anteprima immagine ${index + 1}`} className="img-fluid" style={{ objectFit: "cover", width: "100%", height: "100%" }} />
+                                    {/* Pulsante X per rimuovere l'immagine */}
+                                    <button
+                                        type="button"
+                                        className="btn btn-danger position-absolute top-0 end-0 m-1"
+                                        onClick={() => removeImage(index)}
+                                        style={{ borderRadius: "50%" }}
+                                    >
+                                        <span className="text-white">&times;</span>
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    
+                    <button type="submit" className="btn btn-success mt-2 mb-5">+ Crea nuovo immobile</button>
                 </form>
             </section>
         </main>

@@ -37,19 +37,15 @@ function PaginaDettaglio() {
 
     //Implemento le stelle per il rating dell'immobile
 
-    const voto = immobile.immobile.recensioni[0].voto;
-    const votoMedio = immobile.immobile.voto_medio;
-
-
     const renderStars = (voto) => {
         const fullStars = Math.ceil(voto);
         const emptyStars = 5 - fullStars;
         const stars = [];
         for (let i = 0; i < fullStars; i++) {
-            stars.push(<i key={i} className="fa-solid fa-star"></i>);
+            stars.push(<i key={`full-${i}`} className="fa-solid fa-star"></i>); 
         }
         for (let i = 0; i < emptyStars; i++) {
-            stars.push(<i key={i} className="fa-regular fa-star"></i>);
+            stars.push(<i key={`empty-${i}`} className="fa-regular fa-star"></i>); 
         }
         return stars;
     };
@@ -157,8 +153,9 @@ function PaginaDettaglio() {
                             </span>
                         </div>
                         <div className="align-items-center d-flex flex-column justify-content-center px-3">
-                            <span className="justify-content-center"><strong>Voto medio</strong></span>
-                            <span>{renderStars(votoMedio)} {votoMedio} su 5</span>
+                            <span className="justify-content-center"><strong>Voto medio </strong></span>
+                            {renderStars(immobile.voto_medio)}
+
                         </div>
                     </div>
                     <div className="card">
@@ -169,7 +166,11 @@ function PaginaDettaglio() {
                                         .replace(/_/g, ' ')  // Sostituisci gli underscore con uno spazio
                                         .replace(/\b\w/g, letter => letter.toUpperCase())}
                                     </h3>
-                                    <span>{renderStars(voto)} {voto} su 5</span>
+                                    <span>
+                                        {Array.from({ length: Math.round(immobile?.immobile?.voto_medio || 0) }, (_, i) => (
+                                            <i key={i} className="fas fa-star"></i>
+                                        ))} {immobile?.immobile?.voto_medio || 0} su 5
+                                    </span>
                                 </div>
                                 <div className="card-body fw-medium">
                                     <span>{curRecensione.recensione}</span> <br />

@@ -15,19 +15,7 @@ function SearchPage() {
 
     const backEndUrl = import.meta.env.VITE_API_URL;
 
-    //Implemento le stelle per il rating dell'immobile
-    const renderStars = (voto) => {
-        const fullStars = Math.ceil(vote / 2);
-        const emptyStars = 5 - fullStars;
-        const stars = [];
-        for (let i = 0; i < fullStars; i++) {
-            stars.push(<FontAwesomeIcon key={`full-${i}`} icon={faStar} style={{ color: '#ffc107' }} />);
-        }
-        for (let i = 0; i < emptyStars; i++) {
-            stars.push(<FontAwesomeIcon key={`empty-${i}`} icon={faStar} style={{ color: '#e4e5e9' }} />);
-        }
-        return stars;
-    };
+    
 
     const getImmobili = () => {
         axios
@@ -61,12 +49,28 @@ function SearchPage() {
         getImmobili();
     };
 
-    const handleKeyPress = (event) => {
+    const handleKeyPress = () => {
         if (event.key === "Enter") {
             event.preventDefault();
             handleSearch();
         }
     };
+
+    //Implemento le stelle per il rating dell'immobile
+    
+    const renderStars = (voto) => {
+        const fullStars = Math.ceil(voto);
+        const emptyStars = 5 - fullStars;
+        const stars = [];
+        for (let i = 0; i < fullStars; i++) {
+            stars.push(<FontAwesomeIcon key={`full-${i}`} icon={faStar} style={{ color: '#ffc107' }} />);
+        }
+        for (let i = 0; i < emptyStars; i++) {
+            stars.push(<FontAwesomeIcon key={`empty-${i}`} icon={faStar} style={{ color: '#e4e5e9' }} />);
+        }
+        return stars;
+    };
+    
 
     //default image
     const defaultImage = "../images/placeholder.webp";
@@ -137,11 +141,14 @@ function SearchPage() {
                                         style={{ minHeight: "80px" }}
                                     >
                                         <h5 className="m-0">{immobile.titolo_descrittivo}</h5>
-                                        {/* <span><p><strong>Voto:</strong> {renderStars(result.vote)}</p></span> */}
+                                        
                                     </div>
                                     <div className="card-body d-flex flex-column flex-grow-1 text-center">
                                         <p className="flex-grow-1">{immobile.descrizione}</p>
                                         <p className="flex-grow-1">
+                                        
+                                        <p><strong>Voto:</strong> {renderStars(immobile.voto_medio)}</p>
+
                                             <strong>Indirizzo: </strong>
                                             {immobile.indirizzo_completo}
                                         </p>

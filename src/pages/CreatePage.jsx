@@ -133,7 +133,7 @@ function CreatePage() {
     console.log("selectedTipologia", selectedTipologia);
     return (
         <>
-            <h1 className="text-center pt-3 pb-5">Inserisci i dettagli del tuo immobile</h1>
+            <h1 className="text-center pt-3 pb-4">Inserisci i dettagli del tuo immobile</h1>
             <section className='d-flex justify-content-center align-items-center flex-column'>
 
                 {alertMessage && (
@@ -150,7 +150,7 @@ function CreatePage() {
                     </div>
                 )}
                 <form onSubmit={handleSubmit} className="text-center">
-                    <div className="form-group mt-2">
+                    <div className="form-group">
                         <label htmlFor="email">Indirizzo email</label>
                         <input type="email" className="form-control" id="email" name="email_proprietario" onChange={handleChange} />
                     </div>
@@ -221,7 +221,7 @@ function CreatePage() {
                             </div>
                         ))}
                     </div>
-                    <button type="submit" className="btn btn-primary mt-2">Invia</button>
+                    <button type="submit" className="btn secondary mt-2">Invia</button>
                 </form>
             </section>
         </>

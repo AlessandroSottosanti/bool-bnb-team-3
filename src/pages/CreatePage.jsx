@@ -86,7 +86,7 @@ function CreatePage() {
     const handleChange = (event) => {
         console.log("event.target.type", event.target.type);
     
-        const { name, value, type, files } = event.target;
+        let { name, value, type, files } = event.target;
     
         if (type === "file") {
             // Converte i file selezionati in un array
@@ -186,19 +186,7 @@ function CreatePage() {
             <h1 className="text-center pt-3 pb-4">Inserisci i dettagli del tuo immobile</h1>
             <section className='d-flex justify-content-center align-items-center flex-column'>
 
-                {alertMessage && (
-                    <div
-                        className={`alert alert-${alertType} alert-dismissible fade show`}
-                        role="alert"
-                    >
-                        {alertMessage}
-                        <button
-                            type="button"
-                            className="btn-close"
-                            data-bs-dismiss="alert"
-                        ></button>
-                    </div>
-                )}
+               
                 <form onSubmit={handleSubmit} className="text-center">
                     <div className="form-group">
                         <label htmlFor="email">Indirizzo email</label>
@@ -313,6 +301,20 @@ function CreatePage() {
                     
                     <button type="submit" className="btn btn-success mt-2 mb-5">+ Crea nuovo immobile</button>
                 </form>
+
+                {alertMessage && (
+                    <div
+                        className={`alert alert-${alertType} alert-dismissible fade show`}
+                        role="alert"
+                    >
+                        {alertMessage}
+                        <button
+                            type="button"
+                            className="btn-close"
+                            data-bs-dismiss="alert"
+                        ></button>
+                    </div>
+                )}
             </section>
         </main>
     )

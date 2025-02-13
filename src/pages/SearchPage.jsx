@@ -14,7 +14,7 @@ function SearchPage() {
 
     const backEndUrl = import.meta.env.VITE_API_URL;
 
-    
+
 
     const getImmobili = () => {
         axios
@@ -56,7 +56,7 @@ function SearchPage() {
     };
 
     //Implemento le stelle per il rating dell'immobile
-    
+
     const renderStars = (voto) => {
         const fullStars = Math.ceil(voto);
         const emptyStars = 5 - fullStars;
@@ -69,7 +69,7 @@ function SearchPage() {
         }
         return stars;
     };
-    
+
 
     //default image
     const defaultImage = "../images/placeholder.webp";
@@ -140,17 +140,20 @@ function SearchPage() {
                                         style={{ minHeight: "80px" }}
                                     >
                                         <h5 className="m-0">{immobile.titolo_descrittivo}</h5>
-                                        
+
                                     </div>
                                     <div className="card-body d-flex flex-column flex-grow-1 text-center">
-                                        <p className="flex-grow-1">{immobile.descrizione}</p>
-                                        <p className="flex-grow-1">
                                         
-                                        <p><strong>Voto:</strong> {renderStars(immobile.voto_medio)}</p>
+                                        <p className="flex-grow-1">
+                                            <strong>Descrizione:</strong>
+                                            <p>{immobile.descrizione}</p>
+                                        </p>
 
+                                        <p className="flex-grow-1">
                                             <strong>Indirizzo: </strong>
                                             {immobile.indirizzo_completo}
                                         </p>
+
                                         <p className="flex-grow-1">
                                             <strong>Numero di stanze: </strong>
                                             {immobile.locali}
@@ -169,6 +172,12 @@ function SearchPage() {
                                             <strong>Mq: </strong>
                                             {immobile.mq}
                                         </p>
+
+                                        <span className="d-flex align-items-center justify-content-center gap-1 mb-3">
+                                                <strong>Voto:</strong>
+                                                {renderStars(immobile.voto_medio)}
+                                        </span>
+
                                         <Link
                                             to={`/${immobile.slug}`}
                                             className="btn btn-secondary"

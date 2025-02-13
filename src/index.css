@@ -19,3 +19,32 @@ main{
   min-height: 100vh;
 }
 
+.navbar {
+  color: white;
+}
+
+.footer {
+ background-color: #6c757d; 
+ font-size: 0.8rem;
+}
+
+.link-utili{
+ font-size: 1rem;
+}
+
+.lavora-con-noi {
+  font-size: 1rem;
+ }
+
+ .navbar-toggler {
+  border: 1px solid white;
+ }
+
+ .fa-bars {
+  color: whitesmoke;
+ }
+
+ .navbar-toggler:focus {
+  outline: none; /* Rimuove l'outline di default */
+  box-shadow: 0 0 0 2px white; /* Aggiunge un box-shadow personalizzato al bottone cliccato (esempio di colore arancione) */
+}

@@ -36,7 +36,7 @@ function HomePage() {
   const defaultImage = "../images/placeholder.webp";
 
   return (
-    <>
+    <main>
       <h1 className="text-center my-3">Immobili</h1>
       <div className="text-center mb-3">
         <h5 className="mb-3">
@@ -84,7 +84,7 @@ function HomePage() {
             })}
         </div>
       </div>
-    </>
+    </main>
   );
 }
 

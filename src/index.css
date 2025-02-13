@@ -10,3 +10,12 @@
   font-weight: 500;
   color: rgb(197, 197, 197);
 }
+
+.fa-heart{
+  color: red;
+}
+
+main{
+  min-height: 100vh;
+}
+

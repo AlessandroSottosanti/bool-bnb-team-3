@@ -54,7 +54,7 @@ function PaginaDettaglio() {
     };
 
     return (
-        <>
+        <main>
             <section className="container my-3">
                 <div id="immobile">
                     <div id="title" className="d-flex py-2">
@@ -170,7 +170,7 @@ function PaginaDettaglio() {
                     </div>
                 </div>
             </section >
-        </>
+        </main>
     );
 }
 

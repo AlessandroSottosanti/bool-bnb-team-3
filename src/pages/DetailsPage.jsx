@@ -44,10 +44,10 @@ function PaginaDettaglio() {
         const emptyStars = 5 - fullStars;
         const stars = [];
         for (let i = 0; i < fullStars; i++) {
-            stars.push(<i class="fa-solid fa-star"></i>);
+            stars.push(<i className="fa-solid fa-star"></i>);
         }
         for (let i = 0; i < emptyStars; i++) {
-            stars.push(<i class="fa-regular fa-star"></i>);
+            stars.push(<i className="fa-regular fa-star"></i>);
         }
         return stars;
     };
@@ -146,8 +146,18 @@ function PaginaDettaglio() {
                 <button id="detail-button" type="button" className="btn btn-secondary"><Link to="/">Torna alla home</Link></button>
                 <div id="recensioni" className="pt-5">
                     <div id="titolo_recensioni" className="d-flex justify-content-between">
-                        <h3 className="pb-2">Recensioni</h3>
-                        <p className="align-self-center  px-3"><strong>Voto medio</strong><br /> {renderStars(immobile.immobile.voto_medio)}</p>
+                        <div className="pb-2">
+                            <h3>Recensioni clienti</h3>
+                            <span>
+                                {immobile?.immobile?.tot_recensioni === 1
+                                    ? `${immobile.immobile.tot_recensioni} valutazione globale`
+                                    : `${immobile.immobile.tot_recensioni} valutazioni globali`}
+                            </span>
+                        </div>
+                        <div className="align-items-center d-flex flex-column justify-content-center px-3">
+                            <span className="justify-content-center"><strong>Voto medio</strong></span>
+                            <span>{renderStars(immobile.immobile.voto_medio)} {immobile.immobile.voto_medio} su 5</span>
+                        </div>
                     </div>
                     <div className="card">
                         {immobile.immobile.recensioni.map((curRecensione, i) => (

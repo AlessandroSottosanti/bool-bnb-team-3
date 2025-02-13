@@ -2,6 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./detailPageCss.css"
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -33,13 +35,31 @@ function PaginaDettaglio() {
     if (caricamento) return <p>Caricamento...</p>;
     if (!immobile) return <p>Elemento non trovato</p>;
 
+    //Implemento le stelle per il rating dell'immobile
+
+    const voto = immobile.immobile.recensioni[0].voto;
+    const votoMedio = immobile.immobile.voto_medio;
+
+    const renderStars = (voto) => {
+        const fullStars = Math.ceil(voto);
+        const emptyStars = 5 - fullStars;
+        const stars = [];
+        for (let i = 0; i < fullStars; i++) {
+            stars.push(<FontAwesomeIcon key={`full-${i}`} icon={faStar} style={{ color: '#ffc107' }} />);
+        }
+        for (let i = 0; i < emptyStars; i++) {
+            stars.push(<FontAwesomeIcon key={`empty-${i}`} icon={faStar} style={{ color: '#e4e5e9' }} />);
+        }
+        return stars;
+    };
+
     return (
         <>
             <section className="container my-3">
                 <div id="immobile">
                     <div id="title" className="d-flex py-2">
                         <h2>
-                            <i className="fa-solid fa-location-dot me-1"></i>
+                            <a href="#descrizione"><i className="fa-solid fa-location-dot me-1"></i></a>
                             {immobile.immobile.titolo_descrittivo}
                         </h2>
                     </div>
@@ -124,17 +144,21 @@ function PaginaDettaglio() {
                         <hr />
                     </div>
                 </div>
-                <button type="button" className="btn btn-secondary"><Link to="/">Torna alla home</Link></button>
+                <button id="detail-button" type="button" className="btn btn-secondary"><Link to="/">Torna alla home</Link></button>
                 <div id="recensioni" className="pt-5">
-                    <h3 className="pb-2">Recensioni</h3>
+                    <div id="titolo_recensioni" className="d-flex justify-content-between">
+                        <h3 className="pb-2">Recensioni</h3>
+                        <p className="align-self-center  px-3"><strong>Voto medio</strong><br /> {renderStars(immobile.immobile.voto_medio)}</p>
+                    </div>
                     <div className="card">
                         {immobile.immobile.recensioni.map((curRecensione, i) => (
                             <div key={i} className="recensione">
-                                <div className="card-header">
+                                <div className="card-header d-flex justify-content-between">
                                     <h3>{curRecensione.username
                                         .replace(/_/g, ' ')  // Sostituisci gli underscore con uno spazio
                                         .replace(/\b\w/g, letter => letter.toUpperCase())}
                                     </h3>
+                                    <p className="align-self-center">{renderStars(votoMedio)}</p>
                                 </div>
                                 <div className="card-body fw-medium">
                                     <span>{curRecensione.recensione}</span> <br />

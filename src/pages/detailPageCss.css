@@ -3,26 +3,43 @@ button a {
     color: white;
 }
 
+#title a {
+    color: inherit;
+}
+
 #carouselExampleIndicators {
     display: flex;
-    /* Abilita il flexbox */
     justify-content: center;
-    /* Centra l'immagine orizzontalmente */
     align-items: center;
-    /* Centra l'immagine verticalmente */
-    width: 100%;
-    /* Imposta la larghezza del contenitore */
+    width: 80%;
     height: 500px;
-    /* Imposta l'altezza del contenitore */
-    overflow: hidden;
-    /* Nasconde la parte in eccesso dell'immagine */
+    overflow: hidden;    /* Nasconde la parte in eccesso dell'immagine */
+    margin: 0 auto;
 }
 
 #carouselExampleIndicators img {
     max-width: 100%;
-    /* Limita la larghezza dell'immagine al 100% */
     max-height: 100%;
-    /* Limita l'altezza dell'immagine al 100% */
     object-fit: contain;
 }
 
+
+@media (max-width: 780px) {
+#detail-button {
+    display: block;
+    margin: 0 auto;
+}
+
+#carouselExampleIndicators {
+    height: auto;
+    margin: 0 auto;
+  }
+
+  #carouselExampleIndicators .carousel-item img {
+    max-height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+}
+  

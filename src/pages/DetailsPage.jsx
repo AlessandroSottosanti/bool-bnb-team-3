@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./detailPageCss.css"
+import ReviewModale from "../components/ReviewModale";
 
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -156,7 +157,11 @@ function PaginaDettaglio() {
                         </div>
                         <div className="align-items-center d-flex flex-column justify-content-center px-3">
                             <span className="justify-content-center"><strong>Voto medio</strong></span>
-                            <span>{renderStars(immobile.immobile.voto_medio)} {immobile.immobile.voto_medio} su 5</span>
+                            <span>
+                                {Array.from({ length: Math.round(immobile?.immobile?.voto_medio || 0) }, (_, i) => (
+                                    <i key={i} className="fas fa-star"></i>
+                                ))} {immobile?.immobile?.voto_medio || 0} su 5
+                            </span>
                         </div>
                     </div>
                     <div className="card">
@@ -167,7 +172,11 @@ function PaginaDettaglio() {
                                         .replace(/_/g, ' ')  // Sostituisci gli underscore con uno spazio
                                         .replace(/\b\w/g, letter => letter.toUpperCase())}
                                     </h3>
-                                    <p className="align-self-center">{renderStars(votoMedio)}</p>
+                                    <span>
+                                        {Array.from({ length: Math.round(immobile?.immobile?.voto_medio || 0) }, (_, i) => (
+                                            <i key={i} className="fas fa-star"></i>
+                                        ))} {immobile?.immobile?.voto_medio || 0} su 5
+                                    </span>
                                 </div>
                                 <div className="card-body fw-medium">
                                     <span>{curRecensione.recensione}</span> <br />
@@ -177,6 +186,9 @@ function PaginaDettaglio() {
                             </div>
                         ))}
                     </div>
+                </div>
+                <div id="nuova_recensione">
+                    <ReviewModale />
                 </div>
             </section >
         </main>

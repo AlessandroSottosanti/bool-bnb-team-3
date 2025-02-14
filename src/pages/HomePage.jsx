@@ -18,8 +18,11 @@ function HomePage() {
     axios
       .get(`${apiUrl}/immobili`)
       .then((resp) => {
+        const immobiliWithLikes = resp.data.immobili.map((immobili) => {
+          return { ...immobili, heartCount: 0 };
+        })
         console.log(resp);
-        setImmobili(resp.data.immobili);
+        setImmobili(immobiliWithLikes);
         console.log("Response get immobili:", {
           success: true,
           data: resp.data.results,
@@ -48,6 +51,19 @@ function HomePage() {
       handleSearch();
     }
   };
+
+  const handleLike = (id) => {
+    setImmobili((prevImmobili) => {
+      const updated = prevImmobili.map((immobili) => {
+        if (immobili.id === id) {
+          return { ...immobili, heartCount: immobili.heartCount + 1 }
+        }
+        return immobili
+      })
+      updated.sort((a, b) => b.heartCount - a.heartCount)
+      return updated
+    })
+  }
 
   //default image
   const defaultImage = "../images/placeholder.webp";
@@ -105,6 +121,10 @@ function HomePage() {
                       </div>
                       <div className="card-body d-flex flex-column flex-grow-1 text-center">
                         <p className="flex-grow-1">{immobile.descrizione}</p>
+                        <div className="d-flex justify-content-center align-items-center mb-2">
+                          <button className="btn btn-outline-danger me-2" onClick={() => handleLike(immobile.id)}>❤️</button>
+                          <span>{immobile.heartCount}</span>
+                        </div>
                         <Link
                           to={`/${immobile.slug}`}
                           className="btn btn-secondary"

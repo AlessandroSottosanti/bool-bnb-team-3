@@ -41,6 +41,14 @@ function HomePage() {
     }
   };
 
+  //funzione enter
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleSearch();
+    }
+  };
+
   //default image
   const defaultImage = "../images/placeholder.webp";
 
@@ -59,12 +67,13 @@ function HomePage() {
                 placeholder="Cerca per città..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                onKeyUp={handleKeyPress}
               />
               <button className="btn btn-secondary ms-2" onClick={handleSearch}>Cerca</button>
             </div>
           </div>
           {/* Aggiunta di immobile */}
-          <div className="mb-3 flex-grow-1 d-flex flex-column align-items-center">
+          <div className="mb-3 flex-grow-1 d-flex flex-column align-items-center text-center">
             <h5 className="mb-3">Vuoi aggiungere un immobile?</h5>
             <Link to="/create" className="btn btn-secondary">
               Aggiungi

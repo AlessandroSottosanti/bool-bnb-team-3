@@ -206,7 +206,7 @@ function CreatePage() {
                     </div>
                     <div className="form-group mt-2">
                         <label htmlFor="metriQuadri">Metri quadri</label>
-                        <input type="number" className="form-control" id="metriQuadri" name="mq" min="0" step="1" onChange={handleChange} />
+                        <input type="number" className="form-control" id="metriQuadri" name="mq" min="0" max="" step="1" onChange={handleChange} />
                     </div>
                     <div className="form-group mt-2">
                         <label htmlFor="numLocali">Numero locali</label>

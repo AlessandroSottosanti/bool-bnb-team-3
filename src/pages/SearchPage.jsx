@@ -69,6 +69,8 @@ function SearchPage() {
     setSearchCity(search);
   };
 
+  //Funzione per  invio dati da tastiera
+
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();

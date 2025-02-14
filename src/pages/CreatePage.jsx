@@ -133,7 +133,7 @@ function CreatePage() {
         }
         setImmagini((prevImmagini) => prevImmagini.filter((_, i) => i !== index));
         setPreview((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
-       
+        setNewImmobile({...newImmobile, immagini: []})
     };
 
 

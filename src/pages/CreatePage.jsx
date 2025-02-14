@@ -168,16 +168,10 @@ function CreatePage() {
             setAlertMessage('Immobile inserito con successo!');
             setAlertType('success');
             console.log("success", resp);
-            setTimeout(() => {
-                setAlertMessage('');
-            }, 3000);
         }).catch((err) => {
             setAlertMessage('Si è verificato un problema.');
             setAlertType('danger');
             console.error("error", err);
-            setTimeout(() => {
-                setAlertMessage('');
-            }, 3000);
         });
     };
 

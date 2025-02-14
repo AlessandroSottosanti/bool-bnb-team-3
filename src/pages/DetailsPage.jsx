@@ -35,6 +35,9 @@ function PaginaDettaglio() {
     if (caricamento) return <p>Caricamento...</p>;
     if (!immobile) return <p>Elemento non trovato</p>;
 
+    const alloggio = immobile.tipi_alloggio[0].nome_tipo_alloggio;
+
+
     //Implemento le stelle per il rating dell'immobile
 
     const renderStars = (voto) => {
@@ -42,10 +45,10 @@ function PaginaDettaglio() {
         const emptyStars = 5 - fullStars;
         const stars = [];
         for (let i = 0; i < fullStars; i++) {
-            stars.push(<i key={`full-${i}`} className="fa-solid fa-star"></i>); 
+            stars.push(<i key={`full-${i}`} className="fa-solid fa-star"></i>);
         }
         for (let i = 0; i < emptyStars; i++) {
-            stars.push(<i key={`empty-${i}`} className="fa-regular fa-star"></i>); 
+            stars.push(<i key={`empty-${i}`} className="fa-regular fa-star"></i>);
         }
         return stars;
     };
@@ -132,6 +135,11 @@ function PaginaDettaglio() {
                                     <i className="fa-solid fa-bed"></i> Posti letto: {immobile.immobile.posti_letto}
                                 </p>
                             </div>
+                            <div className="col-6">
+                                <p>
+                                    <i className="fa-solid fa-house-chimney"></i> Tipo di alloggio: {alloggio}
+                                </p>
+                            </div>
                         </div>
                         <hr />
                         <div id="info" className="py-2">
@@ -141,7 +149,6 @@ function PaginaDettaglio() {
                         <hr />
                     </div>
                 </div>
-                <button id="detail-button" type="button" className="btn btn-secondary"><Link to="/">Torna alla home</Link></button>
                 <div id="recensioni" className="pt-5">
                     <div id="titolo_recensioni" className="d-flex justify-content-between">
                         <div className="pb-2">
@@ -153,39 +160,43 @@ function PaginaDettaglio() {
                             </span>
                         </div>
                         <div className="align-items-center d-flex flex-column justify-content-center px-3">
-                            <span className="justify-content-center"><strong>Voto medio </strong></span>
-                            {renderStars(immobile.voto_medio)}
+                            <span className="justify-content-center"><strong>Voto medio</strong></span>
+                            <span>
+                                {renderStars(immobile.immobile.voto_medio)} {immobile.immobile.voto_medio} su 5
+                            </span>
 
                         </div>
                     </div>
-                    <div className="card">
-                        {immobile.immobile.recensioni.map((curRecensione, i) => (
-                            <div key={i} className="recensione">
-                                <div className="card-header d-flex justify-content-between">
-                                    <h3>{curRecensione.username
-                                        .replace(/_/g, ' ')  // Sostituisci gli underscore con uno spazio
-                                        .replace(/\b\w/g, letter => letter.toUpperCase())}
-                                    </h3>
-                                    <span>
-                                        {Array.from({ length: Math.round(immobile?.immobile?.voto_medio || 0) }, (_, i) => (
-                                            <i key={i} className="fas fa-star"></i>
-                                        ))} {immobile?.immobile?.voto_medio || 0} su 5
+                </div>
+                <div className="recensione">
+                    {immobile.immobile.recensioni.map((curRecensione, i) => (
+                        <div key={i} className="card mb-3">
+                            <div className="card-header d-flex justify-content-between align-items-center">
+                                <h3>{curRecensione.username
+                                    .replace(/_/g, ' ')  // Sostituisci gli underscore con uno spazio
+                                    .replace(/\b\w/g, letter => letter.toUpperCase())}
+                                </h3>
+                                <div className="d-flex align-items-center flex-column">
+                                    <span className="px-1">
+                                        {renderStars(curRecensione.voto)} {curRecensione.voto} su 5
                                     </span>
-                                </div>
-                                <div className="card-body fw-medium">
-                                    <span>{curRecensione.recensione}</span> <br />
-                                    <span>Voto: {curRecensione.voto}</span>
-                                    <p>Recensione del: {new Date(curRecensione.data).toLocaleDateString()}</p>
+                                    <span></span>
+                                    <span>Recensione del: {new Date(curRecensione.data).toLocaleDateString()}</span>
                                 </div>
                             </div>
-                        ))}
-                    </div>
+                            <div className="card-body fw-medium">
+                                <span>{curRecensione.recensione}</span> <br />
+
+                            </div>
+                        </div>
+                    ))}
                 </div>
-                <div id="nuova_recensione">
+                <div id="nuova_recensione" className="d-flex py-3">
                     <ReviewModale />
+                    <button id="detail-button" type="button" className="open-modal-btn btn-secondary mx-2"><Link to="/">Torna alla home</Link></button>
                 </div>
             </section >
-        </main>
+        </main >
     );
 }
 

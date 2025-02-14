@@ -172,6 +172,13 @@ function CreatePage() {
             }, 100);
         }
 
+        const alertTimeout = () => {
+            setTimeout(() => {
+                setAlertMessage(null);
+                setAlertType(null);
+            }, 3000)
+        }
+
         // Invia i dati con le immagini al server
         axios.post(`${apiUrl}/immobili`, oggetto, {
             headers: {
@@ -181,11 +188,13 @@ function CreatePage() {
             setAlertMessage('Immobile inserito con successo!');
             setAlertType('success');
             scrollToAlert()
+            alertTimeout()
             console.log("success", resp);
         }).catch((err) => {
             setAlertMessage('Si è verificato un problema.');
             setAlertType('danger');
             scrollToAlert()
+            alertTimeout()
             console.error("error", err);
         });
     };

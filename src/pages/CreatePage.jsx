@@ -168,10 +168,16 @@ function CreatePage() {
             setAlertMessage('Immobile inserito con successo!');
             setAlertType('success');
             console.log("success", resp);
+            setTimeout(() => {
+                setAlertMessage('');
+            }, 3000);
         }).catch((err) => {
             setAlertMessage('Si è verificato un problema.');
             setAlertType('danger');
             console.error("error", err);
+            setTimeout(() => {
+                setAlertMessage('');
+            }, 3000);
         });
     };
 
@@ -277,7 +283,7 @@ function CreatePage() {
                                 onChange={handleChange}  // Gestisci l'evento quando il file viene selezionato
                             />
                         </div>
-                        <div id="fileHelp" className="form-text mb-5">Puoi caricare uno o più file.</div>
+                        <div id="fileHelp" className="form-text mb-5">Puoi caricare uno o più file con un massimo di 30</div>
 
                         {/* Contenitore per le anteprime delle immagini */}
                         <div className="d-flex flex-wrap gap-3">

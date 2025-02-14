@@ -27,6 +27,9 @@ function CreatePage() {
     const [preview, setPreview] = useState([]);
     const [previews, setPreviews] = useState([]);
     const fileInputRef = useRef(null); // Ref per l'input file
+    const alertRef = useRef(null)
+
+
 
 
     const initForm = {
@@ -85,46 +88,46 @@ function CreatePage() {
 
     const handleChange = (event) => {
         console.log("event.target.type", event.target.type);
-    
+
         let { name, value, type, files } = event.target;
-    
+
         if (type === "file") {
-            // Converte i file selezionati in un array
+            // Converte i file selezionati in un array  
             const newFiles = Array.from(files);
-    
+
             // Aggiungi i nuovi file all'array esistente delle immagini
             setImmagini((prevImmagini) => [...prevImmagini, ...newFiles]);
-    
+
             // Crea un nuovo array di anteprime per tutte le immagini selezionate
             const newPreviews = newFiles.map((file) => URL.createObjectURL(file));
-    
+
             // Imposta lo stato delle anteprime
             setPreview((prevPreviews) => [...prevPreviews, ...newPreviews]);
-    
+
             // Aggiorna anche l'array immagini nel nuovo immobile
             setNewImmobile((prev) => ({
                 ...prev,
                 immagini: [...prev.immagini, ...newFiles] // Aggiungi le nuove immagini al campo 'immagini'
             }));
         }
-    
+
         if (type === "number") {
             value = parseInt(value);
         }
-    
+
         setNewImmobile((prev) => ({
             ...prev,
             [name]: value
         }));
-    
+
         // Resetta l'input file
         if (fileInputRef.current) {
             console.log('fileInputRef', fileInputRef);
             fileInputRef.current.value = "";
         }
     };
-    
-        
+
+
 
     // Funzione per rimuovere una immagine dalla lista
     const removeImage = (index) => {
@@ -133,13 +136,15 @@ function CreatePage() {
         }
         setImmagini((prevImmagini) => prevImmagini.filter((_, i) => i !== index));
         setPreview((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
-       
+
     };
+
+
 
 
     const handleSubmit = (event) => {
         event.preventDefault();
-    
+
         const oggetto = {
             "immobile": {
                 "email_proprietario": newImmobile.email_proprietario,
@@ -153,12 +158,20 @@ function CreatePage() {
                 "posti_letto": newImmobile.posti_letto,
             },
             "tipi_alloggio": tipiAlloggioSelezionati.map((alloggio) => alloggio.id),
-    
+
             "immagini": newImmobile.immagini // Aggiungi le immagini al corpo della richiesta
         };
-    
+
         setDebug(oggetto);
-    
+
+        const scrollToAlert = () => {
+            setTimeout(() => {
+                if (alertRef.current) {
+                    alertRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+                }
+            }, 100);
+        }
+
         // Invia i dati con le immagini al server
         axios.post(`${apiUrl}/immobili`, oggetto, {
             headers: {
@@ -167,10 +180,12 @@ function CreatePage() {
         }).then((resp) => {
             setAlertMessage('Immobile inserito con successo!');
             setAlertType('success');
+            scrollToAlert()
             console.log("success", resp);
         }).catch((err) => {
             setAlertMessage('Si è verificato un problema.');
             setAlertType('danger');
+            scrollToAlert()
             console.error("error", err);
         });
     };
@@ -186,7 +201,7 @@ function CreatePage() {
             <h1 className="text-center pt-3 pb-4">Inserisci i dettagli del tuo immobile</h1>
             <section className='d-flex justify-content-center align-items-center flex-column'>
 
-               
+
                 <form onSubmit={handleSubmit} className="text-center">
                     <div className="form-group">
                         <label htmlFor="email">Indirizzo email</label>
@@ -281,7 +296,7 @@ function CreatePage() {
 
                         {/* Contenitore per le anteprime delle immagini */}
                         <div className="d-flex flex-wrap gap-3">
-                            { preview && preview.map((image, index) => (
+                            {preview && preview.map((image, index) => (
                                 <div key={index} className="position-relative" style={{ width: "150px", height: "150px" }}>
                                     <img src={image} alt={`Anteprima immagine ${index + 1}`} className="img-fluid" style={{ objectFit: "cover", width: "100%", height: "100%" }} />
                                     {/* Pulsante X per rimuovere l'immagine */}
@@ -298,7 +313,7 @@ function CreatePage() {
                         </div>
                     </div>
 
-                    
+
                     <button type="submit" className="btn btn-success mt-2 mb-5">+ Crea nuovo immobile</button>
                 </form>
 
@@ -306,6 +321,7 @@ function CreatePage() {
                     <div
                         className={`alert alert-${alertType} alert-dismissible fade show`}
                         role="alert"
+                        ref={alertRef}
                     >
                         {alertMessage}
                         <button

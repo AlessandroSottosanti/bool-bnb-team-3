@@ -102,167 +102,124 @@ function SearchPage() {
 
     return (
         <main>
-            <div className="text-center">
+             <div className="text-center">
                 <h1 className="mt-3">Ricerca Avanzata</h1>
             </div>
 
-            <div className="col-12 col-md-4">
-                <label htmlFor="ricerca" className="mx-5">
-                    <strong>Inserisci una città o un indirizzo</strong>
-                </label>
-                <input
-                    className="form-control w-25 mx-5"
-                    id="ricerca"
-                    type="search"
-                    value={search}
-                    onChange={(event) => setSearch(event.target.value)}
-                    onKeyUp={handleKeyPress}
-                />
-
-
-                <label htmlFor="postiLetto" className="mx-5 mt-3">
-                    <strong>Numero minimo di posti letto</strong>
-                </label>
-                <input
-                    className="form-control w-25 mx-5"
-                    id="postiLetto"
-                    type="number"
-                    value={postiLetto}
-                    onChange={(event) => setPostiLetto(event.target.value)}
-                    onKeyUp={handleKeyPress}
-                />
-
-                <label htmlFor="tipologia" className="mx-5 mt-3">
-                    <strong>Tipi di immobile</strong>
-                </label>
-                <input
-                    className="form-control w-25 mx-5"
-                    id="tipiAlloggio"
-                    type="text"
-                    value={tipiAlloggio}
-                    onChange={(event) => setTipiAlloggio(event.target.value)}
-                    onKeyUp={handleKeyPress}
-                />
-
-                <label htmlFor="tipologia" className="mx-5 mt-3">
-                    <strong>Numero Locali</strong>
-                </label>
-                <input
-                    className="form-control w-25 mx-5"
-                    id="NumeroLocali"
-                    type="number"
-                    value={postiLocali}
-                    onChange={(event) => setPostiLocali(event.target.value)}
-                    onKeyUp={handleKeyPress}
-                />
-
-                <label htmlFor="tipologia" className="mx-5 mt-3">
-                    <strong>Numero Bagni</strong>
-                </label>
-                <input
-                    className="form-control w-25 mx-5"
-                    id="NumeroBagni"
-                    type="number"
-                    value={postiBagno}
-                    onChange={(event) => setPostiBagno(event.target.value)}
-                    onKeyUp={handleKeyPress}
-                />
-
-                <label htmlFor="postiLetto" className="mx-5 mt-3">
-                    <strong>Superficie minima</strong>
-                </label>
-                <input
-                    className="form-control w-25 mx-5"
-                    id="SuperficieMinima"
-                    type="number"
-                    value={superficieMinima}
-                    onChange={(event) => setSuperficieMinima(event.target.value)}
-                    onKeyUp={handleKeyPress}
-                />
-
-
-                <label htmlFor="postiLetto" className="mx-5 mt-3">
-                    <strong>Superficie massima</strong>
-                </label>
-                <input
-                    className="form-control w-25 mx-5"
-                    id="Superficie massima"
-                    type="number"
-                    value={superficieMassima}
-                    onChange={(event) => setSuperficieMassima(event.target.value)}
-                    onKeyUp={handleKeyPress}
-                />
+            <div className="container mt-4">
+                <div className="row g-1">
+                    <div className="col-12 d-flex flex-column align-items-center">
+                        <label htmlFor="ricerca"><strong>Città o Indirizzo</strong></label>
+                        <input
+                            className="form-control w-100 custom-width-city"
+                            id="ricerca"
+                            type="search"
+                            value={search}
+                            onChange={(event) => setSearch(event.target.value)}
+                            onKeyUp={handleKeyPress}
+                        />
+                    </div>
+                    <div className="col-12 col-md-4 d-flex flex-column align-items-center">
+                        <label htmlFor="postiLetto"><strong>Numero di posti letto</strong></label>
+                        <input
+                            className="form-control w-100 custom-width"
+                            id="postiLetto"
+                            type="number"
+                            value={postiLetto}
+                            onChange={(event) => setPostiLetto(event.target.value)}
+                            onKeyUp={handleKeyPress}
+                        />
+                    </div>
+                    <div className="col-12 col-md-4 d-flex flex-column align-items-center">
+                        <label htmlFor="tipiAlloggio"><strong>Tipologia immobile</strong></label>
+                        <input
+                            className="form-control w-100 custom-width"
+                            id="tipiAlloggio"
+                            type="text"
+                            value={tipiAlloggio}
+                            onChange={(event) => setTipiAlloggio(event.target.value)}
+                            onKeyUp={handleKeyPress}
+                        />
+                    </div>
+                    <div className="col-12 col-md-4 d-flex flex-column align-items-center">
+                        <label htmlFor="NumeroLocali"><strong>Numero Locali</strong></label>
+                        <input
+                            className="form-control w-100 custom-width"
+                            id="NumeroLocali"
+                            type="number"
+                            value={postiLocali}
+                            onChange={(event) => setPostiLocali(event.target.value)}
+                            onKeyUp={handleKeyPress}
+                        />
+                    </div>
+                    <div className="col-12 col-md-4 d-flex flex-column align-items-center">
+                        <label htmlFor="NumeroBagni"><strong>Numero Bagni</strong></label>
+                        <input
+                            className="form-control w-100 custom-width"
+                            id="NumeroBagni"
+                            type="number"
+                            value={postiBagno}
+                            onChange={(event) => setPostiBagno(event.target.value)}
+                            onKeyUp={handleKeyPress}
+                        />
+                    </div>
+                    <div className="col-12 col-md-4 d-flex flex-column align-items-center">
+                        <label htmlFor="SuperficieMinima"><strong>Superficie minima</strong></label>
+                        <input
+                            className="form-control w-100 custom-width"
+                            id="SuperficieMinima"
+                            type="number"
+                            value={superficieMinima}
+                            onChange={(event) => setSuperficieMinima(event.target.value)}
+                            onKeyUp={handleKeyPress}
+                        />
+                    </div>
+                    <div className="col-12 col-md-4 d-flex flex-column align-items-center">
+                        <label htmlFor="SuperficieMassima"><strong>Superficie massima</strong></label>
+                        <input
+                            className="form-control w-100 custom-width"
+                            id="SuperficieMassima"
+                            type="number"
+                            value={superficieMassima}
+                            onChange={(event) => setSuperficieMassima(event.target.value)}
+                            onKeyUp={handleKeyPress}
+                        />
+                    </div>
+                </div>
             </div>
 
+            <div className="text-center mt-3">
+                <button className="btn btn-secondary" onClick={handleSearch}>
+                    Cerca
+                </button>
+            </div>
 
-            <button className="btn btn-secondary mx-5 mt-2" onClick={handleSearch}>
-                Cerca
-            </button>
-
-            {warning && <p className="text-danger mx-5 mt-2">{warning}</p>}
+            {warning && <p className="text-danger text-center mt-2">{warning}</p>}
 
             {hasSearched && immobili.length > 0 ? (
                 <div className="container mt-4">
-                    <div className="row g-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-6">
+                    <div className="row g-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
                         {immobili.map((immobile) => (
                             <div className="col" key={immobile.id}>
-                                <div className="card h-100 d-flex flex-column">
-                                    {/* Immagine segnaposto */}
+                                <div className="card h-100">
                                     <img
-                                        src={immobile.image ? immobile.image : `${defaultImage}`}
+                                        src={immobile.image || "default.jpg"}
                                         alt={immobile.titolo_descrittivo}
-                                        className=""
+                                        className="card-img-top"
                                     />
-                                    <div
-                                        className="card-header text-center d-flex align-items-center justify-content-center"
-                                        style={{ minHeight: "80px" }}
-                                    >
+                                    <div className="card-header text-center">
                                         <h5 className="m-0">{immobile.titolo_descrittivo}</h5>
                                     </div>
-                                    <div className="card-body d-flex flex-column flex-grow-1 text-center">
-                                        <p className="flex-grow-1">
-                                            <strong>Descrizione:</strong>
-                                            {immobile.descrizione}
-                                        </p>
-
-                                        <p className="flex-grow-1">
-                                            <strong>Indirizzo: </strong>
-                                            {immobile.indirizzo_completo}
-                                        </p>
-
-                                        <p className="flex-grow-1">
-                                            <strong>Numero di stanze: </strong>
-                                            {immobile.locali}
-                                        </p>
-
-                                        <p className="flex-grow-1">
-                                            <strong>Numero di posti letto: </strong>
-                                            {immobile.posti_letto}
-                                        </p>
-
-                                        <p className="flex-grow-1">
-                                            <strong>Numero di bagni: </strong>
-                                            {immobile.bagni}
-                                        </p>
-                                        <p className="flex-grow-1">
-                                            <strong>Mq: </strong>
-                                            {immobile.mq}
-                                        </p>
-
-                                        <span className="d-flex align-items-center justify-content-center gap-1 mb-3">
-                                            <strong>Voto:</strong>
-                                            {renderStars(immobile.voto_medio)}
-                                        </span>
-
-                                        <p className="flex-grow-1">
-                                            <strong>Numero di recensioni: </strong>
-                                            {immobile.tot_recensioni}
-                                        </p>
-
-                                        <Link
-                                            to={`/${immobile.slug}`}
-                                            className="btn btn-secondary"
-                                        >
+                                    <div className="card-body text-center">
+                                        <p><strong>Descrizione:</strong> {immobile.descrizione}</p>
+                                        <p><strong>Indirizzo:</strong> {immobile.indirizzo_completo}</p>
+                                        <p><strong>Numero di stanze:</strong> {immobile.locali}</p>
+                                        <p><strong>Numero di posti letto:</strong> {immobile.posti_letto}</p>
+                                        <p><strong>Numero di bagni:</strong> {immobile.bagni}</p>
+                                        <p><strong>Mq:</strong> {immobile.mq}</p>
+                                        <p><strong>Voto:</strong> ★★★★☆</p>
+                                        <p><strong>Numero di recensioni:</strong> {immobile.tot_recensioni}</p>
+                                        <Link to={`/${immobile.slug}`} className="btn btn-secondary">
                                             Dettagli
                                         </Link>
                                     </div>

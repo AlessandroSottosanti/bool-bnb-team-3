@@ -53,13 +53,32 @@ function PaginaDettaglio() {
         return stars;
     };
 
+
+    // Funzione per evidenziare l'elemento di destinazione
+    const handleHighlight = (event) => {
+        event.preventDefault();
+        const targetId = event.currentTarget.getAttribute("href").substring(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+            targetElement.classList.add("highlight");
+            targetElement.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+            setTimeout(() => {
+                targetElement.classList.add("highlight-remove");
+            }, 1500);
+            setTimeout(() => {
+                targetElement.classList.remove("highlight", "highlight-remove");
+            }, 3000);
+        }
+    };
+
+
     return (
         <main>
             <section className="container my-3">
                 <div id="immobile">
                     <div id="title" className="d-flex py-2">
                         <h2>
-                            <a href="#descrizione"><i className="fa-solid fa-location-dot me-1"></i></a>
+                            <a href="#adress" onClick={handleHighlight}><i className="fa-solid fa-location-dot me-1"></i></a>
                             {immobile.immobile.titolo_descrittivo}
                         </h2>
                     </div>
@@ -102,19 +121,15 @@ function PaginaDettaglio() {
                             <span className="visually-hidden">Next</span>
                         </button>
                     </div>
-                    <div id="host" className="pt-3">
-                        <h5>
-                            Nome dell'host: {immobile.immobile.username_proprietario
-                                .replace(/_/g, ' ')  // Sostituisci gli underscore con uno spazio
-                                .replace(/\b\w/g, letter => letter.toUpperCase())}  {/* Trasforma la prima lettera di ogni parola in maiuscolo */}
-                        </h5>
+                    <hr />
+                    <div id="adress">
+                        <span><i className="fa-solid fa-map-pin"></i> - <strong>Indirizzo:</strong> {immobile.immobile.indirizzo_completo}</span>
                     </div>
                     <hr />
                     <div id="info" className="py-2">
                         <div id="descrizione">
                             <h5 className="pb-2">DESCRIZIONE</h5>
                             <p>{immobile.immobile.descrizione}</p>
-                            <span><i className="fa-solid fa-map-pin"></i> - {immobile.immobile.indirizzo_completo}</span>
                         </div>
                         <hr />
                         <div className="dettagli row">
@@ -144,7 +159,13 @@ function PaginaDettaglio() {
                         <hr />
                         <div id="info" className="py-2">
                             <h5>INFO E CONTATTI</h5>
-                            <span><i className="fa-solid fa-envelope"></i> Email: {immobile.immobile.email_proprietario}</span>
+                            <div id="host" className="py-1">
+                                <span><i className="fa-solid fa-user"></i> <strong>Host:</strong> {immobile.immobile.username_proprietario
+                                    .replace(/_/g, ' ')  // Sostituisci gli underscore con uno spazio
+                                    .replace(/\b\w/g, letter => letter.toUpperCase())}  {/* Trasforma la prima lettera di ogni parola in maiuscolo */}
+                                </span>
+                            </div>
+                            <span><i className="fa-solid fa-envelope"></i> <strong>Email: </strong>{immobile.immobile.email_proprietario}</span>
                         </div>
                         <hr />
                     </div>

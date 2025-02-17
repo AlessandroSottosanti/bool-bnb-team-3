@@ -99,6 +99,18 @@ button a {
     background-color: #ccc;
     color: black;
   }
+
+  .highlight {
+    padding: 5px;
+    border-radius: 15px;
+    background-color: rgba(107, 117, 125, 0.473);
+    transition: background-color 2s ease;
+  }
+
+  .highlight-remove {
+    background-color: transparent;
+    transition: background-color 2s ease;
+  }
 /* ////////////////////////////////////////////////////////////////// */
 
 

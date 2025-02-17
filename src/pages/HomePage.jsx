@@ -16,7 +16,7 @@ function HomePage() {
   //funzione lista immobili
   const getImmobili = () => {
     axios
-      .get(`${apiUrl}/immobili`)
+      .get(`${apiUrl}/immobili?order_by_voto=desc`)
       .then((resp) => {
         const immobiliWithLikes = resp.data.immobili.map((immobili) => {
           return { ...immobili, heartCount: 0 };
@@ -100,7 +100,7 @@ function HomePage() {
       <div className="container mt-3">
         <div className="row g-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-6">
           {immobili &&
-            immobili.map((immobile) => {
+            immobili.slice(0, 10).map((immobile) => {
               if (immobile) {
                 return (
                   <div className="col" key={immobile.id}>

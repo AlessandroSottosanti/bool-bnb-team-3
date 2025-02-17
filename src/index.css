@@ -48,3 +48,17 @@ main{
   outline: none; /* Rimuove l'outline di default */
   box-shadow: 0 0 0 2px white; /* Aggiunge un box-shadow personalizzato al bottone cliccato (esempio di colore arancione) */
 }
+
+/* caselle input */
+.custom-width {
+  max-width: 200px; 
+  width: 100%;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.custom-width-city {
+  max-width: 250px;
+  width: 100%;
+  margin-bottom: 20px;
+}

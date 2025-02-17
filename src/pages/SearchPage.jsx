@@ -52,11 +52,21 @@ function SearchPage() {
                             immobile.tipo_alloggio.toLowerCase() ===
                             tipologia.toLowerCase()) &&
                         (tipiAlloggio.trim() === "" ||
-                            tipiAlloggioIds.includes(parseInt(tipiAlloggio)))
+                            tipiAlloggioIds.includes(parseInt(tipiAlloggio))) &&
+                        // immobile.locali >= parseInt(postiLocali) &&
+                        // immobile.bagni >= parseInt(postiBagno) &&
+                        // immobile.mq >= parseInt(superficieMinima) &&
+                        // immobile.mq <= parseInt(superficieMassima) &&
+                        immobile.tot_recensioni > 0
                     );
                 });
 
-                setImmobili(risultatiFiltrati);
+                // Ordina i risultati per voto medio in ordine decrescente e prendi i primi 10
+                const topTenRisultati = risultatiFiltrati
+                    .sort((a, b) => b.voto_medio - a.voto_medio)
+                    .slice(0, 10);
+
+                setImmobili(topTenRisultati);
                 setHasSearched(true);
             })
             .catch((err) => {
@@ -82,7 +92,7 @@ function SearchPage() {
         }
     };
 
-    //Implemento i cuoricini per il rating dell'immobile
+    //Implemento stelline il rating dell'immobile
 
     const renderStars = (voto) => {
         const fullStars = Math.ceil(voto);
@@ -131,7 +141,6 @@ function SearchPage() {
                     onChange={(event) => setPostiLetto(event.target.value)}
                     onKeyUp={handleKeyPress}
                 />
-
                 <label htmlFor="tipologia" className="mx-5 mt-3">
                     <strong>Tipi di immobile</strong>
                 </label>
@@ -186,7 +195,7 @@ function SearchPage() {
                 </label>
                 <input
                     className="form-control w-25 mx-5"
-                    id="Superficie massima"
+                    id="SuperficieMassima"
                     type="number"
                     value={superficieMassima}
                     onChange={(event) => setSuperficieMassima(event.target.value)}

@@ -14,17 +14,7 @@ function PaginaDettaglio() {
     const [errore, setErrore] = useState(null);
 
 
-    useEffect(() => {
-
-    showImmobile();
     
-}, [slug]); // Effettua la richiesta quando cambia lo slug
-
-    if (caricamento) return <p>Caricamento...</p>;
-    if (!immobile) return <p>Elemento non trovato</p>;
-
-    const alloggio = immobile.tipi_alloggio[0].nome_tipo_alloggio;
-
     const showImmobile = () => {
         // Effettua la richiesta all'API
         axios.get(`${apiUrl}/immobili/${slug}`)
@@ -41,6 +31,18 @@ function PaginaDettaglio() {
                 setCaricamento(false);
             });
     }
+    
+    useEffect(() => {
+
+    showImmobile();
+    
+}, [slug]); // Effettua la richiesta quando cambia lo slug
+
+    if (caricamento) return <p>Caricamento...</p>;
+    if (!immobile) return <p>Elemento non trovato</p>;
+
+    const alloggio = immobile.tipi_alloggio[0].nome_tipo_alloggio;
+
 
     //Implemento le stelle per il rating dell'immobile
 

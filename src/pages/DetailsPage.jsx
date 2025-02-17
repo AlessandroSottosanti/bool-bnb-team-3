@@ -15,6 +15,17 @@ function PaginaDettaglio() {
 
 
     useEffect(() => {
+
+    showImmobile();
+    
+}, [slug]); // Effettua la richiesta quando cambia lo slug
+
+    if (caricamento) return <p>Caricamento...</p>;
+    if (!immobile) return <p>Elemento non trovato</p>;
+
+    const alloggio = immobile.tipi_alloggio[0].nome_tipo_alloggio;
+
+    const showImmobile = () => {
         // Effettua la richiesta all'API
         axios.get(`${apiUrl}/immobili/${slug}`)
             .then(response => {
@@ -29,14 +40,7 @@ function PaginaDettaglio() {
                 // Indichiamo che il caricamento è terminato
                 setCaricamento(false);
             });
-    }, [slug]); // Effettua la richiesta quando cambia lo slug
-
-
-    if (caricamento) return <p>Caricamento...</p>;
-    if (!immobile) return <p>Elemento non trovato</p>;
-
-    const alloggio = immobile.tipi_alloggio[0].nome_tipo_alloggio;
-
+    }
 
     //Implemento le stelle per il rating dell'immobile
 
@@ -71,6 +75,21 @@ function PaginaDettaglio() {
         }
     };
 
+    const handleSubmit = (nuovaRecensione) => {
+        console.log(nuovaRecensione);
+
+        axios.post(`${apiUrl}/recensioni/${immobile.immobile.id}`, nuovaRecensione)
+            .then(response => {
+                console.log("Recensione inviata con successo", response.data);
+                alert("Recensione aggiunta!");
+                showImmobile();
+            })
+            .catch(error => {
+                console.error("Errore nell'invio della recensione", error);
+                alert("Errore nell'invio della recensione.");
+            });
+    };
+    
 
     return (
         <main>
@@ -214,7 +233,10 @@ function PaginaDettaglio() {
                     ))}
                 </div>
                 <div id="nuova_recensione" className="d-flex py-3">
-                    <ReviewModale />
+                    <ReviewModale 
+                    handleSubmit={handleSubmit}
+                    immobile={immobile}
+                    />
                     <button id="detail-button" type="button" className="open-modal-btn btn-secondary mx-2"><Link to="/">Torna alla home</Link></button>
                 </div>
             </section >

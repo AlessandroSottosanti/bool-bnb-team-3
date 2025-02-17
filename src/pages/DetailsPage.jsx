@@ -78,8 +78,9 @@ function PaginaDettaglio() {
                 <div id="immobile">
                     <div id="title" className="d-flex py-2">
                         <h2>
-                            <a href="#adress" onClick={handleHighlight}><i className="fa-solid fa-location-dot me-1"></i></a>
+                            <a href="#adress" onClick={handleHighlight}><i className="fa-solid fa-location-dot me-1"></i>
                             {immobile.immobile.titolo_descrittivo}
+                            </a>
                         </h2>
                     </div>
                     <div id="carouselExampleIndicators" className="carousel slide">
@@ -123,7 +124,7 @@ function PaginaDettaglio() {
                     </div>
                     <hr />
                     <div id="adress">
-                        <span><i className="fa-solid fa-map-pin"></i> - <strong>Indirizzo:</strong> {immobile.immobile.indirizzo_completo}</span>
+                        <span><i className="fa-solid fa-map-pin"></i> <strong>Indirizzo:</strong> {immobile.immobile.indirizzo_completo}</span>
                     </div>
                     <hr />
                     <div id="info" className="py-2">

@@ -86,12 +86,6 @@ function SearchPage() {
         })
     }
 
-    const removeTipologia = (id) => {
-        setTipiAlloggioSelezionati((prev) =>
-            prev.filter((tipologia) => tipologia.id !== id)
-        )
-    }
-
     
     const handleSelectChange = (event) => {
         setSelectedTipologia(event.target.value)
@@ -203,20 +197,7 @@ function SearchPage() {
                             Aggiungi
                         </button>
                     </div>
-                    <div className="d-flex gap-3  my-2">
-                        {tipiAlloggioSelezionati.map((tipologia) => (
-                            <div className=" d-flex align-items-center flex-row gap-2" key={tipologia.id}>
-                                <span>{tipologia.nome_tipo_alloggio}</span>
-                                <button
-                                    type="button"
-                                    className="btn btn-danger"
-                                    onClick={() => removeTipologia(tipologia.id)}
-                                >
-                                    x
-                                </button>
-                            </div>
-                        ))}
-                    </div>
+                    
 
                     <div className="col-12 col-md-4 d-flex flex-column align-items-center">
                         <label htmlFor="NumeroLocali"><strong>Numero Locali</strong></label>

@@ -9,7 +9,6 @@ function SearchPage() {
     const [hasSearched, setHasSearched] = useState(false);
     const [postiLetto, setPostiLetto] = useState(0);
     const [tipologia, setTipologia] = useState("");
-    const [tipiAlloggio, setTipiAlloggio] = useState("");
     const [postiLocali, setPostiLocali] = useState(0);
     const [postiBagno, setPostiBagno] = useState(0);
     const [superficieMinima, setSuperficieMinima] = useState(0);
@@ -21,6 +20,9 @@ function SearchPage() {
     const [searchParams] = useSearchParams();
     const initialCity = searchParams.get("city") || ""; //ottengo la città dall'url
     const [searchCity, setSearchCity] = useState(initialCity);
+    const [tipiAlloggio, setTipiAlloggio] = useState([]);
+    const [tipiAlloggioSelezionati, setTipiAlloggioSelezionati] = useState([]);
+    const [selectedTipologia, setSelectedTipologia] = useState('')
 
     const backEndUrl = import.meta.env.VITE_API_URL;
 
@@ -29,6 +31,7 @@ function SearchPage() {
         if (searchCity.trim() !== "") {
             setSearch(searchCity);
             getImmobili(searchCity);
+            getTipiAlloggi();
         }
     }, [searchCity]);
 
@@ -51,8 +54,6 @@ function SearchPage() {
                         (tipologia === "" ||
                             immobile.tipo_alloggio.toLowerCase() ===
                             tipologia.toLowerCase()) &&
-                        (tipiAlloggio.trim() === "" ||
-                            tipiAlloggioIds.includes(parseInt(tipiAlloggio))) &&
                         // immobile.locali >= parseInt(postiLocali) &&
                         // immobile.bagni >= parseInt(postiBagno) &&
                         // immobile.mq >= parseInt(superficieMinima) &&
@@ -74,6 +75,43 @@ function SearchPage() {
                 setWarning("Errore nel recupero degli immobili. Riprova più tardi.");
             });
     };
+
+
+    const getTipiAlloggi = () => {
+        axios.get(`${import.meta.env.VITE_API_URL}/tipi-alloggi`).then((resp) => {
+            const { results } = resp.data
+            setTipiAlloggio(results)
+        }).catch((error) => {
+            console.error('Errore nel recupero dei tipi di alloggi', error)
+        })
+    }
+
+    const removeTipologia = (id) => {
+        setTipiAlloggioSelezionati((prev) =>
+            prev.filter((tipologia) => tipologia.id !== id)
+        )
+    }
+
+    
+    const handleSelectChange = (event) => {
+        setSelectedTipologia(event.target.value)
+    };
+    const handleAddTipologia = () => {
+        if (selectedTipologia) {
+            const tipologiaDaAggiungere = tipiAlloggio.find(
+                (tipologia) => tipologia.id === parseInt(selectedTipologia)
+            )
+
+            if (
+                tipologiaDaAggiungere &&
+                !tipiAlloggioSelezionati.some((item) => item.id === tipologiaDaAggiungere.id)
+            ) {
+                setTipiAlloggioSelezionati((prev) => [...prev, tipologiaDaAggiungere]);
+            }
+
+            setSelectedTipologia('')
+        }
+    }
 
     const handleSearch = () => {
         if (search.trim() === "") {
@@ -110,6 +148,7 @@ function SearchPage() {
     //default image
     const defaultImage = "../images/placeholder.webp";
 
+    console.log(selectedTipologia);
     return (
         <main>
              <div className="text-center">
@@ -141,17 +180,44 @@ function SearchPage() {
                             onKeyUp={handleKeyPress}
                         />
                     </div>
-                    <div className="col-12 col-md-4 d-flex flex-column align-items-center">
-                        <label htmlFor="tipiAlloggio"><strong>Tipologia immobile</strong></label>
-                        <input
-                            className="form-control w-100 custom-width"
-                            id="tipiAlloggio"
-                            type="text"
-                            value={tipiAlloggio}
-                            onChange={(event) => setTipiAlloggio(event.target.value)}
-                            onKeyUp={handleKeyPress}
-                        />
+
+                    <label className="mt-3" htmlFor="tipi_alloggio">
+                        Tipo di Alloggio
+                    </label>
+                    <div className="mt-3 d-flex gap-2">
+
+                        <select
+                            className="form-select"
+                            id="tipi_alloggio"
+                            value={selectedTipologia}
+                            onChange={handleSelectChange}
+                        >
+                            <option value="">Seleziona un tipo di alloggio</option>
+                            {tipiAlloggio.map((tipologia) => (
+                                <option key={tipologia.id} value={tipologia.id}>
+                                    {tipologia.nome_tipo_alloggio}
+                                </option>
+                            ))}
+                        </select>
+                        <button className="btn btn-primary" type="button" onClick={handleAddTipologia}>
+                            Aggiungi
+                        </button>
                     </div>
+                    <div className="d-flex gap-3  my-2">
+                        {tipiAlloggioSelezionati.map((tipologia) => (
+                            <div className=" d-flex align-items-center flex-row gap-2" key={tipologia.id}>
+                                <span>{tipologia.nome_tipo_alloggio}</span>
+                                <button
+                                    type="button"
+                                    className="btn btn-danger"
+                                    onClick={() => removeTipologia(tipologia.id)}
+                                >
+                                    x
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+
                     <div className="col-12 col-md-4 d-flex flex-column align-items-center">
                         <label htmlFor="NumeroLocali"><strong>Numero Locali</strong></label>
                         <input

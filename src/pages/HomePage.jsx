@@ -19,7 +19,7 @@ function HomePage() {
       .get(`${apiUrl}/immobili?order_by_voto=desc`)
       .then((resp) => {
         const immobiliWithLikes = resp.data.immobili.map((immobili) => {
-          return { ...immobili, heartCount: 0 };
+          return { ...immobili, heartCount: 0, voto: immobili.voto_medio || 0 }
         })
         console.log(resp);
         setImmobili(immobiliWithLikes);
@@ -52,7 +52,9 @@ function HomePage() {
     }
   };
 
-  const handleLike = (id) => {
+  const handleLike = (event, id) => {
+    event.stopPropagation();
+    event.preventDefault();
     setImmobili((prevImmobili) => {
       const updated = prevImmobili.map((immobili) => {
         if (immobili.id === id) {
@@ -67,6 +69,20 @@ function HomePage() {
 
   //default image
   const defaultImage = "../images/placeholder.webp";
+
+  const renderStars = (voto) => {
+    const fullStars = Math.ceil(voto);
+    const emptyStars = 5 - fullStars;
+    const stars = [];
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(<i key={`full-${i}`} className="fa-solid fa-star"></i>);
+    }
+    for (let i = 0; i < emptyStars; i++) {
+      stars.push(<i key={`empty-${i}`} className="fa-regular fa-star"></i>);
+    }
+    return stars;
+  };
+
 
   return (
     <main>
@@ -98,48 +114,47 @@ function HomePage() {
         </div>
       </div>
       <div className="container mt-3">
-        <div className="row g-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-6">
+        <div className="row g-3 row-cols-1 row-cols-sm-2 row-cols-md-3 ">
           {immobili &&
             immobili.slice(0, 10).map((immobile) => {
               if (immobile) {
                 return (
                   <div className="col" key={immobile.id}>
-                    <div className="card h-100 d-flex flex-column">
-                      {/* Immagine segnaposto */}
-                      <img
-                        src={
-                          immobile.image ? immobile.image : `${defaultImage}`
-                        }
-                        alt={immobile.titolo_descrittivo}
-                        className=""
-                      />
-                      <div
-                        className="card-header text-center d-flex align-items-center justify-content-center"
-                        style={{ minHeight: "80px" }}
-                      >
-                        <h5 className="m-0">{immobile.titolo_descrittivo}</h5>
-                      </div>
-                      <div className="card-body d-flex flex-column flex-grow-1 text-center">
-                        <p className="flex-grow-1">{immobile.descrizione}</p>
-                        <div className="d-flex justify-content-center align-items-center mb-2">
-                          <button className="btn btn-outline-danger me-2" onClick={() => handleLike(immobile.id)}>❤️</button>
-                          <span>{immobile.heartCount}</span>
-                        </div>
-                        <Link
-                          to={`/${immobile.slug}`}
-                          className="btn btn-secondary"
+                    <Link to={`/${immobile.slug}`}>
+                      <div className="card h-100 d-flex flex-column">
+                        {/* Immagine segnaposto */}
+                        <img
+                          src={
+                            immobile.image ? immobile.image : `${defaultImage}`
+                          }
+                          alt={immobile.titolo_descrittivo}
+                          className=""
+                        />
+                        <div
+                          className="card-header text-center d-flex align-items-center justify-content-center"
+                          style={{ minHeight: "80px" }}
                         >
-                          Dettagli
-                        </Link>
+                          <h5 className="m-0">{immobile.titolo_descrittivo}</h5>
+                        </div>
+                        <div className="card-body d-flex flex-column flex-grow-1 text-center">
+                          <p className="flex-grow-1">{immobile.descrizione}</p>
+                          <div className="d-flex justify-content-center align-items-center mb-2">
+                            {renderStars(Number(immobile.voto))}
+                          </div>
+                          <div className="d-flex justify-content-center align-items-center mb-2">
+                            <button className="btn btn-outline-danger me-2" onClick={(e) => handleLike(e, immobile.id)}>❤️</button>
+                            <span>{immobile.heartCount}</span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    </Link>
                   </div>
                 );
               }
             })}
         </div>
       </div>
-    </main>
+    </main >
   );
 }
 

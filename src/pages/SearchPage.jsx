@@ -35,13 +35,10 @@ function SearchPage() {
             setSearch(searchCity);
             getTipiAlloggi();
         }
-    }, [searchCity, postiLocali, postiBagno, superficieMinima, superficieMassima, tipiAlloggioSelezionati, votoMedio, postiLetto]);
+    }, [searchCity, postiLocali, postiBagno, superficieMinima, superficieMassima, selectedTipologia, votoMedio]);
 
     const getImmobili = (city) => {
-        const tipiAlloggioParam = tipiAlloggioSelezionati.length > 0
-            ? tipiAlloggioSelezionati.map(t => t.id).join(",")
-            : undefined;
-
+        // Creiamo un oggetto con i parametri aggiornati
         const queryParams = {
             order_by_voto: "desc",
             search: city,
@@ -49,15 +46,18 @@ function SearchPage() {
             bagni: postiBagno || undefined,
             superficie_min: superficieMinima || undefined,
             superficie_max: superficieMassima || undefined,
-            tipi_alloggio: tipiAlloggioParam,
+            tipi_alloggio: selectedTipologia || undefined, 
             voto_medio: votoMedio || undefined,
             posti_letto: postiLetto || undefined
         };
-
+    
+        console.log("Query Params inviati:", queryParams);
+    
+        // Rimuoviamo i parametri non definiti per evitare di inviare undefined
         const filteredParams = Object.fromEntries(
             Object.entries(queryParams).filter(([_, value]) => value !== undefined)
         );
-
+    
         axios
             .get(`${backEndUrl}/immobili`, { params: filteredParams })
             .then((resp) => {
@@ -66,19 +66,19 @@ function SearchPage() {
                 setHasSearched(true);
             })
             .catch((err) => {
-
-                if (err.status === 404) {
+                if (err.response?.status === 404) {
                     setWarning("Nessun immobile trovato");
                     console.error("Nessun immobile trovato:", err);
-
-                }
-                else {
+                } else {
                     console.error("Errore nel recupero degli immobili:", err);
                     setWarning("Errore nel recupero degli immobili. Riprova più tardi.");
                 }
-
             });
+
+            console.log("filteredParams",filteredParams)
     };
+    
+    
 
 
 
@@ -94,26 +94,14 @@ function SearchPage() {
 
 
     const handleSelectChange = (event) => {
-        console.log("target", event.target.name);
-        setSelectedTipologia(event.target.value),
-            setParams([...params, `${event.target.name}=${event.target.value}`]);
+        const { name, value } = event.target; // De-strutturazione per un codice più pulito
+        console.log("target", name);
+        setSelectedTipologia(value);
+        setParams((prevParams) => [...prevParams, `${name}=${value}`]); // Aggiungi il nuovo parametro a quelli esistenti
+        setWarning(""); // Reset del messaggio di errore
     };
-    const handleAddTipologia = () => {
-        if (selectedTipologia) {
-            const tipologiaDaAggiungere = tipiAlloggio.find(
-                (tipologia) => tipologia.id === parseInt(selectedTipologia)
-            )
 
-            if (
-                tipologiaDaAggiungere &&
-                !tipiAlloggioSelezionati.some((item) => item.id === tipologiaDaAggiungere.id)
-            ) {
-                setTipiAlloggioSelezionati((prev) => [...prev, tipologiaDaAggiungere]);
-            }
-
-            setSelectedTipologia('')
-        }
-    }
+    
 
     const handleSearch = () => {
         if (search.trim() === "") {
@@ -150,7 +138,7 @@ function SearchPage() {
     const defaultImage = "../images/placeholder.webp";
 
     console.log(selectedTipologia);
-    console.log(params);
+
     console.log("immobili", immobili.immobili);
     return (
         <main>

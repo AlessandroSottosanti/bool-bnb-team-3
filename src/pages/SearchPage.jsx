@@ -14,7 +14,6 @@ function SearchPage() {
     const [superficieMinima, setSuperficieMinima] = useState(0);
     const [superficieMassima, setSuperficieMassima] = useState(0);
     const [votoMedio, setVotoMedio] = useState(0);
-
     const [params, setParams] = useState([]);
 
 
@@ -35,7 +34,7 @@ function SearchPage() {
             setSearch(searchCity);
             getTipiAlloggi();
         }
-    }, [searchCity, postiLocali, postiBagno, superficieMinima, superficieMassima, selectedTipologia, votoMedio]);
+    }, [searchCity, postiLocali, postiBagno, superficieMinima, superficieMassima, selectedTipologia, votoMedio, postiLetto]);
 
     const getImmobili = (city) => {
         // Creiamo un oggetto con i parametri aggiornati

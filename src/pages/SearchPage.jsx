@@ -28,21 +28,19 @@ function SearchPage() {
 
     const backEndUrl = import.meta.env.VITE_API_URL;
 
-    //use effect per i risultati iniziali
     useEffect(() => {
         if (searchCity.trim() !== "") {
-            setSearch(searchCity);
             getImmobili(searchCity);
+            setSearch(searchCity);
             getTipiAlloggi();
         }
-    }, [searchCity, params]);
-
-    useEffect(() => {
-        getImmobili(searchCity);
-    }, [postiLocali,postiBagno,superficieMinima,superficieMassima, selectedTipologia]);
-
+    }, [searchCity, postiLocali, postiBagno, superficieMinima, superficieMassima, tipiAlloggioSelezionati]);
+    
     const getImmobili = (city) => {
-        // Costruisco l'oggetto dei parametri per la richiesta
+        const tipiAlloggioParam = tipiAlloggioSelezionati.length > 0
+            ? tipiAlloggioSelezionati.map(t => t.id).join(",")
+            : undefined;
+    
         const queryParams = {
             order_by_voto: "desc",
             search: city,
@@ -50,11 +48,9 @@ function SearchPage() {
             bagni: postiBagno || undefined,
             superficie_min: superficieMinima || undefined,
             superficie_max: superficieMassima || undefined,
-            tipi_alloggio: tipiAlloggioSelezionati.map(t => t.id).join(",") || undefined,
-            voto_medio: undefined, // Aggiungi il valore se necessario
+            tipi_alloggio: tipiAlloggioParam,
         };
     
-        // Filtro i parametri nulli/undefined
         const filteredParams = Object.fromEntries(
             Object.entries(queryParams).filter(([_, value]) => value !== undefined)
         );
@@ -67,10 +63,20 @@ function SearchPage() {
                 setHasSearched(true);
             })
             .catch((err) => {
-                console.error("Errore nel recupero degli immobili:", err);
-                setWarning("Errore nel recupero degli immobili. Riprova più tardi.");
+               
+                if(err.status === 404) {
+                    setWarning("Nessun immobile trovato");
+                    console.error("Nessun immobile trovato:", err);
+
+                }
+                else {
+                    console.error("Errore nel recupero degli immobili:", err);
+                    setWarning("Errore nel recupero degli immobili. Riprova più tardi.");
+                }
+               
             });
     };
+    
 
 
     const getTipiAlloggi = () => {
@@ -78,7 +84,8 @@ function SearchPage() {
             const { results } = resp.data
             setTipiAlloggio(results)
         }).catch((error) => {
-            console.error('Errore nel recupero dei tipi di alloggi', error)
+
+            console.error('Errore nel recupero dei tipi di alloggi', error.status)
         })
     }
 
@@ -261,7 +268,7 @@ function SearchPage() {
 
             {warning && <p className="text-danger text-center mt-2">{warning}</p>}
 
-            {hasSearched && immobili.length > 0 ? (
+            {(hasSearched && !warning) && immobili.length > 0 ? (
                 <div className="container mt-4">
                     <div className="row g-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
                         {immobili.map((immobile) => (

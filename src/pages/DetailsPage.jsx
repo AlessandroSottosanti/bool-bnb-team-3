@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./detailPageCss.css"
 import ReviewModale from "../components/ReviewModale";
+import SendEmail from "../components/SendEmail";
 
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -91,7 +92,6 @@ function PaginaDettaglio() {
                 alert("Errore nell'invio della recensione.");
             });
     };
-
 
     return (
         <main>
@@ -187,7 +187,9 @@ function PaginaDettaglio() {
                                     .replace(/\b\w/g, letter => letter.toUpperCase())}  {/* Trasforma la prima lettera di ogni parola in maiuscolo */}
                                 </span>
                             </div>
-                            <span><i className="fa-solid fa-envelope"></i> <strong>Email: </strong>{immobile.immobile.email_proprietario}</span>
+                            <div>
+                                <SendEmail />
+                            </div>
                         </div>
                         <hr />
                     </div>

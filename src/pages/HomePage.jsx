@@ -149,6 +149,7 @@ function HomePage() {
                     defaultImage={defaultImage}
                     Link={Link}
                     renderStars={renderStars}
+                    handleLike ={handleLike}
                   />
                 );
               }

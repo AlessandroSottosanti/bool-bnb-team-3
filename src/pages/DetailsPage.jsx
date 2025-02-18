@@ -115,7 +115,7 @@ function PaginaDettaglio() {
                             </a>
                         </h2>
                     </div>
-                    <div id="carouselExampleIndicators" className="carousel slide">
+                    <div id="carouselExampleIndicators" className="carousel slide img-container">
                         {/* Indicatori dinamici */}
                         <div className="carousel-indicators">
                             {immobile.immagini.map((_, index) => (
@@ -129,6 +129,11 @@ function PaginaDettaglio() {
                                     aria-label={`Slide ${index + 1}`}
                                 ></button>
                             ))}
+                        </div>
+
+                        <div className="d-flex justify-content-center align-items-center mb-2 like">
+                            <button className="btn" onClick={handleLike}>❤️</button>
+                            <span>{heartCount}</span>
                         </div>
 
                         {/* Immagini dinamiche */}
@@ -154,6 +159,7 @@ function PaginaDettaglio() {
                             <span className="visually-hidden">Next</span>
                         </button>
                     </div>
+
                     <hr />
                     <div id="adress">
                         <span><i className="fa-solid fa-map-pin"></i> <strong>Indirizzo:</strong> {immobile.immobile.indirizzo_completo}</span>
@@ -203,10 +209,7 @@ function PaginaDettaglio() {
                             </div>
                         </div>
                         <hr />
-                        <div className="d-flex justify-content-center align-items-center mb-2">
-                            <button className="btn btn-outline-danger me-2" onClick={handleLike}>❤️</button>
-                            <span>{heartCount}</span>
-                        </div>
+                       
                     </div>
                 </div>
                 <div id="recensioni" className="pt-5">

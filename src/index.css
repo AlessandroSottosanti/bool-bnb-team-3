@@ -112,3 +112,16 @@ a {
 .nav-link-elem.active {
   font-weight: 600; /* Puoi rimuoverlo se non vuoi un testo più marcato */
 }
+
+.img-container {
+  position: relative;
+}
+
+.like {
+  color: white;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 10px;
+  z-index: 10;
+}

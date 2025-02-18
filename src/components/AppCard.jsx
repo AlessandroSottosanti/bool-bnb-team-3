@@ -1,5 +1,5 @@
 
-function AppCard({immobile, defaultImage, Link, renderStars}) {
+function AppCard({immobile, defaultImage, Link, renderStars , handleLike}) {
     return (
         <div className="col my-3" key={immobile.id}>
             <Link to={`/${immobile.slug}`}>
@@ -24,7 +24,7 @@ function AppCard({immobile, defaultImage, Link, renderStars}) {
                             {renderStars(Number(immobile.voto_medio))}
                         </div>
                         <div className="d-flex justify-content-center align-items-center mb-2">
-                            <button className="btn btn-outline-danger me-2" onClick={(e) => handleLike(e, immobile.id)}>❤️</button>
+                            <button className="btn me-2" onClick={(e) => handleLike(e, immobile.id)}>❤️</button>
                             <span>{immobile.heartCount}</span>
                         </div>
                     </div>

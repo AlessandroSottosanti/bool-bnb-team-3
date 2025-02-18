@@ -17,6 +17,7 @@ function SearchPage() {
     const [votoMedio, setVotoMedio] = useState(0);
     const [params, setParams] = useState([]);
 
+    const [count, setCount] = useState(0);
 
 
     //useParams search city
@@ -69,6 +70,7 @@ function SearchPage() {
                 immobiliWithLikes.sort((a, b) => b.heartCount - a.heartCount || b.voto - a.voto);
                 setImmobili(immobiliWithLikes);
                 setHasSearched(true);
+                setCount(resp.data.count)
             })
             .catch((err) => {
                 if (err.response?.status === 404) {
@@ -218,7 +220,6 @@ function SearchPage() {
                                 </option>
                             ))}
                         </select>
-
                     </div>
 
 
@@ -301,7 +302,8 @@ function SearchPage() {
             {warning && <p className="text-danger text-center mt-2">{warning}</p>}
 
             {(hasSearched && !warning) && immobili.length > 0 ? (
-                <div className="container mt-4">
+                <div className="container mt-5">
+                    <div className="my-3 ">Immobili trovati:<strong className="ms-2"> {count}</strong></div>
                     <div className="row g-3 row-cols-1 row-cols-lg-3">
                         {immobili.map((immobile) => (
                             <AppCard
@@ -309,6 +311,7 @@ function SearchPage() {
                                 defaultImage={defaultImage}
                                 Link={Link}
                                 renderStars={renderStars}
+                                handleLike={handleLike}
                             />
                         )
                         )}

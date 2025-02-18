@@ -292,7 +292,7 @@ function SearchPage() {
             </div>
 
             <div className="text-center mt-3">
-                <button className="btn btn-secondary" onClick={handleSearch}>
+                <button className="btn btn-orange" onClick={handleSearch}>
                     Cerca
                 </button>
             </div>

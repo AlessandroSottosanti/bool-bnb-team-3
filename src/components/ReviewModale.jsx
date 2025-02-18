@@ -37,11 +37,13 @@ function ReviewModal({ handleSubmit, immobile }) {
   };
 
   return (
-    <div>
+    <div className="d-flex justify-content-center w-100">
       {/* Pulsante per aprire il modale */}
-      <button onClick={toggleModal} className="open-modal-btn">
-        Aggiungi una nuova recensione
+      <button onClick={toggleModal} className=" btn btn-orange mb-5">
+        🗨️ Aggiungi una nuova recensione
       </button>
+
+
 
       {/* Modale */}
       {isOpen && (

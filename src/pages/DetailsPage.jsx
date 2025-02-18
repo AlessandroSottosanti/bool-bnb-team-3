@@ -241,9 +241,10 @@ function PaginaDettaglio() {
                         handleSubmit={handleSubmit}
                         immobile={immobile}
                     />
-                    <button id="detail-button" type="button" className="open-modal-btn btn-secondary mx-2"><Link to="/">Torna alla home</Link></button>
                 </div>
             </section >
+            <Link className="btn btn-secondary ms-5" to="/"><i class="fa-solid fa-arrow-left"></i> Indietro</Link>
+
         </main >
     );
 }

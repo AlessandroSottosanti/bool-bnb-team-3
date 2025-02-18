@@ -14,6 +14,8 @@ function SearchPage() {
     const [superficieMinima, setSuperficieMinima] = useState(0);
     const [superficieMassima, setSuperficieMassima] = useState(0);
 
+    const [params, setParams] = useState([]);
+
 
 
     //useParams search city
@@ -33,41 +35,35 @@ function SearchPage() {
             getImmobili(searchCity);
             getTipiAlloggi();
         }
-    }, [searchCity]);
+    }, [searchCity, params]);
 
+    useEffect(() => {
+        getImmobili(searchCity);
+    }, [postiLocali,postiBagno,superficieMinima,superficieMassima, selectedTipologia]);
 
     const getImmobili = (city) => {
+        // Costruisco l'oggetto dei parametri per la richiesta
+        const queryParams = {
+            order_by_voto: "desc",
+            search: city,
+            locali: postiLocali || undefined,
+            bagni: postiBagno || undefined,
+            superficie_min: superficieMinima || undefined,
+            superficie_max: superficieMassima || undefined,
+            tipi_alloggio: tipiAlloggioSelezionati.map(t => t.id).join(",") || undefined,
+            voto_medio: undefined, // Aggiungi il valore se necessario
+        };
+    
+        // Filtro i parametri nulli/undefined
+        const filteredParams = Object.fromEntries(
+            Object.entries(queryParams).filter(([_, value]) => value !== undefined)
+        );
+    
         axios
-            .get(`${backEndUrl}/immobili?order_by_voto=desc`)
+            .get(`${backEndUrl}/immobili`, { params: filteredParams })
             .then((resp) => {
-                console.log("Risposta immobili:", resp.data);
-                const immobili = resp.data.immobili;
-
-                const risultatiFiltrati = immobili.filter((immobile) => {
-                    const indirizzo = immobile.indirizzo_completo
-                        ? immobile.indirizzo_completo.toLowerCase()
-                        : "";
-                    const tipiAlloggioIds = immobile.tipi_alloggio.map((tipo) => tipo.id);
-                    return (
-                        indirizzo.includes(city.toLowerCase()) &&
-                        immobile.posti_letto >= postiLetto &&
-                        (tipologia === "" ||
-                            immobile.tipo_alloggio.toLowerCase() ===
-                            tipologia.toLowerCase()) &&
-                        // immobile.locali >= parseInt(postiLocali) &&
-                        // immobile.bagni >= parseInt(postiBagno) &&
-                        // immobile.mq >= parseInt(superficieMinima) &&
-                        // immobile.mq <= parseInt(superficieMassima) &&
-                        immobile.tot_recensioni > 0
-                    );
-                });
-
-                // Ordina i risultati per voto medio in ordine decrescente e prendi i primi 10
-                const topTenRisultati = risultatiFiltrati
-                    .sort((a, b) => b.voto_medio - a.voto_medio)
-                    .slice(0, 10);
-
-                setImmobili(topTenRisultati);
+                console.log("Risposta immobili:", resp);
+                setImmobili(resp.data.immobili);
                 setHasSearched(true);
             })
             .catch((err) => {
@@ -88,7 +84,9 @@ function SearchPage() {
 
     
     const handleSelectChange = (event) => {
-        setSelectedTipologia(event.target.value)
+        console.log("target", event.target.name);
+        setSelectedTipologia(event.target.value),
+        setParams([...params, `${event.target.name}=${event.target.value}`]);
     };
     const handleAddTipologia = () => {
         if (selectedTipologia) {
@@ -143,6 +141,8 @@ function SearchPage() {
     const defaultImage = "../images/placeholder.webp";
 
     console.log(selectedTipologia);
+    console.log(params);
+    console.log("immobili", immobili.immobili);
     return (
         <main>
              <div className="text-center">
@@ -150,13 +150,14 @@ function SearchPage() {
             </div>
 
             
-            <div className="container mt-4">
+            <div className="container">
                 <div className="row g-1">
                     <div className="col-12 d-flex flex-column align-items-center">
-                        <label htmlFor="ricerca"><strong>Città o Indirizzo</strong></label>
+                        <label htmlFor="search"><strong>Città o Indirizzo</strong></label>
                         <input
                             className="form-control w-100 custom-width-city"
-                            id="ricerca"
+                            id="search"
+                            name="search"
                             type="search"
                             value={search}
                             onChange={(event) => setSearch(event.target.value)}
@@ -164,10 +165,11 @@ function SearchPage() {
                         />
                     </div>
                     <div className="col-12 col-md-4 d-flex flex-column align-items-center">
-                        <label htmlFor="postiLetto"><strong>Numero di posti letto</strong></label>
+                        <label htmlFor="posti_letto"><strong>Numero di posti letto</strong></label>
                         <input
                             className="form-control w-100 custom-width"
-                            id="postiLetto"
+                            id="posti_letto"
+                            name="posti_letto"
                             type="number"
                             value={postiLetto}
                             onChange={(event) => setPostiLetto(event.target.value)}
@@ -183,6 +185,7 @@ function SearchPage() {
                         <select
                             className="form-select"
                             id="tipi_alloggio"
+                            name="tipi_alloggio"
                             value={selectedTipologia}
                             onChange={handleSelectChange}
                         >
@@ -200,10 +203,11 @@ function SearchPage() {
                     
 
                     <div className="col-12 col-md-4 d-flex flex-column align-items-center">
-                        <label htmlFor="NumeroLocali"><strong>Numero Locali</strong></label>
+                        <label htmlFor="locali"><strong>Numero Locali</strong></label>
                         <input
                             className="form-control w-100 custom-width"
-                            id="NumeroLocali"
+                            id="locali"
+                            name="locali"
                             type="number"
                             value={postiLocali}
                             onChange={(event) => setPostiLocali(event.target.value)}
@@ -211,10 +215,11 @@ function SearchPage() {
                         />
                     </div>
                     <div className="col-12 col-md-4 d-flex flex-column align-items-center">
-                        <label htmlFor="NumeroBagni"><strong>Numero Bagni</strong></label>
+                        <label htmlFor="bagni"><strong>Numero Bagni</strong></label>
                         <input
                             className="form-control w-100 custom-width"
-                            id="NumeroBagni"
+                            id="bagni"
+                            name="bagni"
                             type="number"
                             value={postiBagno}
                             onChange={(event) => setPostiBagno(event.target.value)}
@@ -222,10 +227,11 @@ function SearchPage() {
                         />
                     </div>
                     <div className="col-12 col-md-4 d-flex flex-column align-items-center">
-                        <label htmlFor="SuperficieMinima"><strong>Superficie minima</strong></label>
+                        <label htmlFor="superficie_min"><strong>Superficie minima</strong></label>
                         <input
                             className="form-control w-100 custom-width"
-                            id="SuperficieMinima"
+                            id="superficie_min"
+                            name="superficie_min"
                             type="number"
                             value={superficieMinima}
                             onChange={(event) => setSuperficieMinima(event.target.value)}
@@ -233,10 +239,11 @@ function SearchPage() {
                         />
                     </div>
                     <div className="col-12 col-md-4 d-flex flex-column align-items-center">
-                        <label htmlFor="SuperficieMassima"><strong>Superficie massima</strong></label>
+                        <label htmlFor="superficie_max"><strong>Superficie massima</strong></label>
                         <input
                             className="form-control w-100 custom-width"
-                            id="SuperficieMassima"
+                            id="superficie_max"
+                            name="superficie_max"
                             type="number"
                             value={superficieMassima}
                             onChange={(event) => setSuperficieMassima(event.target.value)}

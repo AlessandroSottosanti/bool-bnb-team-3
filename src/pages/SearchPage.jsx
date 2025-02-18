@@ -61,7 +61,12 @@ function SearchPage() {
             .get(`${backEndUrl}/immobili`, { params: filteredParams })
             .then((resp) => {
                 console.log("Risposta immobili:", resp);
-                setImmobili(resp.data.immobili);
+                const savedHeartCounts = JSON.parse(localStorage.getItem("heartCounts")) || {};
+                const immobiliWithLikes = resp.data.immobili.map((immobili) => {
+                  return { ...immobili, heartCount: savedHeartCounts[immobili.id] || 0, voto: immobili.voto_medio || 0 }
+                });
+                immobiliWithLikes.sort((a, b) => b.heartCount - a.heartCount || b.voto - a.voto);
+                setImmobili(immobiliWithLikes);
                 setHasSearched(true);
             })
             .catch((err) => {
@@ -118,6 +123,25 @@ function SearchPage() {
             handleSearch();
         }
     };
+
+    const handleLike = (event, id) => {
+        event.stopPropagation();
+        event.preventDefault();
+        setImmobili((prevImmobili) => {
+          const updated = prevImmobili.map((immobili) => {
+            if (immobili.id === id) {
+              const newHeartCount = immobili.heartCount + 1;
+              const savedHeartCounts = JSON.parse(localStorage.getItem("heartCounts")) || {};
+              savedHeartCounts[immobili.id] = newHeartCount;
+              localStorage.setItem("heartCounts", JSON.stringify(savedHeartCounts));
+              return { ...immobili, heartCount: newHeartCount }
+            }
+            return immobili
+          })
+          updated.sort((a, b) => b.heartCount - a.heartCount || b.voto - a.voto);
+          return updated
+        })
+      }
 
     //funzione stelle
     const renderStars = (voto) => {
@@ -297,6 +321,10 @@ function SearchPage() {
                                         <p><strong>Numero di bagni:</strong> {immobile.bagni}</p>
                                         <p><strong>Mq:</strong> {immobile.mq}</p>
                                         <p><strong>Voto:</strong>{renderStars(Number(immobile.voto_medio))}</p>
+                                        <div className="d-flex justify-content-center align-items-center mb-2">
+                                            <button className="btn btn-outline-danger me-2" onClick={(e) => handleLike(e, immobile.id)}>❤️</button>
+                                            <span>{immobile.heartCount}</span>
+                                        </div>
                                         <p><strong>Numero di recensioni:</strong> {immobile.tot_recensioni}</p>
                                         <Link to={`/${immobile.slug}`} className="btn btn-secondary">
                                             Dettagli

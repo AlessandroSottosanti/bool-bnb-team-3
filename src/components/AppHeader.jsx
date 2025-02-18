@@ -47,9 +47,9 @@ function AppHeader() {
               <ul className="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-center">
                 {navLinks.map((curItem, index) => {
                   return (
-                    <li className="nav-item" key={index}>
+                    <li className="nav-item mx-2" key={index}>
                       <NavLink
-                        className="nav-link"
+                        className="nav-link-elem"
                         aria-current="page"
                         to={curItem.path}
                       >

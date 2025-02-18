@@ -9,7 +9,6 @@
 .navbar .container-fluid .nav-item a.nav-link.nav-link.active{
   font-weight: 500;
   color: rgb(255, 255, 255);
-  border-bottom: 1px solid white;
 }
 
 .fa-star{
@@ -82,4 +81,34 @@ a {
 .btn-orange:hover{
   background-color: #af6227;
   color: white; 
+}
+
+.nav-link-elem {
+  position: relative;
+  color: white; /* Testo bianco */
+  text-decoration: none; /* Rimuove sottolineatura predefinita */
+  padding: 5px 0; /* Un po' di spazio per la barra sotto */
+  transition: color 0.3s ease-in-out;
+}
+
+.nav-link-elem::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 2px; /* Altezza della barra */
+  background-color: rgb(255, 255, 255);
+  transition: width 0.3s ease-in-out;
+  transform: translateX(-50%);
+}
+
+.nav-link-elem:hover::after,
+.nav-link-elem.active::after {
+  background-color: white; /* Barra completamente bianca all'hover e quando attivo */
+  width: 100%;
+}
+
+.nav-link-elem.active {
+  font-weight: 600; /* Puoi rimuoverlo se non vuoi un testo più marcato */
 }

@@ -115,12 +115,12 @@ function HomePage() {
         </div>
       </div>
       <div className="container mt-3">
-        <div className="row g-3 row-cols-1 row-cols-sm-2 row-cols-md-3 ">
+        <div className="row g-3 row-cols-1 row-cols-lg-3 ">
           {immobili &&
             immobili.slice(0, 10).map((immobile) => {
               if (immobile) {
                 return (
-                  <div className="col" key={immobile.id}>
+                  <div className="col my-3" key={immobile.id}>
                     <Link to={`/${immobile.slug}`}>
                       <div className="card h-100 d-flex flex-column">
                         {/* Immagine segnaposto */}

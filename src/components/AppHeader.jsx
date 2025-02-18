@@ -21,7 +21,7 @@ function AppHeader() {
   return (
     <>
       <header>
-        <nav className="navbar navbar-expand-lg bg-secondary">
+        <nav className="navbar navbar-expand-lg">
           <div className="container-fluid">
               <NavLink className="navbar-brand" to="/">
                 <img

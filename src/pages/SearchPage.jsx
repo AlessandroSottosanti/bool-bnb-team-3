@@ -35,7 +35,7 @@ function SearchPage() {
             setSearch(searchCity);
             getTipiAlloggi();
         }
-    }, [searchCity, postiLocali, postiBagno, superficieMinima, superficieMassima, tipiAlloggioSelezionati, votoMedio]);
+    }, [searchCity, postiLocali, postiBagno, superficieMinima, superficieMassima, tipiAlloggioSelezionati, votoMedio, postiLetto]);
 
     const getImmobili = (city) => {
         const tipiAlloggioParam = tipiAlloggioSelezionati.length > 0
@@ -51,6 +51,7 @@ function SearchPage() {
             superficie_max: superficieMassima || undefined,
             tipi_alloggio: tipiAlloggioParam,
             voto_medio: votoMedio || undefined,
+            posti_letto: postiLetto || undefined
         };
 
         const filteredParams = Object.fromEntries(
@@ -180,6 +181,8 @@ function SearchPage() {
                             id="posti_letto"
                             name="posti_letto"
                             type="number"
+                            min="0"
+                            max="100"
                             value={postiLetto}
                             onChange={(event) => setPostiLetto(event.target.value)}
                             onKeyUp={handleKeyPress}
@@ -214,6 +217,8 @@ function SearchPage() {
                             id="locali"
                             name="locali"
                             type="number"
+                            min="0"
+                            max="100"
                             value={postiLocali}
                             onChange={(event) => setPostiLocali(event.target.value)}
                             onKeyUp={handleKeyPress}
@@ -226,6 +231,8 @@ function SearchPage() {
                             id="bagni"
                             name="bagni"
                             type="number"
+                            min="0"
+                            max="100"
                             value={postiBagno}
                             onChange={(event) => setPostiBagno(event.target.value)}
                             onKeyUp={handleKeyPress}
@@ -263,6 +270,8 @@ function SearchPage() {
                             id="votoMedio"
                             name="votoMedio"
                             type="number"
+                            min="1"
+                            max="5"
                             value={votoMedio}
                             onChange={(event) => setVotoMedio(event.target.value)}
                             onKeyUp={handleKeyPress}

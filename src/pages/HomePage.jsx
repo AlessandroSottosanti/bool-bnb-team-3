@@ -13,14 +13,36 @@ function HomePage() {
     getImmobili();
   }, []);
 
+  useEffect(() => {
+    const savedHeartCounts = JSON.parse(localStorage.getItem("heartCounts")) || {};
+    setImmobili((prevImmobili) =>
+      prevImmobili.map((immobile) => ({
+        ...immobile,
+        heartCount: savedHeartCounts[immobile.id] || 0,
+      }))
+    );
+  }, []);
+
+  useEffect(() => {
+    if (immobili.length > 0) {
+      const heartCounts = immobili.reduce((acc, immobile) => {
+        acc[immobile.id] = immobile.heartCount;
+        return acc;
+      }, {});
+      localStorage.setItem("heartCounts", JSON.stringify(heartCounts));
+    }
+  }, [immobili]);
+
   //funzione lista immobili
   const getImmobili = () => {
     axios
       .get(`${apiUrl}/immobili?order_by_voto=desc`)
       .then((resp) => {
+        const savedHeartCounts = JSON.parse(localStorage.getItem("heartCounts")) || {};
         const immobiliWithLikes = resp.data.immobili.map((immobili) => {
-          return { ...immobili, heartCount: 0, voto: immobili.voto_medio || 0 }
+          return { ...immobili, heartCount: savedHeartCounts[immobili.id] || 0, voto: immobili.voto_medio || 0 }
         })
+        immobiliWithLikes.sort((a, b) => b.heartCount - a.heartCount || b.voto - a.voto);
         console.log(resp);
         setImmobili(immobiliWithLikes);
         console.log("Response get immobili:", {
@@ -62,7 +84,7 @@ function HomePage() {
         }
         return immobili
       })
-      updated.sort((a, b) => b.heartCount - a.heartCount)
+      updated.sort((a, b) => b.heartCount - a.heartCount || b.voto - a.voto);
       return updated
     })
   }
@@ -70,7 +92,6 @@ function HomePage() {
   //default image
   const defaultImage = "../images/placeholder.webp";
 
-  //funzione stelle
   const renderStars = (voto) => {
     const fullStars = Math.ceil(voto);
     const emptyStars = 5 - fullStars;

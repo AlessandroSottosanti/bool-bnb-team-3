@@ -25,7 +25,7 @@ function AppHeader() {
           <div className="container-fluid">
               <NavLink className="navbar-brand" to="/">
                 <img
-                  src="../images/logo.png"
+                  src="../images/newlogo.png"
                   style={{ width: "70px", height: "70px" }}
                 />
               </NavLink>

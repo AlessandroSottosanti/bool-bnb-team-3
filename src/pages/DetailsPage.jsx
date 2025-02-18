@@ -4,7 +4,6 @@ import { Link, useParams } from "react-router-dom";
 import "./detailPageCss.css"
 import ReviewModale from "../components/ReviewModale";
 
-
 const apiUrl = import.meta.env.VITE_API_URL;
 
 function PaginaDettaglio() {
@@ -12,15 +11,16 @@ function PaginaDettaglio() {
     const [immobile, setImmobile] = useState(null);
     const [caricamento, setCaricamento] = useState(true);
     const [errore, setErrore] = useState(null);
+    const [heartCount, setHeartCount] = useState(0);
 
-
-    
     const showImmobile = () => {
         // Effettua la richiesta all'API
         axios.get(`${apiUrl}/immobili/${slug}`)
             .then(response => {
                 // Salva i dati ricevuti nello stato
                 setImmobile(response.data.results);
+                const savedHeartCounts = JSON.parse(localStorage.getItem("heartCounts")) || {};
+                setHeartCount(savedHeartCounts[response.data.results.immobile.id] || 0);
             })
             .catch(() => {
                 // Se c'è un errore, lo gestiamo
@@ -31,12 +31,12 @@ function PaginaDettaglio() {
                 setCaricamento(false);
             });
     }
-    
+
     useEffect(() => {
 
-    showImmobile();
-    
-}, [slug]); // Effettua la richiesta quando cambia lo slug
+        showImmobile();
+
+    }, [slug]); // Effettua la richiesta quando cambia lo slug
 
     if (caricamento) return <p>Caricamento...</p>;
     if (!immobile) return <p>Elemento non trovato</p>;
@@ -77,6 +77,16 @@ function PaginaDettaglio() {
         }
     };
 
+    const handleLike = (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        const newHeartCount = heartCount + 1;
+        const savedHeartCounts = JSON.parse(localStorage.getItem("heartCounts")) || {};
+        savedHeartCounts[immobile.immobile.id] = newHeartCount;
+        localStorage.setItem("heartCounts", JSON.stringify(savedHeartCounts));
+        setHeartCount(newHeartCount);
+    };
+
     const handleSubmit = (nuovaRecensione) => {
         console.log(nuovaRecensione);
 
@@ -91,7 +101,7 @@ function PaginaDettaglio() {
                 alert("Errore nell'invio della recensione.");
             });
     };
-    
+
 
     return (
         <main>
@@ -100,7 +110,7 @@ function PaginaDettaglio() {
                     <div id="title" className="d-flex py-2">
                         <h2>
                             <a href="#adress" onClick={handleHighlight}><i className="fa-solid fa-location-dot me-1"></i>
-                            {immobile.immobile.titolo_descrittivo}
+                                {immobile.immobile.titolo_descrittivo}
                             </a>
                         </h2>
                     </div>
@@ -190,6 +200,10 @@ function PaginaDettaglio() {
                             <span><i className="fa-solid fa-envelope"></i> <strong>Email: </strong>{immobile.immobile.email_proprietario}</span>
                         </div>
                         <hr />
+                        <div className="d-flex justify-content-center align-items-center mb-2">
+                            <button className="btn btn-outline-danger me-2" onClick={handleLike}>❤️</button>
+                            <span>{heartCount}</span>
+                        </div>
                     </div>
                 </div>
                 <div id="recensioni" className="pt-5">
@@ -235,9 +249,9 @@ function PaginaDettaglio() {
                     ))}
                 </div>
                 <div id="nuova_recensione" className="d-flex py-3">
-                    <ReviewModale 
-                    handleSubmit={handleSubmit}
-                    immobile={immobile}
+                    <ReviewModale
+                        handleSubmit={handleSubmit}
+                        immobile={immobile}
                     />
                     <button id="detail-button" type="button" className="open-modal-btn btn-secondary mx-2"><Link to="/">Torna alla home</Link></button>
                 </div>

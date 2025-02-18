@@ -73,3 +73,13 @@ a {
   background-color: #EF8634;
   color: white;
 }
+
+.btn-orange {
+  background-color: #EF8634;
+  color: white; 
+}
+
+.btn-orange:hover{
+  background-color: #af6227;
+  color: white; 
+}

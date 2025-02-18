@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import AppCard from "../components/AppCard";
 
 function SearchPage() {
     const [search, setSearch] = useState("");
@@ -45,25 +46,25 @@ function SearchPage() {
             bagni: postiBagno || undefined,
             superficie_min: superficieMinima || undefined,
             superficie_max: superficieMassima || undefined,
-            tipi_alloggio: selectedTipologia || undefined, 
+            tipi_alloggio: selectedTipologia || undefined,
             voto_medio: votoMedio || undefined,
             posti_letto: postiLetto || undefined
         };
-    
+
         console.log("Query Params inviati:", queryParams);
-    
+
         // Rimuoviamo i parametri non definiti per evitare di inviare undefined
         const filteredParams = Object.fromEntries(
             Object.entries(queryParams).filter(([_, value]) => value !== undefined)
         );
-    
+
         axios
             .get(`${backEndUrl}/immobili`, { params: filteredParams })
             .then((resp) => {
                 console.log("Risposta immobili:", resp);
                 const savedHeartCounts = JSON.parse(localStorage.getItem("heartCounts")) || {};
                 const immobiliWithLikes = resp.data.immobili.map((immobili) => {
-                  return { ...immobili, heartCount: savedHeartCounts[immobili.id] || 0, voto: immobili.voto_medio || 0 }
+                    return { ...immobili, heartCount: savedHeartCounts[immobili.id] || 0, voto: immobili.voto_medio || 0 }
                 });
                 immobiliWithLikes.sort((a, b) => b.heartCount - a.heartCount || b.voto - a.voto);
                 setImmobili(immobiliWithLikes);
@@ -79,10 +80,10 @@ function SearchPage() {
                 }
             });
 
-            console.log("filteredParams",filteredParams)
+        console.log("filteredParams", filteredParams)
     };
-    
-    
+
+
 
 
 
@@ -105,7 +106,7 @@ function SearchPage() {
         setWarning(""); // Reset del messaggio di errore
     };
 
-    
+
 
     const handleSearch = () => {
         if (search.trim() === "") {
@@ -128,20 +129,20 @@ function SearchPage() {
         event.stopPropagation();
         event.preventDefault();
         setImmobili((prevImmobili) => {
-          const updated = prevImmobili.map((immobili) => {
-            if (immobili.id === id) {
-              const newHeartCount = immobili.heartCount + 1;
-              const savedHeartCounts = JSON.parse(localStorage.getItem("heartCounts")) || {};
-              savedHeartCounts[immobili.id] = newHeartCount;
-              localStorage.setItem("heartCounts", JSON.stringify(savedHeartCounts));
-              return { ...immobili, heartCount: newHeartCount }
-            }
-            return immobili
-          })
-          updated.sort((a, b) => b.heartCount - a.heartCount || b.voto - a.voto);
-          return updated
+            const updated = prevImmobili.map((immobili) => {
+                if (immobili.id === id) {
+                    const newHeartCount = immobili.heartCount + 1;
+                    const savedHeartCounts = JSON.parse(localStorage.getItem("heartCounts")) || {};
+                    savedHeartCounts[immobili.id] = newHeartCount;
+                    localStorage.setItem("heartCounts", JSON.stringify(savedHeartCounts));
+                    return { ...immobili, heartCount: newHeartCount }
+                }
+                return immobili
+            })
+            updated.sort((a, b) => b.heartCount - a.heartCount || b.voto - a.voto);
+            return updated
         })
-      }
+    }
 
     //funzione stelle
     const renderStars = (voto) => {
@@ -301,38 +302,16 @@ function SearchPage() {
 
             {(hasSearched && !warning) && immobili.length > 0 ? (
                 <div className="container mt-4">
-                    <div className="row g-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+                    <div className="row g-3 row-cols-1 row-cols-lg-3">
                         {immobili.map((immobile) => (
-                            <div className="col" key={immobile.id}>
-                                <div className="card h-100">
-                                    <img
-                                        src={immobile.image || "default.jpg"}
-                                        alt={immobile.titolo_descrittivo}
-                                        className="card-img-top"
-                                    />
-                                    <div className="card-header text-center">
-                                        <h5 className="m-0">{immobile.titolo_descrittivo}</h5>
-                                    </div>
-                                    <div className="card-body text-center">
-                                        <p><strong>Descrizione:</strong> {immobile.descrizione}</p>
-                                        <p><strong>Indirizzo:</strong> {immobile.indirizzo_completo}</p>
-                                        <p><strong>Numero di stanze:</strong> {immobile.locali}</p>
-                                        <p><strong>Numero di posti letto:</strong> {immobile.posti_letto}</p>
-                                        <p><strong>Numero di bagni:</strong> {immobile.bagni}</p>
-                                        <p><strong>Mq:</strong> {immobile.mq}</p>
-                                        <p><strong>Voto:</strong>{renderStars(Number(immobile.voto_medio))}</p>
-                                        <div className="d-flex justify-content-center align-items-center mb-2">
-                                            <button className="btn btn-outline-danger me-2" onClick={(e) => handleLike(e, immobile.id)}>❤️</button>
-                                            <span>{immobile.heartCount}</span>
-                                        </div>
-                                        <p><strong>Numero di recensioni:</strong> {immobile.tot_recensioni}</p>
-                                        <Link to={`/${immobile.slug}`} className="btn btn-secondary">
-                                            Dettagli
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
+                            <AppCard
+                                immobile={immobile}
+                                defaultImage={defaultImage}
+                                Link={Link}
+                                renderStars={renderStars}
+                            />
+                        )
+                        )}
                     </div>
                 </div>
             ) : hasSearched && immobili.length === 0 ? (

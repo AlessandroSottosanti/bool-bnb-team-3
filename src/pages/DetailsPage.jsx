@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./detailPageCss.css"
 import ReviewModale from "../components/ReviewModale";
+import SendEmail from "../components/SendEmail";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -197,7 +198,9 @@ function PaginaDettaglio() {
                                     .replace(/\b\w/g, letter => letter.toUpperCase())}  {/* Trasforma la prima lettera di ogni parola in maiuscolo */}
                                 </span>
                             </div>
-                            <span><i className="fa-solid fa-envelope"></i> <strong>Email: </strong>{immobile.immobile.email_proprietario}</span>
+                            <div>
+                                <SendEmail />
+                            </div>
                         </div>
                         <hr />
                         <div className="d-flex justify-content-center align-items-center mb-2">
@@ -253,9 +256,10 @@ function PaginaDettaglio() {
                         handleSubmit={handleSubmit}
                         immobile={immobile}
                     />
-                    <button id="detail-button" type="button" className="open-modal-btn btn-secondary mx-2"><Link to="/">Torna alla home</Link></button>
                 </div>
             </section >
+            <Link className="btn btn-secondary ms-5" to="/"><i class="fa-solid fa-arrow-left"></i> Indietro</Link>
+
         </main >
     );
 }

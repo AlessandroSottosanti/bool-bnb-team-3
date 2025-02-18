@@ -70,6 +70,7 @@ function HomePage() {
   //default image
   const defaultImage = "../images/placeholder.webp";
 
+  //funzione stelle
   const renderStars = (voto) => {
     const fullStars = Math.ceil(voto);
     const emptyStars = 5 - fullStars;

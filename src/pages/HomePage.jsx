@@ -110,14 +110,14 @@ function HomePage() {
     <main>
       <h1 className="text-center my-3">Immobili🏢</h1>
       <div className="container">
-        <div className="d-flex justify-content-between align-items-start">
+        <div className="d-flex justify-content-center align-items-center flex-wrap gap-5">
           {/* Search  */}
-          <div className="mb-3 flex-grow-1 d-flex flex-column align-items-center">
+          <div className="mb-3 d-flex flex-column align-items-center ">
             <h5 className="mb-2">Inserisci città</h5>
             <div className="d-flex align-items-center w-100 justify-content-center">
               <input
                 type="text"
-                className="form-control w-25"
+                className="form-control"
                 placeholder="Cerca per città..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -127,13 +127,16 @@ function HomePage() {
             </div>
           </div>
           {/* Aggiunta di immobile */}
-          <div className="mb-3 flex-grow-1 d-flex flex-column align-items-center text-center">
+          <div className="mb-3 d-flex flex-column align-items-center text-center">
             <h5 className="mb-3">Vuoi aggiungere un immobile?</h5>
-            <Link to="/create" className="btn btn-secondary">
+            <Link to="/create" className="btn btn-success">
               Aggiungi
             </Link>
           </div>
         </div>
+      </div>
+      <div className="container d-flex justify-content-center mt-3">
+        <h1>I 10 migliori immobili del momento:</h1>
       </div>
       <div className="container mt-3">
         <div className="row g-3 row-cols-1 row-cols-lg-3 ">

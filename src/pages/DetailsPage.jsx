@@ -14,7 +14,7 @@ function PaginaDettaglio() {
     const [errore, setErrore] = useState(null);
 
 
-    
+
     const showImmobile = () => {
         // Effettua la richiesta all'API
         axios.get(`${apiUrl}/immobili/${slug}`)
@@ -31,12 +31,12 @@ function PaginaDettaglio() {
                 setCaricamento(false);
             });
     }
-    
+
     useEffect(() => {
 
-    showImmobile();
-    
-}, [slug]); // Effettua la richiesta quando cambia lo slug
+        showImmobile();
+
+    }, [slug]); // Effettua la richiesta quando cambia lo slug
 
     if (caricamento) return <p>Caricamento...</p>;
     if (!immobile) return <p>Elemento non trovato</p>;
@@ -91,7 +91,7 @@ function PaginaDettaglio() {
                 alert("Errore nell'invio della recensione.");
             });
     };
-    
+
 
     return (
         <main>
@@ -100,7 +100,7 @@ function PaginaDettaglio() {
                     <div id="title" className="d-flex py-2">
                         <h2>
                             <a href="#adress" onClick={handleHighlight}><i className="fa-solid fa-location-dot me-1"></i>
-                            {immobile.immobile.titolo_descrittivo}
+                                {immobile.immobile.titolo_descrittivo}
                             </a>
                         </h2>
                     </div>
@@ -235,13 +235,14 @@ function PaginaDettaglio() {
                     ))}
                 </div>
                 <div id="nuova_recensione" className="d-flex py-3">
-                    <ReviewModale 
-                    handleSubmit={handleSubmit}
-                    immobile={immobile}
+                    <ReviewModale
+                        handleSubmit={handleSubmit}
+                        immobile={immobile}
                     />
-                    <button id="detail-button" type="button" className="open-modal-btn btn-secondary mx-2"><Link to="/">Torna alla home</Link></button>
                 </div>
             </section >
+            <Link className="btn btn-secondary ms-5" to="/"><i class="fa-solid fa-arrow-left"></i> Indietro</Link>
+
         </main >
     );
 }

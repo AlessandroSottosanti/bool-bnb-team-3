@@ -25,10 +25,18 @@ function SearchPage() {
     const initialCity = searchParams.get("city") || ""; //ottengo la città dall'url
     const [searchCity, setSearchCity] = useState(initialCity);
     const [tipiAlloggio, setTipiAlloggio] = useState([]);
-    const [tipiAlloggioSelezionati, setTipiAlloggioSelezionati] = useState([]);
     const [selectedTipologia, setSelectedTipologia] = useState('')
 
     const backEndUrl = import.meta.env.VITE_API_URL;
+
+    useEffect(() => {
+        if (searchCity.trim() !== "") {
+            getImmobili(searchCity);
+            setSearch(searchCity);
+            getTipiAlloggi();
+        }
+    }, []);
+
 
     useEffect(() => {
         if (searchCity.trim() !== "") {
@@ -93,6 +101,7 @@ function SearchPage() {
         axios.get(`${import.meta.env.VITE_API_URL}/tipi-alloggi`).then((resp) => {
             const { results } = resp.data
             setTipiAlloggio(results)
+            console.log('results',results);
         }).catch((error) => {
 
             console.error('Errore nel recupero dei tipi di alloggi', error.status)
@@ -164,7 +173,7 @@ function SearchPage() {
     const defaultImage = "../images/placeholder.webp";
 
     console.log(selectedTipologia);
-
+    console.log("tipiAlloggio",tipiAlloggio);
     console.log("immobili", immobili.immobili);
     return (
         <main>

@@ -1,6 +1,6 @@
 function AppFooter() {
     return (
-      <footer className="footer text-center text-white py-2 vh-20 bottom-0 mt-3">
+      <footer className="footer text-center text-white py-2 vh-20 bottom-0 mt-3 py-4">
         <div className="container">
           <div className="row ">
             {/* Sezione Contatti */}

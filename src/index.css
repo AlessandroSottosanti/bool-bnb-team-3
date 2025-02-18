@@ -3,12 +3,13 @@
 }
 
 .navbar .container-fluid a {
-  color: white;
+  color: whitesmoke;
 }
 
 .navbar .container-fluid .nav-item a.nav-link.nav-link.active{
   font-weight: 500;
-  color: rgb(197, 197, 197);
+  color: rgb(255, 255, 255);
+  border-bottom: 1px solid white;
 }
 
 .fa-star{
@@ -21,10 +22,11 @@ main{
 
 .navbar {
   color: white;
+  background-color: #EF8634;
 }
 
 .footer {
- background-color: #6c757d; 
+ background-color: #EF8634; 
  font-size: 0.8rem;
 }
 
@@ -65,4 +67,9 @@ main{
 
 a {
   text-decoration: none !important;
+}
+
+.card-header {
+  background-color: #EF8634;
+  color: white;
 }

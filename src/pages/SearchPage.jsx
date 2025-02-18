@@ -13,6 +13,7 @@ function SearchPage() {
     const [postiBagno, setPostiBagno] = useState(0);
     const [superficieMinima, setSuperficieMinima] = useState(0);
     const [superficieMassima, setSuperficieMassima] = useState(0);
+    const [votoMedio, setVotoMedio] = useState(0);
 
     const [params, setParams] = useState([]);
 
@@ -28,21 +29,19 @@ function SearchPage() {
 
     const backEndUrl = import.meta.env.VITE_API_URL;
 
-    //use effect per i risultati iniziali
     useEffect(() => {
         if (searchCity.trim() !== "") {
-            setSearch(searchCity);
             getImmobili(searchCity);
+            setSearch(searchCity);
             getTipiAlloggi();
         }
-    }, [searchCity, params]);
-
-    useEffect(() => {
-        getImmobili(searchCity);
-    }, [postiLocali,postiBagno,superficieMinima,superficieMassima, selectedTipologia]);
+    }, [searchCity, postiLocali, postiBagno, superficieMinima, superficieMassima, tipiAlloggioSelezionati, votoMedio]);
 
     const getImmobili = (city) => {
-        // Costruisco l'oggetto dei parametri per la richiesta
+        const tipiAlloggioParam = tipiAlloggioSelezionati.length > 0
+            ? tipiAlloggioSelezionati.map(t => t.id).join(",")
+            : undefined;
+
         const queryParams = {
             order_by_voto: "desc",
             search: city,
@@ -50,15 +49,14 @@ function SearchPage() {
             bagni: postiBagno || undefined,
             superficie_min: superficieMinima || undefined,
             superficie_max: superficieMassima || undefined,
-            tipi_alloggio: tipiAlloggioSelezionati.map(t => t.id).join(",") || undefined,
-            voto_medio: undefined, // Aggiungi il valore se necessario
+            tipi_alloggio: tipiAlloggioParam,
+            voto_medio: votoMedio || undefined,
         };
-    
-        // Filtro i parametri nulli/undefined
+
         const filteredParams = Object.fromEntries(
             Object.entries(queryParams).filter(([_, value]) => value !== undefined)
         );
-    
+
         axios
             .get(`${backEndUrl}/immobili`, { params: filteredParams })
             .then((resp) => {
@@ -67,10 +65,20 @@ function SearchPage() {
                 setHasSearched(true);
             })
             .catch((err) => {
-                console.error("Errore nel recupero degli immobili:", err);
-                setWarning("Errore nel recupero degli immobili. Riprova più tardi.");
+
+                if (err.status === 404) {
+                    setWarning("Nessun immobile trovato");
+                    console.error("Nessun immobile trovato:", err);
+
+                }
+                else {
+                    console.error("Errore nel recupero degli immobili:", err);
+                    setWarning("Errore nel recupero degli immobili. Riprova più tardi.");
+                }
+
             });
     };
+
 
 
     const getTipiAlloggi = () => {
@@ -78,15 +86,16 @@ function SearchPage() {
             const { results } = resp.data
             setTipiAlloggio(results)
         }).catch((error) => {
-            console.error('Errore nel recupero dei tipi di alloggi', error)
+
+            console.error('Errore nel recupero dei tipi di alloggi', error.status)
         })
     }
 
-    
+
     const handleSelectChange = (event) => {
         console.log("target", event.target.name);
         setSelectedTipologia(event.target.value),
-        setParams([...params, `${event.target.name}=${event.target.value}`]);
+            setParams([...params, `${event.target.name}=${event.target.value}`]);
     };
     const handleAddTipologia = () => {
         if (selectedTipologia) {
@@ -122,20 +131,19 @@ function SearchPage() {
         }
     };
 
-    //Implemento stelline il rating dell'immobile
-
-    // const renderStars = (voto) => {
-    //     const fullStars = Math.ceil(voto);
-    //     const emptyStars = 5 - fullStars;
-    //     const stars = [];
-    //     for (let i = 0; i < fullStars; i++) {
-    //         stars.push(<i key={`full-${i}`} className="fa-solid fa-star"></i>); // Aggiungi un `key` univoco
-    //     }
-    //     for (let i = 0; i < emptyStars; i++) {
-    //         stars.push(<i key={`empty-${i}`} className="fa-regular fa-star"></i>); // Aggiungi un `key` univoco
-    //     }
-    //     return stars;
-    // };
+    //funzione stelle
+    const renderStars = (voto) => {
+        const fullStars = Math.ceil(voto);
+        const emptyStars = 5 - fullStars;
+        const stars = [];
+        for (let i = 0; i < fullStars; i++) {
+            stars.push(<i key={`full-${i}`} className="fa-solid fa-star"></i>);
+        }
+        for (let i = 0; i < emptyStars; i++) {
+            stars.push(<i key={`empty-${i}`} className="fa-regular fa-star"></i>);
+        }
+        return stars;
+    };
 
     //default image
     const defaultImage = "../images/placeholder.webp";
@@ -145,11 +153,11 @@ function SearchPage() {
     console.log("immobili", immobili.immobili);
     return (
         <main>
-             <div className="text-center">
+            <div className="text-center">
                 <h1 className="mt-3">Ricerca Avanzata</h1>
             </div>
 
-            
+
             <div className="container">
                 <div className="row g-1">
                     <div className="col-12 d-flex flex-column align-items-center">
@@ -164,6 +172,7 @@ function SearchPage() {
                             onKeyUp={handleKeyPress}
                         />
                     </div>
+
                     <div className="col-12 col-md-4 d-flex flex-column align-items-center">
                         <label htmlFor="posti_letto"><strong>Numero di posti letto</strong></label>
                         <input
@@ -177,11 +186,9 @@ function SearchPage() {
                         />
                     </div>
 
-                    <label className="mt-3" htmlFor="tipi_alloggio">
-                        Tipo di Alloggio
-                    </label>
-                    <div className="mt-3 d-flex gap-2">
 
+                    <div className="col-12 col-md-4 d-flex flex-column align-items-center">
+                        <label htmlFor="posti_letto"><strong>Tipo di alloggio</strong></label>
                         <select
                             className="form-select"
                             id="tipi_alloggio"
@@ -196,11 +203,9 @@ function SearchPage() {
                                 </option>
                             ))}
                         </select>
-                        <button className="btn btn-primary" type="button" onClick={handleAddTipologia}>
-                            Aggiungi
-                        </button>
+
                     </div>
-                    
+
 
                     <div className="col-12 col-md-4 d-flex flex-column align-items-center">
                         <label htmlFor="locali"><strong>Numero Locali</strong></label>
@@ -250,6 +255,19 @@ function SearchPage() {
                             onKeyUp={handleKeyPress}
                         />
                     </div>
+
+                    <div className="col-12 d-flex flex-column align-items-center">
+                        <label htmlFor="search"><strong>Voto medio</strong></label>
+                        <input
+                            className="form-control w-100 custom-width-city"
+                            id="votoMedio"
+                            name="votoMedio"
+                            type="number"
+                            value={votoMedio}
+                            onChange={(event) => setVotoMedio(event.target.value)}
+                            onKeyUp={handleKeyPress}
+                        />
+                    </div>
                 </div>
             </div>
 
@@ -261,7 +279,7 @@ function SearchPage() {
 
             {warning && <p className="text-danger text-center mt-2">{warning}</p>}
 
-            {hasSearched && immobili.length > 0 ? (
+            {(hasSearched && !warning) && immobili.length > 0 ? (
                 <div className="container mt-4">
                     <div className="row g-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
                         {immobili.map((immobile) => (
@@ -282,7 +300,7 @@ function SearchPage() {
                                         <p><strong>Numero di posti letto:</strong> {immobile.posti_letto}</p>
                                         <p><strong>Numero di bagni:</strong> {immobile.bagni}</p>
                                         <p><strong>Mq:</strong> {immobile.mq}</p>
-                                        <p><strong>Voto:</strong> ★★★★☆</p>
+                                        <p><strong>Voto:</strong>{renderStars(Number(immobile.voto_medio))}</p>
                                         <p><strong>Numero di recensioni:</strong> {immobile.tot_recensioni}</p>
                                         <Link to={`/${immobile.slug}`} className="btn btn-secondary">
                                             Dettagli

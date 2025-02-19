@@ -109,54 +109,75 @@ function HomePage() {
 
   return (
     <main>
-      <div className="container my-5">
-        <div className="d-flex justify-content-center align-items-center flex-wrap gap-5">
-          {/* Search  */}
-          <div className="mb-3 d-flex flex-column align-items-center ">
-            <h5 className="mb-2">Inserisci città / via</h5>
-            <div className="d-flex align-items-center w-100 justify-content-center">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Cerca..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onKeyUp={handleKeyPress}
+  {/* Hero Section */}
+  <div className="hero position-relative text-white text-center">
+    <img
+      src={`${apiUrl}/images/hero.jpg`}
+      alt="Hero Image"
+      className="img-fluid w-100"
+      style={{ objectFit: "cover", height: "400px" }}
+    />
+    <div className="hero-overlay position-absolute top-50 start-50 translate-middle">
+      <h1 className="fw-bold">Trova la Casa dei Tuoi Sogni 🏡</h1>
+      <p className="fs-5">
+        Scopri le migliori proprietà selezionate per te! Ville con piscina, appartamenti moderni e panoramici. 
+      </p>
+      <Link to={`/search`} className="btn btn-orange mt-2">Ricerca Avanzata</Link>
+    </div>
+  </div>
+
+  {/* Search & Add Section */}
+  <div className="container my-5">
+    <div className="d-flex justify-content-center align-items-center flex-wrap gap-5">
+      {/* Search  */}
+      <div className="mb-3 d-flex gap-2 align-items-center">
+        <h5 className="mb-2">Inserisci città / via</h5>
+        <div className="d-flex align-items-center w-100 justify-content-center">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Cerca..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onKeyUp={handleKeyPress}
+          />
+          <button className="btn btn-orange ms-2" onClick={handleSearch}>Cerca</button>
+        </div>
+      </div>
+      {/* Aggiunta di immobile */}
+      <div className="mb-3 d-flex gap-2 align-items-center justify-content-center">
+        <h5>Vuoi aggiungere un immobile?</h5>
+        <Link to="/create" className="btn btn-success">
+          + Aggiungi
+        </Link>
+      </div>
+    </div>
+  </div>
+
+  {/* Property Listings */}
+  <div className="container d-flex justify-content-center mt-3">
+    <h1>I 10 migliori immobili del momento 🏢:</h1>
+  </div>
+  <div className="container mt-3">
+    <div className="row g-3 row-cols-1 row-cols-lg-3">
+      {immobili &&
+        immobili.slice(0, 10).map((immobile) => {
+          if (immobile) {
+            return (
+              <AppCard
+                immobile={immobile}
+                defaultImage={defaultImage}
+                Link={Link}
+                renderStars={renderStars}
+                handleLike={handleLike}
               />
-              <button className="btn btn-orange ms-2" onClick={handleSearch}>Cerca</button>
-            </div>
-          </div>
-          {/* Aggiunta di immobile */}
-          <div className="mb-3 d-flex flex-column align-items-center text-center">
-            <h5 className="mb-3">Vuoi aggiungere un immobile?</h5>
-            <Link to="/create" className="btn btn-success">
-              + Aggiungi
-            </Link>
-          </div>
-        </div>
-      </div>
-      <div className="container d-flex justify-content-center mt-3">
-        <h1>I 10 migliori immobili del momento 🏢:</h1>
-      </div>
-      <div className="container mt-3">
-        <div className="row g-3 row-cols-1 row-cols-lg-3 ">
-          {immobili &&
-            immobili.slice(0, 10).map((immobile) => {
-              if (immobile) {
-                return (
-                  <AppCard
-                    immobile={immobile}
-                    defaultImage={defaultImage}
-                    Link={Link}
-                    renderStars={renderStars}
-                    handleLike ={handleLike}
-                  />
-                );
-              }
-            })}
-        </div>
-      </div>
-    </main >
+            );
+          }
+        })}
+    </div>
+  </div>
+</main>
+
   );
 }
 

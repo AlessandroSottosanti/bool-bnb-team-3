@@ -312,6 +312,11 @@ function SearchPage() {
 
             {warning && <p className="text-danger text-center mt-2">{warning}</p>}
 
+            {!hasSearched && (
+                <div className="text-center mt-4">
+                    <h2 className="mt-5">I risultati appariranno qui dopo la tua ricerca</h2>
+                </div>
+            )}
             {(hasSearched && !warning) && immobili.length > 0 ? (
                 <div className="container mt-5">
                     <div className="my-3 ">Immobili trovati:<strong className="ms-2"> {count}</strong></div>

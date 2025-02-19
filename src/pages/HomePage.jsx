@@ -169,7 +169,7 @@ function HomePage() {
     <h1>I 10 migliori immobili del momento 🏢:</h1>
   </div>
   <div className="container mt-3">
-    <div className="row g-3 row-cols-1 row-cols-lg-3">
+    <div className="row g-3 row-cols-1 row-cols-lg-2 row-cols-xxl-4">
       {immobili &&
         immobili.slice(0, 10).map((immobile) => {
           if (immobile) {

@@ -313,7 +313,7 @@ function SearchPage() {
             {(hasSearched && !warning) && immobili.length > 0 ? (
                 <div className="container mt-5">
                     <div className="my-3 ">Immobili trovati:<strong className="ms-2"> {count}</strong></div>
-                    <div className="row g-3 row-cols-1 row-cols-lg-3">
+                    <div className="row g-3 row-cols-1 row-cols-lg-2 row-cols-xxl-4">
                         {immobili.map((immobile) => (
                             <AppCard
                                 immobile={immobile}

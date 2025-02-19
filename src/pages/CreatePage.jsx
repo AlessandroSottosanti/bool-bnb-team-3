@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import axios from 'axios';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 function CreatePage() {
@@ -26,10 +26,22 @@ function CreatePage() {
     const [tipiAlloggioSelezionati, setTipiAlloggioSelezionati] = useState([])
     const [selectedTipologia, setSelectedTipologia] = useState('')
     const [preview, setPreview] = useState([]);
-    const [previews, setPreviews] = useState([]);
     const fileInputRef = useRef(null); // Ref per l'input file
 
-    const initForm = {
+    const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
+
+    const validateForm = () => {
+        let newErrors = {};
+        Object.keys(newImmobile).forEach(key => {
+            if (key !== "immagini" && !newImmobile[key]) {
+                newErrors[key] = "Questo campo è obbligatorio";
+            }
+        });
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+        const initForm = {
         "immobile": initImmobile,
         "tipi_alloggio": tipiAlloggioSelezionati,
 
@@ -83,10 +95,15 @@ function CreatePage() {
     const [alertMessage, setAlertMessage] = useState(null)
     const [alertType, setAlertType] = useState(null)
 
-    const handleChange = (event) => {
-        console.log("event.target.type", event.target.type);
+    
 
+
+    const handleChange = (event) => {
         let { name, value, type, files } = event.target;
+
+        if (event.target.type === "number") {
+            value = value ? parseInt(value) : '';
+        }
 
         if (type === "file") {
             // Converte i file selezionati in un array
@@ -108,17 +125,14 @@ function CreatePage() {
             }));
         }
 
-        if (type === "number") {
-            value = parseInt(value);
-        }
-
         setNewImmobile((prev) => ({
             ...prev,
             [name]: value
         }));
+        setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
 
-        // Resetta l'input file
-        if (fileInputRef.current) {
+         // Resetta l'input file
+         if (fileInputRef.current) {
             console.log('fileInputRef', fileInputRef);
             fileInputRef.current.value = "";
         }
@@ -165,12 +179,22 @@ function CreatePage() {
                 "Content-type": "multipart/form-data",
             },
         }).then((resp) => {
-            setAlertMessage('Immobile inserito con successo!');
-            setAlertType('success');
-            console.log("success", resp);
+            console.log("resp", resp);
+            setDebug(initForm);
+            setNewImmobile(initImmobile);
+            setTipiAlloggio([]);
+            setTipiAlloggioSelezionati([]);
+            setPreview([]);
+
+            // navigate('/')
+
         }).catch((err) => {
             setAlertMessage(err.response.data.message);
             setAlertType('danger');
+            setTimeout(() => {
+                setAlertMessage("");
+                setAlertType("");
+            }, 5000);
             console.error("error", err);
         });
     };
@@ -189,43 +213,24 @@ function CreatePage() {
             <section className='d-flex justify-content-center align-items-center flex-column'>
 
 
-                <form onSubmit={handleSubmit} className="text-center d-flex flex-column gap-3">
-                    <div className="form-group">
-                        <label htmlFor="email">Indirizzo email</label>
-                        <input required type="email" className="form-control" id="email" name="email_proprietario" onChange={handleChange} />
-                    </div>
-                    <div className="form-group mt-2">
-                        <label htmlFor="username">Username</label>
-                        <input required type="text" className="form-control" id="username" name="username_proprietario" onChange={handleChange} />
-                    </div>
-                    <div className="form-group mt-2">
-                        <label htmlFor="titolo">Titolo descrittivo</label>
-                        <input required type="text" className="form-control" id="titolo" name="titolo_descrittivo" onChange={handleChange} />
-                    </div>
-                    <div className="form-group mt-2">
-                        <label htmlFor="indirizzo">Indirizzo</label>
-                        <input required type="text" className="form-control" id="indirizzo" name="indirizzo_completo" onChange={handleChange} />
-                    </div>
-                    <div className="form-group mt-2">
-                        <label htmlFor="metriQuadri">Metri quadri</label>
-                        <input required type="number" className="form-control" id="metriQuadri" name="mq" min="0" max="" step="1" onChange={handleChange} />
-                    </div>
-                    <div className="form-group mt-2">
-                        <label htmlFor="numLocali">Numero locali</label>
-                        <input required type="number" className="form-control" id="numLocali" name="locali" min="0" step="1" onChange={handleChange} />
-                    </div>
-                    <div className="form-group mt-2">
-                        <label htmlFor="numLetti">Numero posti letto</label>
-                        <input required type="number" className="form-control" id="numLetti" name="posti_letto" min="0" step="1" onChange={handleChange} />
-                    </div>
-                    <div className="form-group mt-2">
-                        <label htmlFor="numBagni">Numero bagni</label>
-                        <input required type="number" className="form-control" id="numBagni" name="bagni" min="0" step="1" onChange={handleChange} />
-                    </div>
-                    <div className="form-group mt-2">
-                        <label htmlFor="descrizione">Descrizione</label>
-                        <textarea required className="form-control" id="descrizione" name="descrizione" onChange={handleChange} />
-                    </div>
+                <form onSubmit={handleSubmit} className="text-center d-flex flex-column gap-3 needs-validation">
+                {Object.keys(newImmobile).map((key) => (
+                    (key !== "immagini" && key !== "") && (
+                        <div className="form-group" key={key}>
+                            <label htmlFor={key}>{key.replace('_', ' ')} <small className="text-muted">(obbligatorio)</small></label>
+                            <input
+                                type={key === "mq" || key === "bagni" || key === "locali" || key === "posti_letto" ? "number" : "text"}
+                                className={`form-control ${errors[key] ? 'is-invalid' : ''}`}
+                                id={key}
+                                name={key}
+                                value={newImmobile[key]}
+                                onChange={handleChange}
+                            />
+                            {errors[key] && <div className="invalid-feedback">{errors[key]}</div>}
+                        </div>
+                        
+                    )
+                ))}
 
                     <label className="mt-3" htmlFor="tipi_alloggio">
                         Tipo di Alloggio
@@ -314,6 +319,7 @@ function CreatePage() {
                             type="button"
                             className="btn-close"
                             data-bs-dismiss="alert"
+                            onClick={() => { setAlertMessage(""); setAlertType(""); }}
                         ></button>
                     </div>
                 )}
@@ -321,7 +327,7 @@ function CreatePage() {
 
             </section>
 
-            <Link className="btn btn-secondary ms-5" to="/"><i class="fa-solid fa-arrow-left"></i> Indietro</Link>
+            <Link className="btn btn-secondary ms-5" to="/"><i className="fa-solid fa-arrow-left"></i> Indietro</Link>
 
 
         </main>

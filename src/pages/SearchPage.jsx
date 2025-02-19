@@ -324,6 +324,11 @@ function SearchPage() {
                                 renderStars={renderStars}
                                 handleLike={handleLike}
                                 apiUrl={apiUrl}
+                                bagni={immobile.bagni}
+                                locali={immobile.locali}
+                                postiLetto={immobile.posti_letto}
+                                alloggio={immobile.tipo_alloggio}
+                                mq={immobile.mq}
                             />
                         )
                         )}

@@ -1,14 +1,16 @@
 
 function AppCard({immobile, defaultImage, Link, renderStars , handleLike, apiUrl}) {
+    const imageUrl = immobile.immagini && immobile.immagini.length > 0 
+    ? `${apiUrl}/images/${immobile.immagini[0].nome_immagine}` 
+    : `${defaultImage}`;
+
     return (
         <div className="col my-3" key={immobile.id}>
             <Link to={`/${immobile.slug}`}>
                 <div className="card h-100 d-flex flex-column">
                     {/* Immagine segnaposto */}
                     <img
-                        src={
-                            immobile.immagini ? `${apiUrl}/images/${immobile.immagini[0]}` : `${defaultImage}`
-                        }
+                        src={imageUrl}
                         alt={immobile.titolo_descrittivo}
                         className=""
                     />

@@ -141,7 +141,7 @@ function PaginaDettaglio() {
                             {immobile.immagini.map((curImage, index) => (
                                 <div key={curImage.nome_immagine} className={`carousel-item ${index === 0 ? "active" : ""}`}>
                                     <img
-                                        src={`/images/${curImage.nome_immagine}`}
+                                        src={`${apiUrl}/images/${curImage.nome_immagine}`}
                                         alt={`Slide ${index + 1}`}
                                         onError={(e) => e.target.src = 'https://placehold.co/600x400'}
                                     />

@@ -42,7 +42,7 @@ function PaginaDettaglio() {
     if (caricamento) return <p>Caricamento...</p>;
     if (!immobile) return <p>Elemento non trovato</p>;
 
-    const alloggio = immobile.tipi_alloggio[0].nome_tipo_alloggio;
+    const alloggio = immobile.tipi_alloggio.map(tipo => tipo.nome_tipo_alloggio).join(", ");
 
 
     //Implemento le stelle per il rating dell'immobile

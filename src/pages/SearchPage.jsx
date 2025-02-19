@@ -22,7 +22,7 @@ function SearchPage() {
 
 
     //useParams search city
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const initialCity = searchParams.get("city") || ""; //ottengo la città dall'url
     const [searchCity, setSearchCity] = useState(initialCity);
     const [tipiAlloggio, setTipiAlloggio] = useState([]);
@@ -30,13 +30,19 @@ function SearchPage() {
 
     const backEndUrl = import.meta.env.VITE_API_URL;
 
+    // Useeffect per pulire l'url al refresh
+    useEffect(() => {
+        window.history.replaceState(null, "", window.location.pathname);
+    }, []);
+
     useEffect(() => {
         window.scrollTo(0,0);
         if (searchCity.trim() !== "") {
             getImmobili(searchCity);
             setSearch(searchCity);
-            getTipiAlloggi();
+           
         }
+        getTipiAlloggi();
     }, []);
 
 
@@ -44,7 +50,6 @@ function SearchPage() {
         if (searchCity.trim() !== "") {
             getImmobili(searchCity);
             setSearch(searchCity);
-            getTipiAlloggi();
         }
     }, [searchCity, postiLocali, postiBagno, superficieMinima, superficieMassima, selectedTipologia, votoMedio, postiLetto]);
 
@@ -80,7 +85,9 @@ function SearchPage() {
                 immobiliWithLikes.sort((a, b) => b.heartCount - a.heartCount || b.voto - a.voto);
                 setImmobili(immobiliWithLikes);
                 setHasSearched(true);
-                setCount(resp.data.count)
+                setCount(resp.data.count);
+                // Aggiorna i parametri di ricerca nell'URL
+                setSearchParams(filteredParams);
             })
             .catch((err) => {
                 if (err.response?.status === 404) {
@@ -103,7 +110,7 @@ function SearchPage() {
         axios.get(`${import.meta.env.VITE_API_URL}/tipi-alloggi`).then((resp) => {
             const { results } = resp.data
             setTipiAlloggio(results)
-            console.log('results',results);
+            console.log('results',results, resp);
         }).catch((error) => {
 
             console.error('Errore nel recupero dei tipi di alloggi', error.status)
@@ -312,6 +319,11 @@ function SearchPage() {
 
             {warning && <p className="text-danger text-center mt-2">{warning}</p>}
 
+            {!hasSearched && (
+                <div className="text-center mt-4">
+                    <h2 className="mt-5">I risultati appariranno qui dopo la tua ricerca</h2>
+                </div>
+            )}
             {(hasSearched && !warning) && immobili.length > 0 ? (
                 <div className="container mt-5">
                     <div className="my-3 ">Immobili trovati:<strong className="ms-2"> {count}</strong></div>

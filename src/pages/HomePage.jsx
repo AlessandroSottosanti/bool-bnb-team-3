@@ -165,6 +165,7 @@ function HomePage() {
           if (immobile) {
             return (
               <AppCard
+                key={immobile.slug}
                 immobile={immobile}
                 defaultImage={defaultImage}
                 Link={Link}

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import AppCard from "../components/AppCard";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 function SearchPage() {
     const [search, setSearch] = useState("");
@@ -321,6 +322,7 @@ function SearchPage() {
                                 Link={Link}
                                 renderStars={renderStars}
                                 handleLike={handleLike}
+                                apiUrl={apiUrl}
                             />
                         )
                         )}

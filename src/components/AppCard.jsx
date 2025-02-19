@@ -1,5 +1,5 @@
 
-function AppCard({immobile, defaultImage, Link, renderStars , handleLike}) {
+function AppCard({immobile, defaultImage, Link, renderStars , handleLike, apiUrl}) {
     return (
         <div className="col my-3" key={immobile.id}>
             <Link to={`/${immobile.slug}`}>
@@ -7,7 +7,7 @@ function AppCard({immobile, defaultImage, Link, renderStars , handleLike}) {
                     {/* Immagine segnaposto */}
                     <img
                         src={
-                            immobile.image ? immobile.image : `${defaultImage}`
+                            immobile.immagini ? `${apiUrl}/images/${immobile.immagini[0]}` : `${defaultImage}`
                         }
                         alt={immobile.titolo_descrittivo}
                         className=""

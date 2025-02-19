@@ -181,6 +181,7 @@ function HomePage() {
                 Link={Link}
                 renderStars={renderStars}
                 handleLike={handleLike}
+                apiUrl={apiUrl}
               />
             );
           }

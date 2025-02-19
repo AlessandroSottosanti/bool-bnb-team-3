@@ -52,6 +52,7 @@ function CreatePage() {
 
 
     useEffect(() => {
+        window.scrollTo(0,0);
         getTipiAlloggi();
     }, [])
 
@@ -213,14 +214,14 @@ function CreatePage() {
             <section className='d-flex justify-content-center align-items-center flex-column'>
 
 
-                <form onSubmit={handleSubmit} className="text-center d-flex flex-column gap-3 needs-validation">
+                <form onSubmit={handleSubmit} className="text-center d-flex flex-column gap-3 needs-validation mx-3">
                 {Object.keys(newImmobile).map((key) => (
                     (key !== "immagini" && key !== "") && (
                         <div className="form-group" key={key}>
                             <label htmlFor={key}>{key.replace('_', ' ')} <small className="text-muted">(obbligatorio)</small></label>
                             <input
                                 type={key === "mq" || key === "bagni" || key === "locali" || key === "posti_letto" ? "number" : "text"}
-                                className={`form-control ${errors[key] ? 'is-invalid' : ''}`}
+                                className={`form-control text-center ${errors[key] ? 'is-invalid' : ''}`}
                                 id={key}
                                 name={key}
                                 value={newImmobile[key]}

@@ -11,6 +11,7 @@ function HomePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo(0,0);
     getImmobili();
   }, []);
 

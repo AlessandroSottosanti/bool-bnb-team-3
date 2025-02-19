@@ -31,6 +31,7 @@ function SearchPage() {
     const backEndUrl = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
+        window.scrollTo(0,0);
         if (searchCity.trim() !== "") {
             getImmobili(searchCity);
             setSearch(searchCity);

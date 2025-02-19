@@ -34,7 +34,7 @@ function PaginaDettaglio() {
     }
 
     useEffect(() => {
-
+        window.scrollTo(0,0);
         showImmobile();
 
     }, [slug]); // Effettua la richiesta quando cambia lo slug

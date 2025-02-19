@@ -179,15 +179,15 @@ function CreatePage() {
             headers: {
                 "Content-type": "multipart/form-data",
             },
-        }).then((resp) => {
-            console.log("resp", resp);
+        }).then((response) => {
+            console.log("resp", response.data.immobile_slug);
             setDebug(initForm);
             setNewImmobile(initImmobile);
             setTipiAlloggio([]);
             setTipiAlloggioSelezionati([]);
             setPreview([]);
-
-            // navigate('/')
+            
+            navigate(`/${response.data.immobile_slug}`);
 
         }).catch((err) => {
             setAlertMessage(err.response.data.message);

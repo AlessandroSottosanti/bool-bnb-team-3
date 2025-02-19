@@ -40,8 +40,9 @@ function SearchPage() {
         if (searchCity.trim() !== "") {
             getImmobili(searchCity);
             setSearch(searchCity);
-            getTipiAlloggi();
+           
         }
+        getTipiAlloggi();
     }, []);
 
 

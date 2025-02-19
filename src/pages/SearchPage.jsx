@@ -22,13 +22,18 @@ function SearchPage() {
 
 
     //useParams search city
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const initialCity = searchParams.get("city") || ""; //ottengo la città dall'url
     const [searchCity, setSearchCity] = useState(initialCity);
     const [tipiAlloggio, setTipiAlloggio] = useState([]);
     const [selectedTipologia, setSelectedTipologia] = useState('')
 
     const backEndUrl = import.meta.env.VITE_API_URL;
+
+    // Useeffect per pulire l'url al refresh
+    useEffect(() => {
+        window.history.replaceState(null, "", window.location.pathname);
+    }, []);
 
     useEffect(() => {
         window.scrollTo(0,0);
@@ -79,7 +84,9 @@ function SearchPage() {
                 immobiliWithLikes.sort((a, b) => b.heartCount - a.heartCount || b.voto - a.voto);
                 setImmobili(immobiliWithLikes);
                 setHasSearched(true);
-                setCount(resp.data.count)
+                setCount(resp.data.count);
+                // Aggiorna i parametri di ricerca nell'URL
+                setSearchParams(filteredParams);
             })
             .catch((err) => {
                 if (err.response?.status === 404) {

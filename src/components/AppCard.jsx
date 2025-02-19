@@ -22,6 +22,7 @@ function AppCard({immobile, defaultImage, Link, renderStars , handleLike, apiUrl
                     </div>
                     <div className="card-body d-flex flex-column flex-grow-1 text-center">
                         <p className="flex-grow-1">{immobile.descrizione}</p>
+                        <p>{immobile.indirizzo_completo}</p>
                         <div className="d-flex justify-content-center align-items-center mb-2">
                             {renderStars(Number(immobile.voto_medio))}
                         </div>

@@ -130,7 +130,7 @@ function HomePage() {
   <div className="container my-5">
     <div className="d-flex justify-content-center align-items-center flex-wrap gap-5">
       {/* Search  */}
-      <div className="mb-3 d-flex gap-2 align-items-center">
+      <div className="d-flex gap-2 align-items-center">
         <h5 className="mb-2">Inserisci città / via</h5>
         <div className="d-flex align-items-center w-100 justify-content-center">
           <input
@@ -144,10 +144,10 @@ function HomePage() {
           <button className="btn btn-orange ms-2" onClick={handleSearch}>Cerca</button>
         </div>
       </div>
-      {/* Aggiunta di immobile */}
-      <div className="mb-3 d-flex gap-2 align-items-center justify-content-center">
-        <h5>Vuoi aggiungere un immobile?</h5>
-        <Link to="/create" className="btn btn-success">
+
+      <div className="d-flex gap-2 align-items-center justify-content-center">
+        <span className="text-big">Vuoi aggiungere un immobile?</span>
+        <Link to="/create" className="btn btn-outline-orange">
           + Aggiungi
         </Link>
       </div>

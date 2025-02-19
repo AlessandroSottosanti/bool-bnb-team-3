@@ -83,6 +83,16 @@ a {
   color: white; 
 }
 
+.btn-outline-orange {
+  border: 1px solid #EF8634;
+  color: #EF8634;
+}
+
+.btn-outline-orange:hover {
+  background-color: #EF8634;
+  color: white; 
+}
+
 .nav-link-elem {
   position: relative;
   color: white; /* Testo bianco */
@@ -124,4 +134,9 @@ a {
   right: 0;
   margin: 10px;
   z-index: 10;
+}
+
+.text-big {
+  font-size: 1.2rem;
+  font-weight: 500;
 }

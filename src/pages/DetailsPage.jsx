@@ -209,7 +209,7 @@ function PaginaDettaglio() {
                             </div>
                         </div>
                         <hr />
-                       
+
                     </div>
                 </div>
                 <div id="recensioni" className="pt-5">
@@ -225,7 +225,7 @@ function PaginaDettaglio() {
                         <div className="align-items-center d-flex flex-column justify-content-center px-3">
                             <span className="justify-content-center"><strong>Voto medio</strong></span>
                             <span>
-                                {renderStars(immobile.immobile.voto_medio)} {immobile.immobile.voto_medio} su 5
+                                {renderStars(immobile.immobile.voto_medio)} {immobile.immobile.voto_medio.toFixed(1)} su 5
                             </span>
 
                         </div>

@@ -276,17 +276,15 @@ function CreatePage() {
                                 className="form-control"
                                 id="fileInput"
                                 multiple
-                                onChange={handleChange}  // Gestisci l'evento quando il file viene selezionato
+                                onChange={handleChange}
                             />
                         </div>
                         <div id="fileHelp" className="form-text mb-5">Puoi caricare uno o più file con un massimo di 30</div>
 
-                        {/* Contenitore per le anteprime delle immagini */}
                         <div className="d-flex flex-wrap gap-3">
                             {preview && preview.map((image, index) => (
                                 <div key={index} className="position-relative" style={{ width: "150px", height: "150px" }}>
                                     <img src={image} alt={`Anteprima immagine ${index + 1}`} className="img-fluid" style={{ objectFit: "cover", width: "100%", height: "100%" }} />
-                                    {/* Pulsante X per rimuovere l'immagine */}
                                     <button
                                         type="button"
                                         className="btn btn-danger position-absolute top-0 end-0 m-1"
@@ -301,7 +299,7 @@ function CreatePage() {
                     </div>
 
 
-                    <button type="submit" className="btn btn-success mt-2 mb-5">+ Crea nuovo immobile</button>
+                    <button type="submit" className="btn btn-outline-orange mt-2 mb-5">+ Crea nuovo immobile</button>
 
 
                 </form>

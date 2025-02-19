@@ -44,7 +44,6 @@ function SearchPage() {
         if (searchCity.trim() !== "") {
             getImmobili(searchCity);
             setSearch(searchCity);
-            getTipiAlloggi();
         }
     }, [searchCity, postiLocali, postiBagno, superficieMinima, superficieMassima, selectedTipologia, votoMedio, postiLetto]);
 
@@ -103,7 +102,7 @@ function SearchPage() {
         axios.get(`${import.meta.env.VITE_API_URL}/tipi-alloggi`).then((resp) => {
             const { results } = resp.data
             setTipiAlloggio(results)
-            console.log('results',results);
+            console.log('results',results, resp);
         }).catch((error) => {
 
             console.error('Errore nel recupero dei tipi di alloggi', error.status)

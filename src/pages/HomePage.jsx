@@ -110,21 +110,31 @@ function HomePage() {
   return (
     <main>
   {/* Hero Section */}
-  <div className="hero position-relative text-white text-center">
-    <img
-      src={`${apiUrl}/images/hero.jpg`}
-      alt="Hero Image"
-      className="img-fluid w-100"
-      style={{ objectFit: "cover", height: "400px" }}
-    />
-    <div className="hero-overlay position-absolute top-50 start-50 translate-middle">
-      <h1 className="fw-bold">Trova la Casa dei Tuoi Sogni 🏡</h1>
-      <p className="fs-5">
-        Scopri le migliori proprietà selezionate per te! Ville con piscina, appartamenti moderni e panoramici. 
-      </p>
-      <Link to={`/search`} className="btn btn-orange mt-2">Ricerca Avanzata</Link>
-    </div>
+<div className="hero position-relative text-white text-center">
+  {/* Background Image */}
+  <img
+    src={`${apiUrl}/images/hero.jpg`}
+    alt="Hero Image"
+    className="img-fluid w-100"
+    style={{ objectFit: "cover", height: "400px" }}
+  />
+  
+  {/* Overlay per rendere leggibile il testo */}
+  <div 
+    className="position-absolute top-0 start-0 w-100 h-100"
+    style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }} // Sfondo nero trasparente
+  ></div>
+
+  {/* Contenuto sopra l'overlay */}
+  <div className="hero-overlay position-absolute top-50 start-50 translate-middle">
+    <h1 className="fw-bold">Trova la Casa dei Tuoi Sogni 🏡</h1>
+    <p className="fs-5">
+      Scopri le migliori proprietà selezionate per te! Ville con piscina, appartamenti moderni e panoramici. 
+    </p>
+    <Link to={`/search`} className="btn btn-orange mt-2">Ricerca Avanzata</Link>
   </div>
+</div>
+
 
   {/* Search & Add Section */}
   <div className="container my-5">

@@ -362,21 +362,27 @@ function SearchPage() {
             Immobili trovati:<strong className="ms-2"> {count}</strong>
           </div>
           <div className="row g-3 row-cols-1 row-cols-lg-2 row-cols-xxl-4">
-            {immobili.map((immobile) => (
-              <AppCard
-                immobile={immobile}
-                defaultImage={defaultImage}
-                Link={Link}
-                renderStars={renderStars}
-                handleLike={handleLike}
-                apiUrl={apiUrl}
-                bagni={immobile.bagni}
-                locali={immobile.locali}
-                postiLetto={immobile.posti_letto}
-                alloggio={immobile.tipo_alloggio}
-                mq={immobile.mq}
-              />
-            ))}
+            {immobili &&
+              immobili.slice(0, 10).map((immobile) => {
+                if (immobile) {
+                  return (
+                    <AppCard
+                      key={immobile.slug}
+                      immobile={immobile}
+                      defaultImage={defaultImage}
+                      Link={Link}
+                      renderStars={renderStars}
+                      handleLike={handleLike}
+                      apiUrl={apiUrl}
+                      bagni={immobile.bagni}
+                      locali={immobile.locali}
+                      postiLetto={immobile.posti_letto}
+                      alloggio={immobile.tipi_alloggio.map(tipo => tipo.nome_tipo_alloggio).join(", ")}
+                      mq={immobile.mq}
+                    />
+                  );
+                }
+              })}
           </div>
         </div>
       ) : hasSearched && immobili.length === 0 ? (

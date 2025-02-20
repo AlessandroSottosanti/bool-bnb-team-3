@@ -234,7 +234,7 @@ function CreatePage() {
             key !== "descrizione" &&
             key !== "" ? (
               <div className="mb-3 text-center" key={key}>
-                <label htmlFor={key} className="form-label d-block">{key.replace("_", " ")}</label>
+                <label htmlFor={key} className="form-label d-block">{key.replace("_", " ")} <span className="text-muted">(obbligatorio)</span></label>
                 <input
                   type="text"
                   className="form-control text-center"
@@ -251,7 +251,7 @@ function CreatePage() {
         <div className="col-12 col-lg-6">
           {["mq", "bagni", "locali", "posti_letto"].map((key) => (
             <div className="mb-3 text-center" key={key}>
-              <label htmlFor={key} className="form-label d-block">{key.replace("_", " ")}</label>
+              <label htmlFor={key} className="form-label d-block">{key.replace("_", " ")} <span className="text-muted">(obbligatorio)</span></label>
               <input
                 type="number"
                 className="form-control text-center"
@@ -267,7 +267,7 @@ function CreatePage() {
         {/* Campo Descrizione su col-12 anche su schermi grandi */}
         <div className="col-12">
           <div className="mb-3 text-center">
-            <label htmlFor="descrizione" className="form-label d-block">Descrizione</label>
+            <label htmlFor="descrizione" className="form-label d-block">Descrizione <span className="text-muted">(obbligatorio)</span></label>
             <textarea
               className="form-control"
               id="descrizione"

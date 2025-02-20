@@ -98,7 +98,7 @@ function PaginaDettaglio() {
         axios.post(`${apiUrl}/recensioni/${immobile.immobile.id}`, nuovaRecensione)
             .then(response => {
                 console.log("Recensione inviata con successo", response.data);
-                setMessage("Inserimento immobile avvenuto con successo!");
+                setMessage("Recensione inviata con successo!");
                 setTimeout(() => {
                     setMessage("");
                 }, 5000);

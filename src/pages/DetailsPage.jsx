@@ -242,7 +242,7 @@ function PaginaDettaglio() {
                 </div>
                 <div className="recensione">
                     {immobile.immobile.recensioni.map((curRecensione, i) => (
-                        <div key={i} className="card mb-3">
+                        <div key={i} className="card shadow-sm mb-3">
                             <div className="card-header d-flex justify-content-between align-items-center">
                                 <h3>{curRecensione.username
                                     .replace(/_/g, ' ')  // Sostituisci gli underscore con uno spazio
@@ -256,7 +256,7 @@ function PaginaDettaglio() {
                                     <span>Recensione del: {new Date(curRecensione.data).toLocaleDateString()}</span>
                                 </div>
                             </div>
-                            <div className="card-body fw-medium">
+                            <div className="card-body  fw-medium">
                                 <span>{curRecensione.recensione}</span> <br />
 
                             </div>

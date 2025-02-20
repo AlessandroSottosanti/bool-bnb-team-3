@@ -29,7 +29,6 @@ function CreatePage() {
   const [selectedTipologia, setSelectedTipologia] = useState('')
   const [preview, setPreview] = useState([]);
   const fileInputRef = useRef(null); // Ref per l'input file
-  const [errors, setErrors] = useState({});
 
   const { setError } = useAlertContext();
   const { setMessage } = useAlertContext();
@@ -58,11 +57,13 @@ function CreatePage() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    
     getTipiAlloggi();
   }, [])
 
 
   const getTipiAlloggi = () => {
+    setError("");
     axios.get(`${import.meta.env.VITE_API_URL}/tipi-alloggi`).then((resp) => {
       const { results } = resp.data
       setTipiAlloggio(results)
@@ -135,7 +136,6 @@ function CreatePage() {
       ...prev,
       [name]: value
     }));
-    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
 
     // Resetta l'input file
     if (fileInputRef.current) {
@@ -200,10 +200,11 @@ function CreatePage() {
 
     }).catch((err) => {
       console.log(err);
-      setError(err);
+      setError(err.response.data.message);
       setTimeout(() => {
         setError("");
       }, 5000);
+
       console.error("error", err);
     });
   };
@@ -327,6 +328,7 @@ function CreatePage() {
             {/* Pulsante submit */}
             <button type="submit" className="btn btn-outline-orange mt-3">+ Crea nuovo immobile</button>
           </div>
+          
         </form>
       </section>
 

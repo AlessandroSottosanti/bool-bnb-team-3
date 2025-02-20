@@ -157,3 +157,9 @@ a {
   color: white;
   margin-left: 5px;
 }
+
+.max-width {
+  max-width: 350px;
+  width: 100%;
+  text-align: center;
+}

@@ -133,7 +133,7 @@ function HomePage() {
     <p className="fs-5">
       Scopri le migliori proprietà selezionate per te! Ville con piscina, appartamenti moderni e panoramici. 
     </p>
-    <Link to={`/search`} className="btn btn-orange mt-2">Ricerca Avanzata</Link>
+    <Link to={`/search`} className="btn btn-orange mt-2">🔎 Ricerca Avanzata</Link>
   </div>
 </div>
 
@@ -143,7 +143,7 @@ function HomePage() {
     <div className="d-flex justify-content-center align-items-center flex-wrap gap-5">
       {/* Search  */}
       <div className="d-flex gap-2 align-items-center">
-        <h5 className="mb-2">Inserisci città / via</h5>
+        <span className="text-big d-flex">Inserisci città e via</span>
         <div className="d-flex align-items-center w-100 justify-content-center">
           <input
             type="text"

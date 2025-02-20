@@ -76,6 +76,7 @@ a {
 .btn-orange {
   background-color: #EF8634;
   color: white; 
+  transition: 0.3s;
 }
 
 .btn-orange:hover{
@@ -355,4 +356,27 @@ a {
   font-size: 1rem;
   padding: 10px 15px;
   border-radius: 8px;
+}
+
+.advanced-search-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.card {
+  border-radius: 12px;
+  border: none;
+}
+
+.form-control, .form-select {
+  border-radius: 8px;
+}
+
+.text-muted {
+  font-size: 0.9rem;
+}
+
+.text-big {
+  font-weight: 500;
+  font-size: 1.2rem;
 }

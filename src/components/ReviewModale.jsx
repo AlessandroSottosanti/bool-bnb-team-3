@@ -63,7 +63,7 @@ function ReviewModal({ handleSubmit, immobile }) {
               </div>
 
               <div className="username">
-                <label htmlFor="username">Username:</label>
+                <label htmlFor="username">Nome utente:</label>
                 <input 
                   type="text"
                   value={username}

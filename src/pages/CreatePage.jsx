@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
 const apiUrl = import.meta.env.VITE_API_URL;
+import {useAlertContext} from "../contexts/AlertContext.jsx";
+
 
 function CreatePage() {
 
@@ -27,8 +29,11 @@ function CreatePage() {
     const [selectedTipologia, setSelectedTipologia] = useState('')
     const [preview, setPreview] = useState([]);
     const fileInputRef = useRef(null); // Ref per l'input file
-
     const [errors, setErrors] = useState({});
+
+    const {setError} = useAlertContext();
+    const {setMessage} = useAlertContext();
+
     const navigate = useNavigate();
 
     const validateForm = () => {
@@ -38,7 +43,7 @@ function CreatePage() {
                 newErrors[key] = "Questo campo è obbligatorio";
             }
         });
-        setErrors(newErrors);
+        setError(newErrors);
         return Object.keys(newErrors).length === 0;
     };
         const initForm = {
@@ -187,14 +192,17 @@ function CreatePage() {
             setTipiAlloggioSelezionati([]);
             setPreview([]);
             
+            setMessage("Inserimento immobile avvenuto con successo!");
+            setTimeout(() => {
+                setMessage("");
+            }, 5000);
             navigate(`/${response.data.immobile_slug}`);
 
         }).catch((err) => {
-            setAlertMessage(err.response.data.message);
-            setAlertType('danger');
+            console.log(err);
+            setError(err);
             setTimeout(() => {
-                setAlertMessage("");
-                setAlertType("");
+                setError("");
             }, 5000);
             console.error("error", err);
         });

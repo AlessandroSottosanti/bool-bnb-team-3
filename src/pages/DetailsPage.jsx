@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import "./detailPageCss.css"
 import ReviewModale from "../components/ReviewModale";
 import SendEmail from "../components/SendEmail";
+import { useAlertContext } from "../contexts/AlertContext";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -13,6 +14,9 @@ function PaginaDettaglio() {
     const [caricamento, setCaricamento] = useState(true);
     const [errore, setErrore] = useState(null);
     const [heartCount, setHeartCount] = useState(0);
+
+    const {setError} = useAlertContext();
+    const {setMessage} = useAlertContext();
 
     const showImmobile = () => {
         // Effettua la richiesta all'API
@@ -94,13 +98,18 @@ function PaginaDettaglio() {
         axios.post(`${apiUrl}/recensioni/${immobile.immobile.id}`, nuovaRecensione)
             .then(response => {
                 console.log("Recensione inviata con successo", response.data);
-                alert("Recensione aggiunta!");
+                setMessage("Inserimento immobile avvenuto con successo!");
+                setTimeout(() => {
+                    setMessage("");
+                }, 5000);
                 showImmobile();
             })
             .catch(error => {
                 console.error("Errore nell'invio della recensione", error);
-                alert("Errore nell'invio della recensione.");
-            });
+                setError("Errore nell'invio della recensione");
+                setTimeout(() => {
+                    setError("");
+                }, 5000);            });
     };
 
 
@@ -261,7 +270,7 @@ function PaginaDettaglio() {
                     />
                 </div>
             </section >
-            <Link className="btn btn-secondary ms-5" to="/"><i class="fa-solid fa-arrow-left"></i> Indietro</Link>
+            <Link className="btn btn-secondary ms-5" to="/"><i className="fa-solid fa-arrow-left"></i> Indietro</Link>
 
         </main >
     );

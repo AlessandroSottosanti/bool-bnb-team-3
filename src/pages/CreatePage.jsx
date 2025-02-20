@@ -216,189 +216,111 @@ function CreatePage() {
     console.log("immagini", newImmobile.immagini, debug.immagini);
     return (
         <main>
-            <div className="container my-4">
-                <h1 className="text-center pt-3 pb-4">Inserisci i dettagli del tuo immobile</h1>
-            </div>
-            <section className='d-flex justify-content-center align-items-center flex-column'>
+  <div className="container my-4">
+    <h1 className="text-center pt-3 pb-4">Inserisci i dettagli del tuo immobile</h1>
+  </div>
 
-
-                <form onSubmit={handleSubmit} className="text-center d-flex flex-column gap-3 needs-validation mx-3">
-                <div className="row g-3">
-              <div className="col-12 col-lg-6">
-               
-                  {Object.keys(newImmobile).map(
-                    (key) =>
-                      key !== "mq" &&
-                      key !== "bagni" &&
-                      key !== "locali" &&
-                      key !== "posti_letto" &&
-                      key !== "immagini" &&
-                      key !== "" && (
-                        <div className="col-12" key={key}>
-                          <label htmlFor={key} className="form-label">
-                            {key.replace("_", " ")}{" "}
-                            <small className="text-muted">(obbligatorio)</small>
-                          </label>
-                          <div className="d-flex justify-content-center">
-                            <input
-                              type="text"
-                              className={`form-control form-control-sm w-50 mb-2 ${
-                                errors[key] ? "is-invalid" : ""
-                              }`}
-                              id={key}
-                              name={key}
-                              value={newImmobile[key]}
-                              onChange={handleChange}
-                            />
-                          </div>
-                          {errors[key] && (
-                            <div className="invalid-feedback">
-                              {errors[key]}
-                            </div>
-                          )}
-                        </div>
-                      )
-                  )}
-                
+  <section className="d-flex justify-content-center align-items-center flex-column">
+    <form onSubmit={handleSubmit} className="form-container ">
+      
+      <div className="row g-3">
+        <div className="col-12 col-lg-6">
+          {Object.keys(newImmobile).map((key) =>
+            key !== "mq" &&
+            key !== "bagni" &&
+            key !== "locali" &&
+            key !== "posti_letto" &&
+            key !== "immagini" &&
+            key !== "descrizione" &&
+            key !== "" ? (
+              <div className="mb-3 text-center" key={key}>
+                <label htmlFor={key} className="form-label d-block">{key.replace("_", " ")}</label>
+                <input
+                  type="text"
+                  className="form-control text-center"
+                  id={key}
+                  name={key}
+                  value={newImmobile[key]}
+                  onChange={handleChange}
+                />
               </div>
-              <div className="col-12 col-lg-6">
-                <div className="row g-3">
-                  {Object.keys(newImmobile).map(
-                    (key) =>
-                      (key === "mq" ||
-                        key === "bagni" ||
-                        key === "locali" ||
-                        key === "posti_letto") && (
-                        <div className="col-12" key={key}>
-                          <label htmlFor={key} className="form-label">
-                            {key.replace("_", " ")}{" "}
-                            <small className="text-muted">(obbligatorio)</small>
-                          </label>
-                          <div className="d-flex justify-content-center">
-                            <input
-                              type="number"
-                              className={`form-control form-control-sm w-25 text-center ${
-                                errors[key] ? "is-invalid" : ""
-                              }`}
-                              id={key}
-                              name={key}
-                              value={newImmobile[key]}
-                              onChange={handleChange}
-                            />
-                          </div>
-                          {errors[key] && (
-                            <div className="invalid-feedback">
-                              {errors[key]}
-                            </div>
-                          )}
-                        </div>
-                      )
-                  )}
-                </div>
-              </div>
+            ) : null
+          )}
+        </div>
+
+        <div className="col-12 col-lg-6">
+          {["mq", "bagni", "locali", "posti_letto"].map((key) => (
+            <div className="mb-3 text-center" key={key}>
+              <label htmlFor={key} className="form-label d-block">{key.replace("_", " ")}</label>
+              <input
+                type="number"
+                className="form-control text-center"
+                id={key}
+                name={key}
+                value={newImmobile[key]}
+                onChange={handleChange}
+              />
             </div>
-                   <div className="d-flex flex-column align-items-center">
-                    <label className="mt-2" htmlFor="tipi_alloggio">
-                        Tipo di Alloggio
-                    </label>
-                    <div className="mt-3 d-flex gap-2 max-width text-center">
+          ))}
+        </div>
 
-                        <select
-                            className="form-select"
-                            id="tipi_alloggio"
-                            value={selectedTipologia}
-                            onChange={handleSelectChange}
-                        >
-                            <option value="">Seleziona un tipo di alloggio</option>
-                            {tipiAlloggio.map((tipologia) => (
-                                <option key={tipologia.id} value={tipologia.id}>
-                                    {tipologia.nome_tipo_alloggio}
-                                </option>
-                            ))}
-                        </select>
-                        <button className="btn btn-orange" type="button" onClick={handleAddTipologia}>
-                            Aggiungi
-                        </button>
-                    </div>
-                    <div className="d-flex gap-3  my-2">
-                        {tipiAlloggioSelezionati.map((tipologia) => (
-                            <div className=" d-flex align-items-center flex-row gap-2" key={tipologia.id}>
-                                <span>{tipologia.nome_tipo_alloggio}</span>
-                                <button
-                                    type="button"
-                                    className="btn btn-danger"
-                                    onClick={() => removeTipologia(tipologia.id)}
-                                >
-                                    x
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                    </div>
+        {/* Campo Descrizione su col-12 anche su schermi grandi */}
+        <div className="col-12">
+          <div className="mb-3 text-center">
+            <label htmlFor="descrizione" className="form-label d-block">Descrizione</label>
+            <textarea
+              className="form-control"
+              id="descrizione"
+              name="descrizione"
+              value={newImmobile.descrizione}
+              onChange={handleChange}
+              rows="4"
+            />
+          </div>
+        </div>
+      </div>
 
+      {/* Selettore Tipo Alloggio */}
+      <div className="mb-3 text-center">
+        <label htmlFor="tipi_alloggio" className="form-label d-block">Tipo di Alloggio</label>
+        <div className="d-flex gap-2 justify-content-center">
+          <select className="form-select w-50" id="tipi_alloggio" value={selectedTipologia} onChange={handleSelectChange}>
+            <option value="">Seleziona un tipo di alloggio</option>
+            {tipiAlloggio.map((tipologia) => (
+              <option key={tipologia.id} value={tipologia.id}>{tipologia.nome_tipo_alloggio}</option>
+            ))}
+          </select>
+          <button className="btn btn-orange" type="button" onClick={handleAddTipologia}>Aggiungi</button>
+        </div>
+      </div>
 
-                    <div className="container mt-4 d-flex flex-column mb-5 max-width">
-                        <h2>Carica immagini dell'immobile</h2>
-                        <p>La prima immagine inserita sarà utilizzata come copertina del post.</p>
+      {/* Caricamento immagini */}
+      <div className="mb-3 text-center">
+        <h2>Carica immagini dell'immobile</h2>
+        <p className="text-muted">La prima immagine sarà usata come copertina. (Massimo 30 file)</p>
+        <label htmlFor="fileInput" className="form-label d-block">Scegli un file</label>
+        <input type="file" className="form-control w-50 mx-auto" id="fileInput" multiple onChange={handleChange} />
+      </div>
 
-                        <label htmlFor="fileInput" className="form-label">Scegli un file</label>
-                        <div className="mb-3 d-flex justify-content-center align-items-center gap-2 row">
-                            <input
-                                type="file"
-                                className="form-control"
-                                id="fileInput"
-                                multiple
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div id="fileHelp" className="form-text mb-5">Puoi caricare uno o più file con un massimo di 30</div>
+      <div className="img-preview-container d-flex flex-wrap justify-content-center gap-3">
+        {preview.map((image, index) => (
+          <div key={index} className="position-relative">
+            <img src={image} alt={`Anteprima ${index}`} className="preview-img"/>
+            <button type="button" className="btn-remove-image" onClick={() => removeImage(index)}>&times;</button>
+          </div>
+        ))}
+      </div>
 
-                        <div className="d-flex flex-wrap gap-3">
-                            {preview && preview.map((image, index) => (
-                                <div key={index} className="position-relative" style={{ width: "150px", height: "150px" }}>
-                                    <img src={image} alt={`Anteprima immagine ${index + 1}`} className="img-fluid" style={{ objectFit: "cover", width: "100%", height: "100%" }} />
-                                    <button
-                                        type="button"
-                                        className="btn btn-danger position-absolute top-0 end-0 m-1"
-                                        onClick={() => removeImage(index)}
-                                        style={{ borderRadius: "50%" }}
-                                    >
-                                        <span className="text-white">&times;</span>
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                        <button type="submit" className="btn btn-outline-orange mt-2 mb-5">+ Crea nuovo immobile</button>
-                    </div>
+      <div className="d-flex justify-content-center">
+     {/* Pulsante submit */}
+     <button type="submit" className="btn btn-outline-orange mt-3">+ Crea nuovo immobile</button>
+    </div>
+    </form>
+  </section>
 
+  <Link className="btn btn-secondary btn-back" to="/"><i className="fa-solid fa-arrow-left"></i> Indietro</Link>
+</main>
 
-                    
-
-
-                </form>
-
-                {alertMessage && (
-                    <div
-                        className={`alert alert-${alertType} alert-dismissible fade show`}
-                        role="alert"
-                    >
-                        {alertMessage}
-                        <button
-                            type="button"
-                            className="btn-close"
-                            data-bs-dismiss="alert"
-                            onClick={() => { setAlertMessage(""); setAlertType(""); }}
-                        ></button>
-                    </div>
-                )}
-
-
-            </section>
-
-            <Link className="btn btn-secondary ms-5" to="/"><i className="fa-solid fa-arrow-left"></i> Indietro</Link>
-
-
-        </main>
     )
 }
 

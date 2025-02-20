@@ -1,3 +1,4 @@
+import React from "react";
 
 function AppCard({ immobile, defaultImage, Link, renderStars, handleLike, apiUrl, bagni, locali, postiLetto, alloggio, mq }) {
     const imageUrl = immobile.immagini && immobile.immagini.length > 0
@@ -6,61 +7,58 @@ function AppCard({ immobile, defaultImage, Link, renderStars, handleLike, apiUrl
 
     return (
         <div className="col my-3" key={immobile.id}>
-            <Link to={`/${immobile.slug}`}>
-                <div className="card h-100 d-flex flex-column">
-                    {/* Immagine segnaposto */}
-                    <img
-                        src={imageUrl}
-                        alt={immobile.titolo_descrittivo}
-                        className=""
-                    />
-                    <div
-                        className="card-header text-center d-flex align-items-center justify-content-center"
-                        style={{ minHeight: "80px" }}
-                    >
-                        <h5 className="m-0">{immobile.titolo_descrittivo}</h5>
+            <Link to={`/${immobile.slug}`} className="text-decoration-none">
+                <div className="card-container">
+                    
+                    {/* Immagine */}
+                    <div className="img-container">
+                        <img
+                            src={imageUrl}
+                            alt={immobile.titolo_descrittivo}
+                            className="card-img"
+                        />
+                        {/* Like Button */}
+                        <button
+                            className="like-button"
+                            onClick={(e) => handleLike(e, immobile.id)}
+                        >
+                            <i className="fa-solid fa-heart"></i>
+                        </button>
                     </div>
 
-                    <div className="card-body d-flex flex-column flex-grow-1 text-center">
+                    {/* Header Card */}
+                    <div className="card-header-custom">
+                        <h5>{immobile.titolo_descrittivo}</h5>
+                    </div>
 
-                        <p className="flex-grow-1">{immobile.descrizione}</p>
+                    {/* Contenuto */}
+                    <div className="card-body-custom">
+                        <p className="card-address">{immobile.indirizzo_completo}</p>
+                        <p className="card-description">{immobile.descrizione}</p>
 
-
-                        <p>{immobile.indirizzo_completo}</p>
-                        <div className="row">
-                            <div className="col-6"> <p>
-                                <i className="fa-solid fa-up-right-and-down-left-from-center"></i> MQ:{mq}
-                            </p>
-                                <p>
-                                    <i className="fa-solid fa-bath"></i> Bagni: {bagni}
-                                </p>
-
-
-
+                        {/* Info Immobile */}
+                        <div className="card-info d-flex">
+                            <div className="info-column d-flex flex-column align-items-end pe-5">
+                                <p><i className="fa-solid fa-up-right-and-down-left-from-center"></i> {mq} mq</p>
+                                <p><i className="fa-solid fa-bath"></i> {bagni} Bagni</p>
                             </div>
-                            <div className="col-6">
-                                <p>
-                                    <i className="fa-solid fa-door-open"></i> Locali:{locali}
-                                </p>
-                                <p>
-                                    <i className="fa-solid fa-bed"></i> Posti letto:{postiLetto}
-                                </p>
-
+                            <div className="info-column d-flex flex-column align-items-start ps-5">
+                                <p><i className="fa-solid fa-door-open"></i> {locali} Locali</p>
+                                <p><i className="fa-solid fa-bed"></i> {postiLetto} Posti Letto</p>
                             </div>
-                            <div className="col-12">
-                                <p>
-                                    <i className="fa-solid fa-house-chimney"></i> Tipo di alloggio: {alloggio}
-                                </p>
+                            <div className="info-column full-width d-flex flex-column align-items-center">
+                                <p><i className="fa-solid fa-house-chimney"></i> {alloggio}</p>
                             </div>
-
-
                         </div>
-                        <div className="d-flex justify-content-center align-items-center mb-2">
+
+                        {/* Stelle Voto */}
+                        <div className="card-stars">
                             {renderStars(Number(immobile.voto_medio))}
                         </div>
-                        <div className="d-flex justify-content-center align-items-center mb-2">
-                            <button className="btn me-2" onClick={(e) => handleLike(e, immobile.id)}>❤️</button>
-                            <span>{immobile.heartCount}</span>
+
+                        {/* Likes */}
+                        <div className="card-likes">
+                            <span>{immobile.heartCount} ❤️</span>
                         </div>
                     </div>
                 </div>

@@ -127,36 +127,6 @@ a {
   position: relative;
 }
 
-.like {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 5px 10px;
-  border-radius: 10px; 
-  z-index: 10;
-}
-
-.like:hover {
-  background-color: rgb(0, 0, 0); 
-
-}
-
-.like button {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-.like span {
-  font-size: 18px;
-  color: white;
-  margin-left: 5px;
-}
 
 .max-width {
   max-width: 350px;
@@ -168,4 +138,221 @@ a {
 .advanced-search-container {
   background-color: rgb(236, 236, 236);
   padding: 3rem 0;
+}
+
+.card-container {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+  background: white;
+}
+
+.card-container:hover {
+  transform: scale(1.02);
+}
+
+.img-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px 12px 0 0;
+}
+
+.like-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.like-button:hover {
+  background: white;
+}
+
+.like-button i {
+  font-size: 18px;
+  color: red;
+}
+
+.card-header-custom {
+  background-color: #EF8634;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  font-weight: bold;
+}
+
+.card-body-custom {
+  padding: 15px;
+  text-align: center;
+}
+
+.card-address {
+  font-size: 14px;
+  color: gray;
+}
+
+.card-description {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.card-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  text-align: left;
+  padding: 10px 0;
+}
+
+.info-column {
+  width: 48%;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.full-width {
+  width: 100%;
+  text-align: center;
+}
+
+.card-stars {
+  margin: 10px 0;
+}
+
+.card-likes {
+  font-size: 18px;
+  font-weight: bold;
+  color: red;
+}
+
+.info-column p i {
+  color: #EF8634;
+}
+
+.info-column p {
+  color: black;
+}
+
+
+/* Stile generale del form */
+.form-container {
+  background: #f8f9fa; 
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: auto;
+}
+
+/* Titolo del form */
+.form-container h1 {
+  color: #EF8634;
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Stile input e textarea */
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: all 0.3s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: #EF8634;
+  box-shadow: 0 0 5px rgba(239, 134, 52, 0.5);
+}
+
+/* Stile per selettori */
+.form-select {
+  border-radius: 8px;
+}
+
+/* Pulsanti */
+.btn-orange {
+  background-color: #EF8634;
+  color: white;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-weight: 500;
+  transition: background 0.3s ease-in-out;
+}
+
+.btn-orange:hover {
+  background-color: #c76d2d;
+}
+
+.btn-outline-orange {
+  border: 1px solid #EF8634;
+  color: #EF8634;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-weight: 500;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-outline-orange:hover {
+  background-color: #EF8634;
+  color: white;
+}
+
+/* Sezione immagini */
+.img-preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.img-preview-container img {
+  border-radius: 10px;
+  object-fit: cover;
+  width: 120px;
+  height: 120px;
+}
+
+/* Pulsante rimuovi immagine */
+.btn-remove-image {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.btn-remove-image:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+/* Pulsante "Indietro" */
+.btn-back {
+  margin: 20px;
+  font-size: 1rem;
+  padding: 10px 15px;
+  border-radius: 8px;
 }

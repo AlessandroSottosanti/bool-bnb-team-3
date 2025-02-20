@@ -9,6 +9,7 @@ function HomePage() {
   const [immobili, setImmobili] = useState([]);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
+  
 
   useEffect(() => {
     window.scrollTo(0,0);
@@ -186,7 +187,7 @@ function HomePage() {
                 bagni={immobile.bagni}
                 locali={immobile.locali}
                 postiLetto={immobile.posti_letto}
-                alloggio={immobile.alloggio}
+                alloggio={immobile.tipi_alloggio.map(tipo => tipo.nome_tipo_alloggio).join(", ")}
                 mq={immobile.mq}
               />
             );

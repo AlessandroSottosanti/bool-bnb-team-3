@@ -234,7 +234,7 @@ function CreatePage() {
                           <div className="d-flex justify-content-center">
                             <input
                               type="text"
-                              className={`form-control form-control-sm w-50 ${
+                              className={`form-control form-control-sm w-50 mb-2 ${
                                 errors[key] ? "is-invalid" : ""
                               }`}
                               id={key}

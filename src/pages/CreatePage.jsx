@@ -289,11 +289,11 @@ function CreatePage() {
                 </div>
               </div>
             </div>
-
-                    <label className="mt-3" htmlFor="tipi_alloggio">
+                   <div className="d-flex flex-column align-items-center">
+                    <label className="mt-2" htmlFor="tipi_alloggio">
                         Tipo di Alloggio
                     </label>
-                    <div className="mt-3 d-flex gap-2">
+                    <div className="mt-3 d-flex gap-2 max-width text-center">
 
                         <select
                             className="form-select"
@@ -326,9 +326,10 @@ function CreatePage() {
                             </div>
                         ))}
                     </div>
+                    </div>
 
 
-                    <div className="container mt-4 d-flex flex-column mb-5">
+                    <div className="container mt-4 d-flex flex-column mb-5 max-width">
                         <h2>Carica immagini dell'immobile</h2>
                         <p>La prima immagine inserita sarà utilizzata come copertina del post.</p>
 
@@ -359,10 +360,11 @@ function CreatePage() {
                                 </div>
                             ))}
                         </div>
+                        <button type="submit" className="btn btn-outline-orange mt-2 mb-5">+ Crea nuovo immobile</button>
                     </div>
 
 
-                    <button type="submit" className="btn btn-outline-orange mt-2 mb-5">+ Crea nuovo immobile</button>
+                    
 
 
                 </form>

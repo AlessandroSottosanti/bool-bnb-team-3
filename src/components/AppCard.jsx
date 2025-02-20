@@ -34,9 +34,10 @@ function AppCard({ immobile, defaultImage, Link, renderStars, handleLike, apiUrl
                                 <p>
                                     <i className="fa-solid fa-bath"></i> Bagni: {bagni}
                                 </p>
-                                {/* <p>
+                                
+                                <p>
                                     <i className="fa-solid fa-house-chimney"></i>Tipo di alloggio:{alloggio}
-                                </p> */}
+                                </p>
 
                             </div>
                             <div className="col-6">
@@ -45,7 +46,9 @@ function AppCard({ immobile, defaultImage, Link, renderStars, handleLike, apiUrl
                                 </p>
                                 <p>
                                     <i className="fa-solid fa-bed"></i> Posti letto:{postiLetto}
-                                </p></div>
+                                </p>
+                            
+                            </div>
 
 
                         </div>

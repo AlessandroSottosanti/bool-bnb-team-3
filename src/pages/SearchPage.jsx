@@ -339,7 +339,7 @@ function SearchPage() {
                                 bagni={immobile.bagni}
                                 locali={immobile.locali}
                                 postiLetto={immobile.posti_letto}
-                                alloggio={immobile.tipo_alloggio}
+                                alloggio={immobile.tipi_alloggio.map(tipo => tipo.nome_tipo_alloggio).join(", ")}
                                 mq={immobile.mq}
                             />
                         )

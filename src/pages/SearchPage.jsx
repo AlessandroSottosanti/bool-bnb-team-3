@@ -196,149 +196,156 @@ function SearchPage() {
 
   return (
     <main>
-      <div className="text-center">
-        <h1 className="mt-3">Ricerca Avanzata</h1>
-      </div>
 
-      <div className="container mt-4">
-        <div className="row">
-          <div className="col-12 col-md-4 d-flex flex-column align-items-center">
-            <label htmlFor="posti_letto">
-              <strong>Numero di posti letto</strong>
-            </label>
-            <input
-              className="form-control w-50 text-center"
-              id="posti_letto"
-              name="posti_letto"
-              type="number"
-              min="0"
-              max="100"
-              value={postiLetto}
-              onChange={(event) => setPostiLetto(event.target.value)}
-              onKeyUp={handleKeyPress}
-            />
-          </div>
-          <div className="col-12 col-md-4 d-flex flex-column align-items-center">
-            <label htmlFor="locali">
-              <strong>Numero Locali</strong>
-            </label>
-            <input
-              className="form-control w-50 text-center"
-              id="locali"
-              name="locali"
-              type="number"
-              min="0"
-              max="100"
-              value={postiLocali}
-              onChange={(event) => setPostiLocali(event.target.value)}
-              onKeyUp={handleKeyPress}
-            />
-          </div>
-          <div className="col-12 col-md-4 d-flex flex-column align-items-center">
-            <label htmlFor="bagni">
-              <strong>Numero Bagni</strong>
-            </label>
-            <input
-              className="form-control w-50 text-center"
-              id="bagni"
-              name="bagni"
-              type="number"
-              min="0"
-              max="100"
-              value={postiBagno}
-              onChange={(event) => setPostiBagno(event.target.value)}
-              onKeyUp={handleKeyPress}
-            />
-          </div>
-          <div className="col-12 col-md-4 d-flex flex-column align-items-center">
-            <label htmlFor="superficie_min" className="mt-3">
-              <strong>Superficie minima</strong>
-            </label>
-            <input
-              className="form-control w-50 text-center"
-              id="superficie_min"
-              name="superficie_min"
-              type="number"
-              value={superficieMinima}
-              onChange={(event) => setSuperficieMinima(event.target.value)}
-              onKeyUp={handleKeyPress}
-            />
-          </div>
-          <div className="col-12 col-md-4 d-flex flex-column align-items-center">
-            <label htmlFor="superficie_max" className="mt-3">
-              <strong>Superficie massima</strong>
-            </label>
-            <input
-              className="form-control w-50 text-center"
-              id="superficie_max"
-              name="superficie_max"
-              type="number"
-              value={superficieMassima}
-              onChange={(event) => setSuperficieMassima(event.target.value)}
-              onKeyUp={handleKeyPress}
-            />
-          </div>
-          <div className="col-12 col-md-4 d-flex flex-column align-items-center">
-            <label htmlFor="votoMedio" className="mt-3">
-              <strong>Voto medio</strong>
-            </label>
-            <input
-              className="form-control w-50 text-center"
-              id="votoMedio"
-              name="votoMedio"
-              type="number"
-              min="1"
-              max="5"
-              value={votoMedio}
-              onChange={(event) => setVotoMedio(event.target.value)}
-              onKeyUp={handleKeyPress}
-            />
-          </div>
+      <div className="advanced-search-container">
+        <div className="text-center">
+          <h1 className="mt-3">Ricerca Avanzata</h1>
+        </div>
 
+        <div className="container mt-4">
           <div className="row">
-            <div className="col-12 col-md-6 d-flex flex-column align-items-center">
-             
-              <label htmlFor="search" className="mt-3">
-                <strong>Città o Indirizzo</strong>
+            <div className="col-12 col-md-4 d-flex flex-column align-items-center">
+              <label htmlFor="posti_letto">
+                <strong>Numero di posti letto</strong>
               </label>
               <input
-                className="form-control max-width"
-                id="search"
-                name="search"
-                type="search"
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
+                className="form-control w-50 text-center"
+                id="posti_letto"
+                name="posti_letto"
+                type="number"
+                min="0"
+                max="100"
+                value={postiLetto}
+                onChange={(event) => setPostiLetto(event.target.value)}
                 onKeyUp={handleKeyPress}
               />
             </div>
-            <div className="col-12 col-md-6 d-flex flex-column align-items-center">
-            <label htmlFor="tipi_alloggio" className="mt-3">
-                <strong>Tipo di alloggio</strong>
+            <div className="col-12 col-md-4 d-flex flex-column align-items-center">
+              <label htmlFor="locali">
+                <strong>Numero Locali</strong>
               </label>
-              <select
-                className="form-select max-width"
-                id="tipi_alloggio"
-                name="tipi_alloggio"
-                value={selectedTipologia}
-                onChange={handleSelectChange}
-              >
-                <option value="">Seleziona un tipo di alloggio</option>
-                {tipiAlloggio.map((tipologia) => (
-                  <option key={tipologia.id} value={tipologia.id}>
-                    {tipologia.nome_tipo_alloggio}
-                  </option>
-                ))}
-              </select>
+              <input
+                className="form-control w-50 text-center"
+                id="locali"
+                name="locali"
+                type="number"
+                min="0"
+                max="100"
+                value={postiLocali}
+                onChange={(event) => setPostiLocali(event.target.value)}
+                onKeyUp={handleKeyPress}
+              />
+            </div>
+            <div className="col-12 col-md-4 d-flex flex-column align-items-center">
+              <label htmlFor="bagni">
+                <strong>Numero Bagni</strong>
+              </label>
+              <input
+                className="form-control w-50 text-center"
+                id="bagni"
+                name="bagni"
+                type="number"
+                min="0"
+                max="100"
+                value={postiBagno}
+                onChange={(event) => setPostiBagno(event.target.value)}
+                onKeyUp={handleKeyPress}
+              />
+            </div>
+            <div className="col-12 col-md-4 d-flex flex-column align-items-center">
+              <label htmlFor="superficie_min" className="mt-3">
+                <strong>Superficie minima</strong>
+              </label>
+              <input
+                className="form-control w-50 text-center"
+                id="superficie_min"
+                name="superficie_min"
+                type="number"
+                value={superficieMinima}
+                onChange={(event) => setSuperficieMinima(event.target.value)}
+                onKeyUp={handleKeyPress}
+              />
+            </div>
+            <div className="col-12 col-md-4 d-flex flex-column align-items-center">
+              <label htmlFor="superficie_max" className="mt-3">
+                <strong>Superficie massima</strong>
+              </label>
+              <input
+                className="form-control w-50 text-center"
+                id="superficie_max"
+                name="superficie_max"
+                type="number"
+                value={superficieMassima}
+                onChange={(event) => setSuperficieMassima(event.target.value)}
+                onKeyUp={handleKeyPress}
+              />
+            </div>
+            <div className="col-12 col-md-4 d-flex flex-column align-items-center">
+              <label htmlFor="votoMedio" className="mt-3">
+                <strong>Voto medio</strong>
+              </label>
+              <input
+                className="form-control w-50 text-center"
+                id="votoMedio"
+                name="votoMedio"
+                type="number"
+                min="1"
+                max="5"
+                value={votoMedio}
+                onChange={(event) => setVotoMedio(event.target.value)}
+                onKeyUp={handleKeyPress}
+              />
+            </div>
+
+            <div className="row m-0 p-0 d-flex justify-content-center">
+              <div className="col-12 col-md-4 d-flex flex-column align-items-center">
+
+                <label htmlFor="search" className="mt-3">
+                  <strong>Città o Indirizzo</strong>
+                </label>
+                <input
+                  className="form-control max-width"
+                  id="search"
+                  name="search"
+                  type="search"
+                  value={search}
+                  onChange={(event) => setSearch(event.target.value)}
+                  onKeyUp={handleKeyPress}
+                />
+              </div>
+              <div className="col-12 col-md-4 d-flex flex-column align-items-center">
+                <label htmlFor="tipi_alloggio" className="mt-3">
+                  <strong>Tipo di alloggio</strong>
+                </label>
+                <select
+                  className="form-select max-width"
+                  id="tipi_alloggio"
+                  name="tipi_alloggio"
+                  value={selectedTipologia}
+                  onChange={handleSelectChange}
+                >
+                  <option value="">Seleziona un tipo di alloggio</option>
+                  {tipiAlloggio.map((tipologia) => (
+                    <option key={tipologia.id} value={tipologia.id}>
+                      {tipologia.nome_tipo_alloggio}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
         </div>
+
+        <div className="text-center mt-3">
+          <button className="btn btn-orange px-5" onClick={handleSearch}>
+            Cerca
+          </button>
+        </div>
+
       </div>
 
-      <div className="text-center mt-3">
-        <button className="btn btn-orange" onClick={handleSearch}>
-          Cerca
-        </button>
-      </div>
+
+
 
       {warning && <p className="text-danger text-center mt-2">{warning}</p>}
 
